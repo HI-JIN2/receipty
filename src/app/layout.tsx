@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const bookCafe = localFont({
   src: [
     {
-      path: "./fonts/PF스타더스트 3.0.ttf",
+      path: "./fonts/PFStardust-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./fonts/PF스타더스트 3.0 Bold.ttf",
+      path: "./fonts/PFStardust-Bold.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "./fonts/PF스타더스트 3.0 ExtraBold.ttf",
+      path: "./fonts/PFStardust-ExtraBold.ttf",
       weight: "800",
       style: "normal",
     },
@@ -36,7 +37,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${bookCafe.variable} antialiased`}>{children}</body>
+      <body className={`${bookCafe.variable} antialiased`}>
+        <GoogleAnalytics />
+        {children}
+      </body>
     </html>
   );
 }
