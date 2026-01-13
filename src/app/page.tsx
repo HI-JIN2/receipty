@@ -20,6 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<BookResult[]>([]);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   const getKey = (book: BookResult) =>
     book.isbn ?? `${book.title}-${book.publisher}`;
@@ -55,6 +56,30 @@ export default function Home() {
 
   const handleRemove = (key: string) => {
     setSelected((prev) => prev.filter((b) => getKey(b) !== key));
+  };
+
+  const handleDragStart = (index: number) => {
+    setDragIndex(index);
+  };
+
+  const handleDragOver = (
+    event: React.DragEvent<HTMLDivElement>,
+    index: number,
+  ) => {
+    event.preventDefault();
+    if (dragIndex === null || dragIndex === index) return;
+
+    setSelected((prev) => {
+      const next = [...prev];
+      const [moved] = next.splice(dragIndex, 1);
+      next.splice(index, 0, moved);
+      return next;
+    });
+    setDragIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDragIndex(null);
   };
 
   return (
@@ -203,7 +228,8 @@ export default function Home() {
             )}
           </div>
           <p className="mt-2 text-sm text-slate-600">
-            영수증에 담을 책을 선택/추가하고 필요하면 삭제하세요.
+            영수증에 담을 책을 선택/추가하고 필요하면 삭제하거나 순서를
+            드래그해서 조정하세요.
           </p>
           <div className="mt-4 grid gap-3">
             {selected.length === 0 ? (
@@ -211,11 +237,29 @@ export default function Home() {
                 아직 선택된 도서가 없습니다.
               </p>
             ) : (
-              selected.map((item) => (
+              selected.map((item, index) => (
                 <div
                   key={getKey(item)}
-                  className="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 shadow-sm"
+                  className={`flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 shadow-sm transition ${
+                    dragIndex === index ? "border-emerald-400 bg-emerald-50" : ""
+                  }`}
+                  draggable
+                  onDragStart={() => handleDragStart(index)}
+                  onDragOver={(event) => handleDragOver(event, index)}
+                  onDragEnd={handleDragEnd}
                 >
+                  <div className="flex h-8 w-8 flex-none cursor-grab items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:border-slate-300 hover:text-slate-600 active:cursor-grabbing">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      className="h-3.5 w-3.5"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M5 5.25C5 4.56 5.56 4 6.25 4s1.25.56 1.25 1.25S6.94 6.5 6.25 6.5 5 5.94 5 5.25Zm6.5 0C11.5 4.56 12.06 4 12.75 4S14 4.56 14 5.25 13.44 6.5 12.75 6.5 11.5 5.94 11.5 5.25ZM5 10c0-.69.56-1.25 1.25-1.25S7.5 9.31 7.5 10s-.56 1.25-1.25 1.25S5 10.69 5 10Zm6.5 0c0-.69.56-1.25 1.25-1.25S14 9.31 14 10s-.56 1.25-1.25 1.25S11.5 10.69 11.5 10ZM6.25 13.75C5.56 13.75 5 14.31 5 15s.56 1.25 1.25 1.25S7.5 15.69 7.5 15 6.94 13.75 6.25 13.75Zm6.5 0C12.06 13.75 11.5 14.31 11.5 15s.56 1.25 1.25 1.25S14 15.69 14 15s-.56-1.25-1.25-1.25Z"
+                      />
+                    </svg>
+                  </div>
                   <div className="flex-1">
                     <div className="text-sm font-semibold text-slate-900">
                       {item.title}
