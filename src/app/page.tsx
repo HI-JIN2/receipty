@@ -151,23 +151,12 @@ export default function Home() {
             북카페처럼, 조용히 책 영수증을 남기는 공간.
           </h1>
           <p className="max-w-3xl text-lg text-stone-700">
-            전자책 대여 내역을 작은 영수증으로 기록해서 프린트하거나 라벨로
-            붙여두세요. 로그인 없이 가볍게 쓰고, 인기 책 랭킹만 살짝 공유합니다.
+            전자책 대여 내역을 작은 영수증으로 기록해서 프린트하거나 라벨로 붙여두세요.
           </p>
-          <div className="flex flex-wrap gap-3 text-sm text-stone-700">
-            <span className="rounded-full bg-[#f1e2cf] px-4 py-2 text-[13px] shadow-sm shadow-amber-200/70">
-              Next.js (App Router)
-            </span>
-            <span className="rounded-full bg-[#f1e2cf] px-4 py-2 text-[13px] shadow-sm shadow-amber-200/70">
-              Supabase
-            </span>
-            <span className="rounded-full bg-[#f1e2cf] px-4 py-2 text-[13px] shadow-sm shadow-amber-200/70">
-              Tailwind CSS
-            </span>
-            <span className="rounded-full bg-[#f1e2cf] px-4 py-2 text-[13px] shadow-sm shadow-amber-200/70">
-              GitHub Pages / Vercel 배포
-            </span>
-          </div>
+          <p className="max-w-3xl text-lg text-stone-700">
+            로그인 없이 가볍게 쓰고, 인기 책 랭킹만 살짝 공유합니다.
+          </p>
+      
         </header>
 
         <div className="grid gap-6 lg:grid-cols-2">
