@@ -78,3 +78,7 @@
 4) Supabase 연동: `books` upsert + `prints` insert, 집계 API/쿼리.
 5) QA: 인쇄 품질, 모바일/데스크톱, 다크모드 비활성(print), 성능/레이트리밋.
 
+## 11. 배포 전략
+- 기본: Vercel(권장) — SSR/Edge와 미리보기 도메인 활용, 환경변수 관리 용이.
+- 대안: GitHub Pages — `output: "export"` + `basePath`(사용 시) 설정 후 정적 빌드 배포. Supabase는 클라이언트에서 직접 호출(anon key)하므로 CORS 허용 필요. 빌드 명령 예: `npm run build && npx next export -o out`, `out` 디렉토리를 Pages에 업로드.
+
