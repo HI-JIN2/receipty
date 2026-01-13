@@ -23,6 +23,8 @@ export default function Home() {
   const [selected, setSelected] = useState<BookResult[]>([]);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const [receipt, setReceipt] = useState({
     title: "Book Receipt",
@@ -122,10 +124,14 @@ export default function Home() {
   };
 
   const handlePrint = async () => {
-    if (!previewRef.current) return;
+    if (!previewRef.current || !selected.length) return;
 
     setIsExporting(true);
+    setIsSaving(true);
+    setSaveMessage(null);
+
     try {
+      // 1. 이미지 저장
       const dataUrl = await toJpeg(previewRef.current, {
         quality: 0.95,
         backgroundColor: receipt.backgroundColor,
@@ -137,11 +143,29 @@ export default function Home() {
       link.download = fileName;
       link.href = dataUrl;
       link.click();
+
+      // 2. Supabase에 기록 저장
+      try {
+        const res = await fetch("/api/receipt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ selected, receipt }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
+        }
+        setSaveMessage("이미지 저장 및 Supabase 기록 완료");
+      } catch (err) {
+        console.error("Supabase 저장 실패:", err);
+        setSaveMessage("이미지는 저장되었지만 Supabase 기록에 실패했습니다.");
+      }
     } catch (err) {
       console.error("이미지 생성 실패:", err);
       alert("이미지 저장 중 오류가 발생했습니다.");
     } finally {
       setIsExporting(false);
+      setIsSaving(false);
     }
   };
 
@@ -481,9 +505,10 @@ export default function Home() {
             <div className="rounded-2xl border border-[#e2d2bd] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                    미리보기
-                  </p>
+                <h2 className="text-xl font-semibold text-stone-900">
+                         미리보기       
+                </h2>      
+                  
                 </div>
                 <span className="bg-[#f0e0c7] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-900/80">
                   {receipt.format}
@@ -577,14 +602,19 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-4 flex justify-end">
+              <div className="mt-4 flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end">
+                {saveMessage && (
+                  <p className="text-xs text-stone-600 sm:mr-auto sm:text-right">
+                    {saveMessage}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={handlePrint}
-                  disabled={isExporting || selected.length === 0}
+                  disabled={isExporting || isSaving || selected.length === 0}
                   className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {isExporting ? "저장 중..." : "JPEG로 저장"}
+                  {isExporting || isSaving ? "저장 중..." : "JPEG로 저장"}
                 </button>
             </div>
             </div>
