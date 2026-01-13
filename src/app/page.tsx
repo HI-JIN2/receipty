@@ -457,100 +457,107 @@ export default function Home() {
               </div>
             </div>
 
-            <div
-              ref={previewRef}
-              className="rounded-2xl border border-[#e2d2bd] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition"
-              style={{ backgroundColor: receipt.backgroundColor }}
-            >
+            <div className="border border-[#e2d2bd] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
                     미리보기
                   </p>
-                  <h3 className="text-lg font-semibold text-stone-900">
-                    {receipt.title || "Book Receipt"}
-                  </h3>
                 </div>
-                <span className="rounded-full bg-[#f0e0c7] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-900/80">
+                <span className="bg-[#f0e0c7] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-900/80">
                   {receipt.format}
                 </span>
               </div>
 
-              <div className="mt-4 space-y-2 text-sm text-stone-700">
-                <div className="flex justify-between">
-                  <span className="text-stone-600">이용자</span>
-                  <span className="font-semibold text-stone-900">
-                    {receipt.renter || "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-600">대여일</span>
-                  <span className="font-semibold text-stone-900">
-                    {receipt.rentalDate || "—"}
-                  </span>
-            </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-600">반납 예정</span>
-                  <span className="font-semibold text-stone-900">
-                    {receipt.returnDate || "—"}
-                  </span>
-          </div>
-        </div>
-
-              <div className="mt-5">
-                <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                    선택된 도서
-                  </p>
-                </div>
-                <div className="mt-3 space-y-2 rounded-xl border border-dashed border-[#d7c2a5] bg-[#fdf6ee] p-3">
-                  {selected.length === 0 ? (
-                    <p className="text-sm text-stone-500">
-                      아직 책을 선택하지 않았어요.
+              <div className="mt-4 flex justify-center">
+                <div
+                  ref={previewRef}
+                  className="w-full max-w-xs border border-[#d7c2a5] bg-[#fdf6ee] px-4 py-5 text-sm text-stone-700"
+                  style={{ backgroundColor: receipt.backgroundColor }}
+                >
+                  <div className="mb-3 border-b border-dashed border-[#d7c2a5] pb-2 text-center">
+          
+                    <p className="mt-0.5 text-base font-semibold text-stone-900">
+                      {receipt.title || "영수증"}
                     </p>
-                  ) : (
-                    selected.map((book, idx) => (
-                      <div
-                        key={`${getKey(book)}-preview`}
-                        className="flex items-start justify-between gap-3 rounded-lg px-2 py-1 text-sm text-stone-800"
-                      >
-                        <div className="flex-1">
-                          <div className="font-semibold">{book.title}</div>
-                          <div className="text-xs text-stone-600">
-                            {book.author} · {book.publisher}
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">이용자</span>
+                      <span className="font-semibold text-stone-900">
+                        {receipt.renter || "—"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">대여일</span>
+                      <span className="font-semibold text-stone-900">
+                        {receipt.rentalDate || "—"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">반납 예정</span>
+                      <span className="font-semibold text-stone-900">
+                        {receipt.returnDate || "—"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
+                      선택된 도서
+                    </p>
+                    <div className="mt-2 space-y-2 border border-dashed border-[#d7c2a5] bg-[#fdf6ee] p-3">
+                      {selected.length === 0 ? (
+                        <p className="text-sm text-stone-500">
+                          아직 책을 선택하지 않았어요.
+                        </p>
+                      ) : (
+                        selected.map((book, idx) => (
+                          <div
+                            key={`${getKey(book)}-preview`}
+                            className="flex items-start justify-between gap-3 px-1 py-0.5 text-sm text-stone-800"
+                          >
+                            <div className="flex-1">
+                              <div className="font-semibold">{book.title}</div>
+                              <div className="text-xs text-stone-600">
+                                {book.author} · {book.publisher}
+                              </div>
+                              <div className="text-[11px] text-stone-500">
+                                {book.isbn || book.published_at || "—"}
+                              </div>
+                            </div>
+                            <div className="text-xs font-semibold text-amber-900/80">
+                              {idx + 1}
+                            </div>
                           </div>
-                          <div className="text-[11px] text-stone-500">
-                            {book.isbn || book.published_at || "—"}
-                          </div>
-                        </div>
-                        <div className="text-xs font-semibold text-amber-900/80">
-                          {idx + 1}
-                        </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  {receipt.note && (
+                    <div className="mt-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
+                        메모
+                      </p>
+                      <div className="mt-2 border border-dashed border-[#d7c2a5] bg-[#fdf6ee] px-3 py-3 text-sm text-stone-800">
+                        {receipt.note}
                       </div>
-                    ))
+                    </div>
                   )}
                 </div>
               </div>
 
-              <div className="mt-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                  메모
-                </p>
-                <div className="mt-2 rounded-xl border border-dashed border-[#d7c2a5] bg-[#fdf6ee] px-3 py-3 text-sm text-stone-800">
-                  {receipt.note ? receipt.note : "메모가 여기에 표시됩니다."}
-                </div>
-              </div>
-
-              <div className="mt-6 flex justify-end">
+              <div className="mt-4 flex justify-end">
                 <button
                   type="button"
                   onClick={handlePrint}
                   disabled={isExporting || selected.length === 0}
-                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isExporting ? "저장 중..." : "JPEG로 저장"}
                 </button>
-            </div>
+              </div>
             </div>
           </div>
         </div>
