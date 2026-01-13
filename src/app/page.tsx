@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import html2canvas from "html2canvas";
 
 type BookResult = {
   title: string;
@@ -21,6 +22,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<BookResult[]>([]);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
   const [receipt, setReceipt] = useState({
     title: "Book Receipt",
     renter: "",
@@ -109,9 +112,33 @@ export default function Home() {
     setReceipt((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePrint = () => {
-    // TODO: 추후 실제 print stylesheet/생성 로직 연결
-    alert("영수증 미리보기/인쇄 기능은 다음 단계에서 연결합니다.");
+  const handlePrint = async () => {
+    if (!previewRef.current) return;
+
+    setIsExporting(true);
+    try {
+      const canvas = await html2canvas(previewRef.current, {
+        backgroundColor: receipt.backgroundColor,
+        scale: 2, // 고해상도
+        useCORS: true,
+        logging: false,
+      });
+
+      // JPEG로 변환
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
+      
+      // 다운로드
+      const link = document.createElement("a");
+      const fileName = `book-receipt-${receipt.title || "receipt"}-${Date.now()}.jpg`;
+      link.download = fileName;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("이미지 생성 실패:", err);
+      alert("이미지 저장 중 오류가 발생했습니다.");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   return (
@@ -436,6 +463,7 @@ export default function Home() {
             </div>
 
             <div
+              ref={previewRef}
               className="rounded-2xl border border-[#e2d2bd] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition"
               style={{ backgroundColor: receipt.backgroundColor }}
             >
@@ -522,9 +550,10 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950"
+                  disabled={isExporting || selected.length === 0}
+                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  프린트 / 내보내기
+                  {isExporting ? "저장 중..." : "JPEG로 저장"}
                 </button>
             </div>
             </div>
