@@ -33,6 +33,10 @@ export default function Home() {
   const [results, setResults] = useState<BookResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<BookResult[]>([]);
+
+  const getKey = (book: BookResult) =>
+    book.isbn ?? `${book.title}-${book.publisher}`;
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,6 +58,17 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAdd = (book: BookResult) => {
+    const key = getKey(book);
+    setSelected((prev) =>
+      prev.some((b) => getKey(b) === key) ? prev : [...prev, book],
+    );
+  };
+
+  const handleRemove = (key: string) => {
+    setSelected((prev) => prev.filter((b) => getKey(b) !== key));
   };
 
   return (
@@ -166,6 +181,76 @@ export default function Home() {
                       </a>
                     )}
                   </div>
+                  <div className="flex flex-col justify-between">
+                    <button
+                      type="button"
+                      onClick={() => handleAdd(item)}
+                      className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                      disabled={selected.some(
+                        (b) => getKey(b) === getKey(item),
+                      )}
+                    >
+                      {selected.some((b) => getKey(b) === getKey(item))
+                        ? "추가됨"
+                        : "선택/추가"}
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-slate-900">
+              선택된 도서 ({selected.length})
+            </h2>
+            {selected.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setSelected([])}
+                className="text-sm font-semibold text-rose-600 hover:text-rose-700"
+              >
+                모두 지우기
+              </button>
+            )}
+          </div>
+          <p className="mt-2 text-sm text-slate-600">
+            영수증에 담을 책을 선택/추가하고 필요하면 삭제하세요.
+          </p>
+          <div className="mt-4 grid gap-3">
+            {selected.length === 0 ? (
+              <p className="text-sm text-slate-500">
+                아직 선택된 도서가 없습니다.
+              </p>
+            ) : (
+              selected.map((item) => (
+                <div
+                  key={getKey(item)}
+                  className="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 shadow-sm"
+                >
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold text-slate-900">
+                      {item.title}
+                    </div>
+                    <div className="text-xs text-slate-600">
+                      {item.author} · {item.publisher}
+                    </div>
+                    <div className="flex flex-wrap gap-2 text-[11px] text-slate-500">
+                      {item.isbn && <span>ISBN: {item.isbn}</span>}
+                      {item.published_at && (
+                        <span>출간일: {item.published_at}</span>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(getKey(item))}
+                    className="rounded-lg bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100"
+                  >
+                    삭제
+                  </button>
                 </div>
               ))
             )}
