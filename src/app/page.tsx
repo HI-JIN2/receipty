@@ -35,6 +35,7 @@ export default function Home() {
   });
 
   const pastelColors = [
+    { name: "화이트", value: "#ffffff" },
     { name: "베이지", value: "#fef7ed" },
     { name: "핑크", value: "#fce7f3" },
     { name: "라벤더", value: "#f3e8ff" },
@@ -42,8 +43,9 @@ export default function Home() {
     { name: "스카이", value: "#e0f2fe" },
     { name: "피치", value: "#ffe4d6" },
     { name: "레몬", value: "#fef9c3" },
-    { name: "화이트", value: "#ffffff" },
   ];
+
+  const divider = "------";
 
   const getKey = (book: BookResult) =>
     book.isbn ?? `${book.title}-${book.publisher}`;
@@ -281,6 +283,32 @@ export default function Home() {
               <div className="mt-5 grid gap-4">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
+                    배경색 (파스텔)
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {pastelColors.map((color) => (
+                      <button
+                        key={color.value}
+                        type="button"
+                        onClick={() =>
+                          setReceipt((prev) => ({
+                            ...prev,
+                            backgroundColor: color.value,
+                          }))
+                        }
+                        className={`h-8 w-8 rounded-lg border-2 transition hover:scale-110 ${
+                          receipt.backgroundColor === color.value
+                            ? "border-amber-900 shadow-md"
+                            : "border-[#d1bda0]"
+                        }`}
+                        style={{ backgroundColor: color.value }}
+                        title={color.name}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
                     영수증 제목
                   </label>
                   <input
@@ -343,45 +371,6 @@ export default function Home() {
                       <option value="label">Label (좁은 폭)</option>
                       <option value="photo">Photo (포토 프린터)</option>
                     </select>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                    메모
-                  </label>
-                  <textarea
-                    name="note"
-                    value={receipt.note}
-                    onChange={handleReceiptChange}
-                    rows={3}
-                    placeholder="특이사항, 북카페 자리, 기기 메모 등을 남겨보세요."
-                    className="rounded-lg border border-[#d1bda0] bg-[#fdf6ee] px-3 py-2 text-sm text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                    배경색 (파스텔)
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {pastelColors.map((color) => (
-                      <button
-                        key={color.value}
-                        type="button"
-                        onClick={() =>
-                          setReceipt((prev) => ({
-                            ...prev,
-                            backgroundColor: color.value,
-                          }))
-                        }
-                        className={`h-8 w-8 rounded-lg border-2 transition hover:scale-110 ${
-                          receipt.backgroundColor === color.value
-                            ? "border-amber-900 shadow-md"
-                            : "border-[#d1bda0]"
-                        }`}
-                        style={{ backgroundColor: color.value }}
-                        title={color.name}
-                      />
-                    ))}
                   </div>
                 </div>
                 <div className="mt-1">
@@ -454,6 +443,19 @@ export default function Home() {
                     )}
                   </div>
                 </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
+                    메모
+                  </label>
+                  <textarea
+                    name="note"
+                    value={receipt.note}
+                    onChange={handleReceiptChange}
+                    rows={3}
+                    placeholder="특이사항, 북카페 자리, 기기 메모 등을 남겨보세요."
+                    className="rounded-lg border border-[#d1bda0] bg-[#fdf6ee] px-3 py-2 text-sm text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
+                  />
+                </div>
               </div>
             </div>
 
@@ -472,16 +474,25 @@ export default function Home() {
               <div className="mt-4 flex justify-center">
                 <div
                   ref={previewRef}
-                  className="w-full max-w-xs border border-[#d7c2a5] bg-[#fdf6ee] px-4 py-5 text-sm text-stone-700"
+                  className="w-full max-w-xs border border-[#d7c2a5] bg-[#fdf6ee] px-4 py-6 text-sm text-stone-700"
                   style={{ backgroundColor: receipt.backgroundColor }}
                 >
                   <div className="mb-3 border-b border-dashed border-[#d7c2a5] pb-2 text-center">
-          
                     <p className="mt-0.5 text-base font-semibold text-stone-900">
-                      {receipt.title || "영수증"}
+                      {receipt.title || "대출확인증"}
+                    </p>
+                    <p className="mt-1 text-xs text-stone-600">
+                      총{" "}
+                      <span className="font-semibold">
+                        {selected.length.toString().padStart(2, "0")}
+                      </span>{" "}
+                      권
                     </p>
                   </div>
-                  <div className="space-y-2">
+                  {/* <div className="mb-3 text-center text-xs text-stone-400">
+                    ------
+                  </div> */}
+                  <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-stone-600">이용자</span>
                       <span className="font-semibold text-stone-900">
@@ -492,30 +503,31 @@ export default function Home() {
                       <span className="text-stone-600">대여일</span>
                       <span className="font-semibold text-stone-900">
                         {receipt.rentalDate || "—"}
-                      </span>
-                    </div>
+                  </span>
+            </div>
                     <div className="flex justify-between">
                       <span className="text-stone-600">반납 예정</span>
                       <span className="font-semibold text-stone-900">
                         {receipt.returnDate || "—"}
                       </span>
-                    </div>
-                  </div>
+          </div>
+        </div>
 
-                  <div className="mt-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                      선택된 도서
-                    </p>
-                    <div className="mt-2 space-y-2 border border-dashed border-[#d7c2a5] bg-[#fdf6ee] p-3">
-                      {selected.length === 0 ? (
-                        <p className="text-sm text-stone-500">
-                          아직 책을 선택하지 않았어요.
-                        </p>
-                      ) : (
-                        selected.map((book, idx) => (
+                  {selected.length > 0 && (
+                    <div className="mb-4 mt-4 border-b border-dashed border-[#d7c2a5] pb-2"></div>
+                  )}
+
+                  <div className="mt-5">
+                    {selected.length === 0 ? (
+                      <p className="text-sm text-stone-500">
+                        아직 책을 선택하지 않았어요.
+                      </p>
+                    ) : (
+                      <div className="space-y-3">
+                        {selected.map((book, idx) => (
                           <div
                             key={`${getKey(book)}-preview`}
-                            className="flex items-start justify-between gap-3 px-1 py-0.5 text-sm text-stone-800"
+                            className="flex items-start justify-between gap-3 px-1 py-1 text-sm text-stone-800"
                           >
                             <div className="flex-1">
                               <div className="font-semibold">{book.title}</div>
@@ -530,17 +542,15 @@ export default function Home() {
                               {idx + 1}
                             </div>
                           </div>
-                        ))
-                      )}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {receipt.note && (
-                    <div className="mt-4">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                        메모
-                      </p>
-                      <div className="mt-2 border border-dashed border-[#d7c2a5] bg-[#fdf6ee] px-3 py-3 text-sm text-stone-800">
+                    <div className="mt-5">
+                      <div className="mb-3 border-b border-dashed border-[#d7c2a5] pb-2"></div>
+                      <div className="text-sm text-stone-800">
                         {receipt.note}
                       </div>
                     </div>
@@ -557,7 +567,7 @@ export default function Home() {
                 >
                   {isExporting ? "저장 중..." : "JPEG로 저장"}
                 </button>
-              </div>
+            </div>
             </div>
           </div>
         </div>
