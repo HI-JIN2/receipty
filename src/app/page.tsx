@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useRef } from "react";
-import html2canvas from "html2canvas";
+import { useRef, useState } from "react";
+import { toJpeg } from "html-to-image";
 
 type BookResult = {
   title: string;
@@ -117,17 +117,12 @@ export default function Home() {
 
     setIsExporting(true);
     try {
-      const canvas = await html2canvas(previewRef.current, {
+      const dataUrl = await toJpeg(previewRef.current, {
+        quality: 0.95,
         backgroundColor: receipt.backgroundColor,
-        scale: 2, // 고해상도
-        useCORS: true,
-        logging: false,
+        cacheBust: true,
       });
 
-      // JPEG로 변환
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
-      
-      // 다운로드
       const link = document.createElement("a");
       const fileName = `book-receipt-${receipt.title || "receipt"}-${Date.now()}.jpg`;
       link.download = fileName;
