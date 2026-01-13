@@ -14,20 +14,6 @@ type BookResult = {
   source: string;
 };
 
-const features = [
-  "전자 도서 대여 영수증 생성·미리보기·인쇄",
-  "라벨/포토/일반 출력 포맷 선택",
-  "많이 뽑힌 책 랭킹 & 총 생성 횟수 집계",
-  "Supabase + 외부 도서 API 캐시/집계",
-];
-
-const nextSteps = [
-  "도서 API 연동(Naver/Kakao/Google Books 중 택1) & 검색 UI",
-  "books/prints 테이블 스키마 적용 후 upsert/insert 흐름 연결",
-  "영수증 프리뷰 UI & print stylesheet 작성",
-  "집계 페이지(`/stats`)에 TOP N / 총 생성 횟수 표시",
-];
-
 export default function Home() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<BookResult[]>([]);
@@ -257,68 +243,6 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-2xl bg-white p-6 shadow-sm lg:col-span-2">
-            <h2 className="text-xl font-semibold">핵심 기능</h2>
-            <ul className="mt-4 space-y-3 text-slate-700">
-              {features.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 rounded-xl bg-slate-50 px-4 py-3"
-                >
-                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-2xl bg-slate-900 p-6 text-white shadow-sm">
-            <h2 className="text-xl font-semibold">다음 작업</h2>
-            <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-100">
-              {nextSteps.map((item, idx) => (
-                <li
-                  key={item}
-                  className="flex gap-3 rounded-xl bg-white/5 px-4 py-3"
-                >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-xs font-semibold">
-                    {idx + 1}
-                  </span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-6 rounded-xl bg-white/5 px-4 py-3 text-xs leading-5 text-slate-200">
-              배포: 기본은 Vercel, GitHub Pages 사용 시 정적 export + basePath
-              설정을 참고하세요.
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white/60 p-6">
-          <h3 className="text-lg font-semibold text-slate-900">환경 변수</h3>
-          <p className="mt-2 text-sm text-slate-600">
-            Supabase와 네이버 도서 API 키를 설정하세요.
-          </p>
-          <div className="mt-4 grid gap-3 text-sm font-mono text-slate-800">
-            <div className="flex items-center justify-between rounded-lg bg-slate-100 px-4 py-3">
-              <span>NEXT_PUBLIC_SUPABASE_URL</span>
-              <span className="text-slate-500">https://xxxxx.supabase.co</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg bg-slate-100 px-4 py-3">
-              <span>NEXT_PUBLIC_SUPABASE_ANON_KEY</span>
-              <span className="text-slate-500">supabase anon public key</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg bg-slate-100 px-4 py-3">
-              <span>NAVER_CLIENT_ID</span>
-              <span className="text-slate-500">naver api client id</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg bg-slate-100 px-4 py-3">
-              <span>NAVER_CLIENT_SECRET</span>
-              <span className="text-slate-500">naver api client secret</span>
-            </div>
-          </div>
-        </div>
       </section>
     </main>
   );
