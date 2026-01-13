@@ -74,9 +74,16 @@ export default function Home() {
 
   const handleAdd = (book: BookResult) => {
     const key = getKey(book);
-    setSelected((prev) =>
-      prev.some((b) => getKey(b) === key) ? prev : [...prev, book],
-    );
+    setSelected((prev) => {
+      const isSelected = prev.some((b) => getKey(b) === key);
+      if (isSelected) {
+        // 이미 선택된 경우 제거
+        return prev.filter((b) => getKey(b) !== key);
+      } else {
+        // 선택되지 않은 경우 추가
+        return [...prev, book];
+      }
+    });
   };
 
   const handleRemove = (key: string) => {
@@ -172,12 +179,35 @@ export default function Home() {
                 onSubmit={handleSearch}
                 className="mt-6 flex flex-col gap-3 sm:flex-row"
               >
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="제목, 저자, ISBN을 입력하세요"
-                  className="flex-1 rounded-xl border border-[#d1bda0] bg-[#fdf6ee] px-4 py-3 text-base text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
-                />
+                <div className="relative flex-1">
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="제목, 저자, ISBN을 입력하세요"
+                    className="w-full rounded-xl border border-[#d1bda0] bg-[#fdf6ee] px-4 py-3 pr-10 text-base text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
+                  />
+                  {query && (
+                    <button
+                      type="button"
+                      onClick={() => setQuery("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-stone-400 transition hover:bg-stone-200 hover:text-stone-600"
+                      aria-label="검색어 지우기"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  )}
+                </div>
                 <button
                   type="submit"
                   disabled={loading}
@@ -250,8 +280,8 @@ export default function Home() {
                           )}
                         >
                           {selected.some((b) => getKey(b) === getKey(item))
-                            ? "추가됨"
-                            : "선택/추가"}
+                            ? "취소"
+                            : "추가"}
                         </button>
                       </div>
                     </div>
@@ -448,7 +478,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="border border-[#e2d2bd] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition">
+            <div className="rounded-2xl border border-[#e2d2bd] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
@@ -552,7 +582,7 @@ export default function Home() {
                   type="button"
                   onClick={handlePrint}
                   disabled={isExporting || selected.length === 0}
-                  className="bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isExporting ? "저장 중..." : "JPEG로 저장"}
                 </button>
