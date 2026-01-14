@@ -279,20 +279,17 @@ export default function Home() {
                           {item.published_at && (
                             <span>출간일: {item.published_at}</span>
                           )}
-                          <span className="rounded-full bg-[#f0e0c7] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80">
-                            source: {item.source}
-                          </span>
+                          {item.link && (
+                            <a
+                              href={item.link}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="rounded-full bg-[#f0e0c7] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 hover:bg-[#e8d4b3] transition"
+                            >
+                              naver↗
+                            </a>
+                          )}
                         </div>
-                        {item.link && (
-                          <a
-                            href={item.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-xs font-semibold text-amber-900 hover:underline"
-                          >
-                            네이버 상세보기 ↗
-                          </a>
-                        )}
                       </div>
                       <div className="flex flex-col justify-between">
                         <button
