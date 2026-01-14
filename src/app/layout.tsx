@@ -54,10 +54,11 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
     images: [
       {
-        url: "/og-image.png",
+        url: new URL("/og-image.png", metadataBase).toString(),
         width: 1200,
         height: 630,
         alt: "Book Receipt",
+        type: "image/png",
       },
     ],
   },
