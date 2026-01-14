@@ -3,6 +3,7 @@
 
 import { useRef, useState } from "react";
 import { toJpeg } from "html-to-image";
+import { QRCodeSVG } from "qrcode.react";
 
 type BookResult = {
   title: string;
@@ -33,7 +34,7 @@ export default function Home() {
     returnDate: "",
     note: "",
     format: "3inch",
-    backgroundColor: "#fef7ed", // 기본 파스텔 베이지
+    backgroundColor: "#ffffff", // 기본 화이트
   });
 
   const pastelColors = [
@@ -46,6 +47,40 @@ export default function Home() {
     { name: "피치", value: "#ffe4d6" },
     { name: "레몬", value: "#fef9c3" },
   ];
+
+  // 배경색에 맞는 테두리 색상 매핑
+  const getBorderColor = (bgColor: string) => {
+    const colorMap: Record<string, string> = {
+      "#ffffff": "#1a1a1a", // 화이트 -> 검은색
+      "#fef7ed": "#8b6914", // 베이지 -> 다크 브라운
+      "#fce7f3": "#c2185b", // 핑크 -> 다크 핑크
+      "#f3e8ff": "#7b2cbf", // 라벤더 -> 다크 퍼플
+      "#d1fae5": "#15803d", // 민트 -> 다크 그린
+      "#e0f2fe": "#0369a1", // 스카이 -> 다크 블루
+      "#ffe4d6": "#ea580c", // 피치 -> 다크 오렌지
+      "#fef9c3": "#ca8a04", // 레몬 -> 다크 옐로우
+    };
+    return colorMap[bgColor] || "#1a1a1a";
+  };
+
+  // QR 코드용 영수증 정보 생성
+  const getReceiptQRData = () => {
+    const receiptData = {
+      title: receipt.title || "Book Receipt",
+      renter: receipt.renter || "",
+      rentalDate: receipt.rentalDate || "",
+      returnDate: receipt.returnDate || "",
+      note: receipt.note || "",
+      books: selected.map((book) => ({
+        title: book.title,
+        author: book.author,
+        publisher: book.publisher,
+        isbn: book.isbn || null,
+      })),
+      createdAt: new Date().toISOString(),
+    };
+    return JSON.stringify(receiptData, null, 2);
+  };
 
   const divider = "------";
 
@@ -155,7 +190,7 @@ export default function Home() {
         if (!res.ok) {
           throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
         }
-        setSaveMessage("이미지 저장 완료");
+        setSaveMessage("이미지 저장 및 Supabase 기록 완료");
       } catch (err) {
         console.error("Supabase 저장 실패:", err);
         setSaveMessage("이미지는 저장되었지만 Supabase 기록에 실패했습니다.");
@@ -514,7 +549,7 @@ export default function Home() {
               <div className="mt-4 flex justify-center">
                 <div
                   ref={previewRef}
-                  className="border border-[#d7c2a5] bg-[#fdf6ee] text-stone-700"
+                  className="bg-[#fdf6ee] text-stone-700"
                   style={{
                     backgroundColor: receipt.backgroundColor,
                     width: receipt.format === "3inch" ? "288px" : "192px",
@@ -523,9 +558,14 @@ export default function Home() {
                     fontSize: receipt.format === "3inch" ? "14px" : "12px",
                     display: "flex",
                     flexDirection: "column",
+                    fontFamily: "var(--font-book-cafe), system-ui, sans-serif",
+                    border: `1px solid ${getBorderColor(receipt.backgroundColor)}`,
                   }}
                 >
-                  <div className="mb-4 border-b border-dashed border-[#d7c2a5] pb-3 text-center">
+                  <div 
+                    className="mb-4 border-b border-dashed pb-3 text-center"
+                    style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
+                  >
                     <p
                       className="font-semibold text-stone-900"
                       style={{
@@ -575,7 +615,10 @@ export default function Home() {
                   </div>
 
                   {selected.length > 0 && (
-                    <div className="my-4 border-b border-dashed border-[#d7c2a5]"></div>
+                    <div 
+                      className="my-4 border-b border-dashed"
+                      style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
+                    ></div>
                   )}
 
                   <div className="mt-4">
@@ -637,7 +680,10 @@ export default function Home() {
 
                   {receipt.note && (
                     <div className="mt-6">
-                      <div className="mb-3 border-b border-dashed border-[#d7c2a5]"></div>
+                      <div 
+                        className="mb-3 border-b border-dashed"
+                        style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
+                      ></div>
                       <div
                         className="text-stone-800 whitespace-pre-wrap break-words"
                         style={{
@@ -647,6 +693,32 @@ export default function Home() {
                       >
                         {receipt.note}
                       </div>
+                    </div>
+                  )}
+
+                  {selected.length > 0 && (
+                    <div className="mt-6 flex flex-col items-center">
+                      <div 
+                        className="mb-3 w-full border-b border-dashed"
+                        style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
+                      ></div>
+                      <div
+                        style={{
+                          width: receipt.format === "3inch" ? "120px" : "100px",
+                          height: receipt.format === "3inch" ? "120px" : "100px",
+                          padding: "8px",
+                          backgroundColor: "#ffffff",
+                          border: `1px solid ${getBorderColor(receipt.backgroundColor)}`,
+                        }}
+                      >
+                        <QRCodeSVG
+                          value={getReceiptQRData()}
+                          size={receipt.format === "3inch" ? 104 : 84}
+                          level="M"
+                          includeMargin={false}
+                        />
+                      </div>
+          
                     </div>
                   )}
                 </div>
