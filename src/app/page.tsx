@@ -33,7 +33,7 @@ export default function Home() {
   const [copySuccess, setCopySuccess] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
   const [receipt, setReceipt] = useState({
-    title: "Book Receipt Maker",
+    title: "Book Receipt",
     renter: "",
     rentalDate: "",
     returnDate: "",
