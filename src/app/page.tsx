@@ -1165,15 +1165,16 @@ export default function Home() {
                           style={{
                             width: receipt.format === "3inch" ? "120px" : "110px",
                             height: receipt.format === "3inch" ? "120px" : "110px",
-                            padding: "10px",
-                            backgroundColor: "#ffffff",
-                            // border: `2px solid ${getBorderColor(receipt.backgroundColor)}`,
+                            backgroundColor: receipt.backgroundColor,
+                            borderRadius: "10px",
                           }}
                         >
                           <QRCodeSVG
                             value={getReceiptQRData()}
                             size={receipt.format === "3inch" ? 100 : 90}
                             level="M"
+                            bgColor={receipt.backgroundColor}
+                            fgColor="#1a1a1a"
                             includeMargin={true}
                           />
                         </div>
