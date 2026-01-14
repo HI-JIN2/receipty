@@ -1,5 +1,5 @@
 ## Book Receipt
-<img width="1200" height="630" alt="og-image" src="https://github.com/user-attachments/assets/dd44ec66-9790-4b85-9571-3a9305cc39cc" />
+<img width="1200" height="630" alt="og-image" src="https://github.com/user-attachments/assets/17c0cda5-fa45-4598-8a33-ebe928099566" />
 
 <img width="1200" height="630" alt="image" src="https://github.com/user-attachments/assets/8e2854c9-4ec0-4a5e-b932-00e23a84e55e" />
 
