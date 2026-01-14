@@ -51,7 +51,6 @@ export default function Home() {
     { name: "민트", value: "#d1fae5" },
     { name: "스카이", value: "#e0f2fe" },
     { name: "피치", value: "#ffe4d6" },
-    { name: "레몬", value: "#fef9c3" },
   ];
 
   // 배경색에 맞는 테두리 색상 매핑
@@ -64,7 +63,6 @@ export default function Home() {
       "#d1fae5": "#15803d", // 민트 -> 다크 그린
       "#e0f2fe": "#0369a1", // 스카이 -> 다크 블루
       "#ffe4d6": "#ea580c", // 피치 -> 다크 오렌지
-      "#fef9c3": "#ca8a04", // 레몬 -> 다크 옐로우
     };
     return colorMap[bgColor] || "#1a1a1a";
   };
@@ -380,7 +378,7 @@ export default function Home() {
       
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
           <div className="flex flex-col gap-6">
             {/* 모바일: 검색 버튼만 표시 */}
             <div className="lg:hidden">
@@ -395,7 +393,7 @@ export default function Home() {
                 <p className="mt-2 text-xs text-stone-700">
                   영수증에 담을 책을 검색해보세요.
                 </p>
-                <div className="mt-4 flex items-center gap-2 text-sm font-medium text-amber-900">
+                <div className="mt-4 flex items-center justify-end gap-2 text-sm font-medium text-amber-900">
                   <span>검색하기</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -779,7 +777,7 @@ export default function Home() {
             )}
           </div>
 
-          <div className="flex flex-col gap-6 mt-8 lg:mt-0">
+          <div className="flex flex-col gap-8 mt-8 lg:mt-0">
             <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_14px_32px_rgba(193,160,120,0.16)] sm:p-6">
               <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
                 영수증 에디터
