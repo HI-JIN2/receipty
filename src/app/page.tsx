@@ -36,6 +36,7 @@ export default function Home() {
     note: "",
     format: "3inch",
     backgroundColor: "#ffffff", // 기본 화이트
+    includeQRCode: true, // QR 코드 포함 여부
   });
 
   const pastelColors = [
@@ -64,23 +65,24 @@ export default function Home() {
     return colorMap[bgColor] || "#1a1a1a";
   };
 
-  // QR 코드용 영수증 정보 생성
+  // QR 코드용 영수증 정보 생성 (간단한 형식으로)
   const getReceiptQRData = () => {
-    const receiptData = {
-      title: receipt.title || "Book Receipt",
-      renter: receipt.renter || "",
-      rentalDate: receipt.rentalDate || "",
-      returnDate: receipt.returnDate || "",
-      note: receipt.note || "",
-      books: selected.map((book) => ({
-        title: book.title,
-        author: book.author,
-        publisher: book.publisher,
-        isbn: book.isbn || null,
-      })),
-      createdAt: new Date().toISOString(),
-    };
-    return JSON.stringify(receiptData, null, 2);
+    // 데이터를 더 간단하게 만들어 인식률 향상
+    const booksInfo = selected.map((book, idx) => 
+      `${idx + 1}. ${book.title} (${book.author})`
+    ).join('\n');
+    
+    const data = [
+      `제목: ${receipt.title || "Book Receipt"}`,
+      `이용자: ${receipt.renter || "-"}`,
+      `대여일: ${receipt.rentalDate || "-"}`,
+      `반납예정: ${receipt.returnDate || "-"}`,
+      `도서(${selected.length}권):`,
+      booksInfo,
+      receipt.note ? `메모: ${receipt.note}` : "",
+    ].filter(Boolean).join('\n');
+    
+    return data;
   };
 
   const divider = "------";
@@ -167,11 +169,14 @@ export default function Home() {
     setSaveMessage(null);
 
     try {
-      // 1. 이미지 저장
+      // 1. 이미지 저장 (QR 코드 포함을 위해 약간의 지연 추가)
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      
       const dataUrl = await toJpeg(previewRef.current, {
         quality: 0.95,
         backgroundColor: receipt.backgroundColor,
         cacheBust: true,
+        pixelRatio: 2,
       });
 
       const link = document.createElement("a");
@@ -588,6 +593,27 @@ export default function Home() {
                     className="rounded-lg border border-[#d1bda0] bg-[#fdf6ee] px-3 py-2 text-sm text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
                   />
                 </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="includeQRCode"
+                    name="includeQRCode"
+                    checked={receipt.includeQRCode}
+                    onChange={(e) =>
+                      setReceipt((prev) => ({
+                        ...prev,
+                        includeQRCode: e.target.checked,
+                      }))
+                    }
+                    className="h-4 w-4 rounded border-[#d1bda0] text-amber-900 focus:ring-amber-700"
+                  />
+                  <label
+                    htmlFor="includeQRCode"
+                    className="text-sm font-medium text-stone-700 cursor-pointer"
+                  >
+                    QR 코드 포함
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -646,7 +672,7 @@ export default function Home() {
                   </div>
 
                   <div
-                    className="space-y-2.5"
+                    className="space-y-1"
                     style={{
                       fontSize: receipt.format === "3inch" ? "13px" : "11px",
                     }}
@@ -753,23 +779,23 @@ export default function Home() {
                     </div>
                   )}
 
-                  {selected.length > 0 && (
+                  {selected.length > 0 && receipt.includeQRCode && (
                     <div className="mt-6 flex flex-col items-center">
  
                         <div
                           style={{
-                            width: receipt.format === "3inch" ? "80px" : "70px",
-                            height: receipt.format === "3inch" ? "80px" : "70px",
-                            padding: "6px",
+                            width: receipt.format === "3inch" ? "120px" : "110px",
+                            height: receipt.format === "3inch" ? "120px" : "110px",
+                            padding: "10px",
                             backgroundColor: "#ffffff",
-                            border: `1px solid ${getBorderColor(receipt.backgroundColor)}`,
+                            // border: `2px solid ${getBorderColor(receipt.backgroundColor)}`,
                           }}
                         >
                           <QRCodeSVG
                             value={getReceiptQRData()}
-                            size={receipt.format === "3inch" ? 68 : 58}
+                            size={receipt.format === "3inch" ? 100 : 90}
                             level="M"
-                            includeMargin={false}
+                            includeMargin={true}
                           />
                         </div>
            
