@@ -1167,6 +1167,10 @@ export default function Home() {
                             height: receipt.format === "3inch" ? "120px" : "110px",
                             backgroundColor: receipt.backgroundColor,
                             borderRadius: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "0 auto",
                           }}
                         >
                           <QRCodeSVG
@@ -1212,6 +1216,12 @@ export default function Home() {
               >
                 홈
               </button>
+              <Link
+                href="/stats"
+                className="text-sm font-medium text-stone-600 transition hover:text-amber-900"
+              >
+                독서 발자국
+              </Link>
               <Link
                 href="/about"
                 className="text-sm font-medium text-stone-600 transition hover:text-amber-900"

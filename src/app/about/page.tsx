@@ -69,6 +69,12 @@ export default function AboutPage() {
               >
                 홈
               </Link>
+              <Link
+                href="/stats"
+                className="text-sm font-medium text-stone-600 transition hover:text-amber-900"
+              >
+                독서 발자국
+              </Link>
               <span className="text-sm font-medium text-stone-400">제작자의 말</span>
             </div>
             <p className="text-xs text-stone-500">
