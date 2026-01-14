@@ -354,7 +354,7 @@ export default function Home() {
                 <span className="hidden sm:inline">공유</span>
               </button>
               {copySuccess && (
-                <div className="absolute -top-12 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap">
+                <div className="absolute -top-12 left-1/2 z-50 -translate-x-1/2 animate-in fade-in slide-in-from-bottom-2 duration-200">
                   <div className="rounded-lg bg-stone-900 px-3 py-2 text-xs font-medium text-white shadow-lg">
                     링크가 복사되었습니다!
                     <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 bg-stone-900"></div>

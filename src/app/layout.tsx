@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
     images: [
       {
-        url: new URL("/og-image2.png", metadataBase).toString(),
+        url: new URL("/og-image.png", metadataBase).toString(),
         width: 1200,
         height: 630,
         alt: "Book Receipt",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Book Receipt - 나만의 도서 영수증 만들기",
     description: "도서 영수증이 필요할때 자유롭게 만들고 프린트해보세요.",
-    images: ["/og-image2.png"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: { url: "/favicon.png", type: "image/png" },
-    apple: "/apple-touch-icon.png",
+    apple: "/favicon.png",
   },
 };
 
