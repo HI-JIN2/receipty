@@ -20,7 +20,7 @@ export default function AboutPage() {
         <div className="prose prose-stone max-w-none">
           <div className="space-y-6 text-base leading-relaxed text-stone-700 sm:text-lg">
             <p>
-              안녕하세요. Book Receipt를 만든 HI-JIN2입니다.
+              안녕하세요. 아날로그를 좋아하는 개발자 HI-JIN2입니다.
             </p>
             
             <p>

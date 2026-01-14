@@ -49,11 +49,10 @@ export const POST = async (req: Request) => {
       );
     }
 
-    // books upsert + prints insert를 단순 순차 처리
-    const results: { bookId: string | null; error?: string }[] = [];
-
+    // 1) 모든 책을 books 테이블에 upsert/insert
+    const bookIds: string[] = [];
+    
     for (const book of selected) {
-      // 1) books upsert
       let bookId: string | null = null;
 
       if (book.isbn) {
@@ -74,7 +73,7 @@ export const POST = async (req: Request) => {
           .single();
 
         if (error) {
-          results.push({ bookId: null, error: error.message });
+          console.error("Book upsert error:", error);
           continue;
         }
         bookId = data?.id ?? null;
@@ -93,55 +92,76 @@ export const POST = async (req: Request) => {
           .single();
 
         if (error) {
-          results.push({ bookId: null, error: error.message });
+          console.error("Book insert error:", error);
           continue;
         }
         bookId = data?.id ?? null;
       }
 
-      if (!bookId) {
-        results.push({ bookId: null, error: "book id를 가져오지 못했습니다." });
-        continue;
-      }
-
-      // 2) prints insert (한 권당 한 행)
-      const payload = {
-        renter: receipt.renter,
-        rentalDate: receipt.rentalDate,
-        returnDate: receipt.returnDate,
-        note: receipt.note,
-        title: receipt.title,
-        format: receipt.format,
-        backgroundColor: receipt.backgroundColor,
-        totalCount: selected.length,
-      };
-
-      const { error: printError } = await supabase.from("prints").insert({
-        book_id: bookId,
-        format: receipt.format,
-        payload,
-      });
-
-      if (printError) {
-        results.push({ bookId, error: printError.message });
-      } else {
-        results.push({ bookId });
+      if (bookId) {
+        bookIds.push(bookId);
       }
     }
 
-    const failed = results.filter((r) => r.error);
-    if (failed.length > 0 && failed.length === results.length) {
-      // 전부 실패
+    if (bookIds.length === 0) {
       return NextResponse.json(
-        { error: "모든 기록 저장에 실패했습니다.", details: failed },
+        { error: "도서 정보 저장에 실패했습니다." },
         { status: 500 },
       );
     }
 
+    // 2) prints 테이블에 영수증 정보 저장 (한 번만)
+    const payload = {
+      renter: receipt.renter,
+      rentalDate: receipt.rentalDate,
+      returnDate: receipt.returnDate,
+      note: receipt.note,
+      title: receipt.title,
+      format: receipt.format,
+      backgroundColor: receipt.backgroundColor,
+      totalCount: selected.length,
+    };
+
+    const { data: printData, error: printError } = await supabase
+      .from("prints")
+      .insert({
+        format: receipt.format,
+        payload,
+      })
+      .select("id")
+      .single();
+
+    if (printError || !printData) {
+      return NextResponse.json(
+        { error: "영수증 저장에 실패했습니다.", details: printError?.message },
+        { status: 500 },
+      );
+    }
+
+    const printId = printData.id;
+
+    // 3) print_books 테이블에 영수증과 도서 관계 저장
+    const printBooksData = bookIds.map((bookId) => ({
+      print_id: printId,
+      book_id: bookId,
+    }));
+
+    const { error: printBooksError } = await supabase
+      .from("print_books")
+      .insert(printBooksData);
+
+    if (printBooksError) {
+      console.error("Print books insert error:", printBooksError);
+      // prints는 저장되었지만 print_books 저장 실패는 경고만
+    }
+
+    // 저장된 print의 id가 발급번호
+    const receiptNumber = printData.id as number;
+
     return NextResponse.json({
       ok: true,
-      saved: results.filter((r) => !r.error).length,
-      failed: failed.length,
+      saved: bookIds.length,
+      receiptNumber, // 발급번호 (print id)
     });
   } catch (err) {
     console.error(err);

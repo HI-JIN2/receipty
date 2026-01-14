@@ -3,7 +3,7 @@
 
 -- 1. books 테이블 생성 (도서 정보 저장)
 CREATE TABLE IF NOT EXISTS books (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   isbn TEXT UNIQUE,
   title TEXT NOT NULL,
   author TEXT,
@@ -15,28 +15,38 @@ CREATE TABLE IF NOT EXISTS books (
 
 -- 2. prints 테이블 생성 (영수증 생성 기록)
 CREATE TABLE IF NOT EXISTS prints (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  book_id UUID NOT NULL REFERENCES books(id) ON DELETE RESTRICT,
+  id BIGSERIAL PRIMARY KEY,
   format TEXT NOT NULL DEFAULT 'standard',
   printed_at TIMESTAMPTZ DEFAULT NOW(),
   payload JSONB DEFAULT '{}'::jsonb
 );
 
--- 3. 인덱스 생성 (검색 속도 향상)
-CREATE INDEX IF NOT EXISTS idx_prints_book_id ON prints(book_id);
+-- 3. print_books 테이블 생성 (영수증과 도서의 관계)
+CREATE TABLE IF NOT EXISTS print_books (
+  id BIGSERIAL PRIMARY KEY,
+  print_id BIGINT NOT NULL REFERENCES prints(id) ON DELETE CASCADE,
+  book_id BIGINT NOT NULL REFERENCES books(id) ON DELETE RESTRICT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(print_id, book_id)
+);
+
+-- 4. 인덱스 생성 (검색 속도 향상)
 CREATE INDEX IF NOT EXISTS idx_prints_printed_at ON prints(printed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_books_isbn ON books(isbn);
+CREATE INDEX IF NOT EXISTS idx_print_books_print_id ON print_books(print_id);
+CREATE INDEX IF NOT EXISTS idx_print_books_book_id ON print_books(book_id);
 
--- 4. RLS (Row Level Security) 설정 - 공개 읽기/쓰기 허용
+-- 5. RLS (Row Level Security) 설정 - 공개 읽기/쓰기 허용
 ALTER TABLE books ENABLE ROW LEVEL SECURITY;
 ALTER TABLE prints ENABLE ROW LEVEL SECURITY;
+ALTER TABLE print_books ENABLE ROW LEVEL SECURITY;
 
 -- 공개 정책: 모든 사용자가 읽기 가능
 CREATE POLICY "Public read access" ON books FOR SELECT USING (true);
 CREATE POLICY "Public read access" ON prints FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON print_books FOR SELECT USING (true);
 
 -- 공개 정책: 모든 사용자가 쓰기 가능 (anon 키로 insert 가능)
 CREATE POLICY "Public insert access" ON books FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert access" ON prints FOR INSERT WITH CHECK (true);
-
-
+CREATE POLICY "Public insert access" ON print_books FOR INSERT WITH CHECK (true);

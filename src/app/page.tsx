@@ -27,6 +27,7 @@ export default function Home() {
   const [isExporting, setIsExporting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [receiptNumber, setReceiptNumber] = useState<number | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const [receipt, setReceipt] = useState({
     title: "Book Receipt",
@@ -65,14 +66,18 @@ export default function Home() {
     return colorMap[bgColor] || "#1a1a1a";
   };
 
-  // QR 코드용 영수증 정보 생성 (간단한 형식으로)
+  // QR 코드용 영수증 정보 생성 (간소화된 형식)
   const getReceiptQRData = () => {
-    // 데이터를 더 간단하게 만들어 인식률 향상
+    // 발급번호가 있으면 포함
+    const receiptNum = receiptNumber ? `발급번호: ${receiptNumber.toString().padStart(6, "0")}\n` : "";
+    
+    // 도서 정보를 간단하게
     const booksInfo = selected.map((book, idx) => 
-      `${idx + 1}. ${book.title} (${book.author})`
+      `${idx + 1}. ${book.title}`
     ).join('\n');
     
     const data = [
+      receiptNum,
       `제목: ${receipt.title || "Book Receipt"}`,
       `이용자: ${receipt.renter || "-"}`,
       `대여일: ${receipt.rentalDate || "-"}`,
@@ -169,8 +174,30 @@ export default function Home() {
     setSaveMessage(null);
 
     try {
-      // 1. 이미지 저장 (QR 코드 포함을 위해 약간의 지연 추가)
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      // 1. Supabase에 먼저 기록 저장하여 발급번호 받기
+      let receiptNum: number | null = null;
+      try {
+        const res = await fetch("/api/receipt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ selected, receipt }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
+        }
+        // 발급번호 저장
+        if (data.receiptNumber !== undefined) {
+          receiptNum = data.receiptNumber;
+          setReceiptNumber(data.receiptNumber);
+        }
+      } catch (err) {
+        console.error("Supabase 저장 실패:", err);
+        setSaveMessage("Supabase 기록에 실패했습니다. 이미지만 저장합니다.");
+      }
+
+      // 2. 발급번호가 포함된 상태로 이미지 저장 (QR 코드 포함을 위해 약간의 지연 추가)
+      await new Promise((resolve) => setTimeout(resolve, 200));
       
       const dataUrl = await toJpeg(previewRef.current, {
         quality: 0.95,
@@ -185,21 +212,10 @@ export default function Home() {
       link.href = dataUrl;
       link.click();
 
-      // 2. Supabase에 기록 저장
-      try {
-        const res = await fetch("/api/receipt", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ selected, receipt }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
-        }
+      if (receiptNum !== null) {
         setSaveMessage("이미지 저장 완료");
-      } catch (err) {
-        console.error("Supabase 저장 실패:", err);
-        setSaveMessage("이미지는 저장되었지만 Supabase 기록에 실패했습니다.");
+      } else {
+        setSaveMessage("이미지 저장 완료 (데이터 전송 실패)");
       }
     } catch (err) {
       console.error("이미지 생성 실패:", err);
@@ -265,7 +281,7 @@ export default function Home() {
                 네이버 도서 검색
               </h2>
               <p className="mt-2 text-xs text-stone-700 sm:text-sm">
-                오늘 읽을 책, 혹은 최근에 빌린 전자책을 검색해서 영수증에 담아보세요.
+                영수증에 담을 책을 검색해보세요. 
               </p>
               <form
                 onSubmit={handleSearch}
@@ -316,7 +332,7 @@ export default function Home() {
               <div className="mt-6 grid gap-4">
                 {results.length === 0 && !loading ? (
                   <p className="text-sm text-stone-500">
-                    지금 마음에 떠오르는 책 제목을 적어보면, 아래에 조용히 결과가 나타납니다.
+                    {/* 지금 마음에 떠오르는 책 제목을 적어보면, 아래에 조용히 결과가 나타납니다. */}
                   </p>
                 ) : (
                   results.map((item) => (
@@ -657,6 +673,16 @@ export default function Home() {
                     >
                       {receipt.title || "대출확인증"}
                     </p>
+                    {receiptNumber !== null && (
+                      <p
+                        className="mt-1 text-stone-500"
+                        style={{
+                          fontSize: receipt.format === "3inch" ? "10px" : "9px",
+                        }}
+                      >
+                        발급번호: {receiptNumber.toString().padStart(6, "0")}
+                      </p>
+                    )}
                     <p
                       className="mt-1.5 text-stone-600"
                       style={{
