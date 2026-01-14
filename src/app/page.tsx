@@ -28,6 +28,7 @@ export default function Home() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [receiptNumber, setReceiptNumber] = useState<number | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
   const [receipt, setReceipt] = useState({
     title: "Book Receipt",
@@ -226,6 +227,75 @@ export default function Home() {
     }
   };
 
+  // 링크 복사 함수
+  const handleShare = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    
+    if (!url) {
+      alert("링크를 가져올 수 없습니다.");
+      return;
+    }
+
+    // 방법 1: Clipboard API 시도 (HTTPS 또는 localhost에서만 작동)
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+        return;
+      } catch (err) {
+        console.error("Clipboard API 실패:", err);
+        // 폴백으로 계속 진행
+      }
+    }
+
+    // 방법 2: execCommand 사용 (구형 브라우저 지원)
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = url;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      
+      if (successful) {
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      } else {
+        throw new Error("execCommand failed");
+      }
+    } catch (err) {
+      console.error("링크 복사 실패:", err);
+      // 최종 폴백: 사용자에게 URL 표시
+      const userConfirmed = confirm(
+        `링크를 자동으로 복사할 수 없습니다.\n\nURL: ${url}\n\n이 URL을 복사하시겠습니까?`
+      );
+      if (userConfirmed) {
+        // 사용자가 확인하면 다시 시도
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 2000);
+        } catch (finalErr) {
+          alert(`링크: ${url}\n\n위 링크를 수동으로 복사해주세요.`);
+        }
+        document.body.removeChild(textArea);
+      }
+    }
+  };
+
   return (
     <>
       {/* 구조화된 데이터 (JSON-LD) - SEO 향상 */}
@@ -255,11 +325,44 @@ export default function Home() {
       <main className="min-h-screen bg-[#f7f1e8] text-stone-900">
         <section className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8 sm:gap-10 sm:px-6 sm:py-16">
         <header className="flex flex-col gap-4">
-          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-900/70">
-            <span className="h-[1px] w-6 bg-amber-900/40" />
-            Book Receipt
-            <span className="h-[1px] w-6 bg-amber-900/40" />
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-900/70">
+              <span className="h-[1px] w-6 bg-amber-900/40" />
+              Book Receipt
+              <span className="h-[1px] w-6 bg-amber-900/40" />
+            </p>
+            <div className="relative">
+              <button
+                onClick={handleShare}
+                className="group flex items-center gap-2 rounded-lg border border-amber-900/20 bg-white/50 px-3 py-1.5 text-xs font-medium text-amber-900/80 transition-all hover:border-amber-900/40 hover:bg-white/80 hover:text-amber-900 active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
+                aria-label="링크 공유"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-4 w-4 sm:h-5 sm:w-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                  />
+                </svg>
+                <span className="hidden sm:inline">공유</span>
+              </button>
+              {copySuccess && (
+                <div className="absolute -top-12 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap">
+                  <div className="rounded-lg bg-stone-900 px-3 py-2 text-xs font-medium text-white shadow-lg">
+                    링크가 복사되었습니다!
+                    <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 bg-stone-900"></div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
           <h1 className="text-xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
             나만의 도서영수증 만들기
           </h1>
