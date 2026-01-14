@@ -32,7 +32,7 @@ export default function Home() {
     rentalDate: "",
     returnDate: "",
     note: "",
-    format: "standard",
+    format: "3inch",
     backgroundColor: "#fef7ed", // 기본 파스텔 베이지
   });
 
@@ -410,9 +410,8 @@ export default function Home() {
                       onChange={handleReceiptChange}
                       className="rounded-lg border border-[#d1bda0] bg-[#fdf6ee] px-3 py-2 text-sm text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
                     >
-                      <option value="standard">Standard (A4/일반)</option>
-                      <option value="label">Label (좁은 폭)</option>
-                      <option value="photo">Photo (포토 프린터)</option>
+                      <option value="3inch">3인치 (가로 3인치)</option>
+                      <option value="2inch">2인치 (가로 2인치)</option>
                     </select>
                   </div>
                 </div>
@@ -511,21 +510,39 @@ export default function Home() {
                   
                 </div>
                 <span className="bg-[#f0e0c7] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-900/80">
-                  {receipt.format}
+                  {receipt.format === "3inch" ? "3인치 (가로 3인치)" : "2인치 (가로 2인치)"}
                 </span>
               </div>
 
               <div className="mt-4 flex justify-center">
                 <div
                   ref={previewRef}
-                  className="w-full max-w-xs border border-[#d7c2a5] bg-[#fdf6ee] px-4 py-6 text-sm text-stone-700"
-                  style={{ backgroundColor: receipt.backgroundColor }}
+                  className="border border-[#d7c2a5] bg-[#fdf6ee] text-stone-700"
+                  style={{
+                    backgroundColor: receipt.backgroundColor,
+                    width: receipt.format === "3inch" ? "288px" : "192px",
+                    minHeight: receipt.format === "3inch" ? "600px" : "500px",
+                    padding: receipt.format === "3inch" ? "24px 18px 32px 18px" : "20px 14px 28px 14px",
+                    fontSize: receipt.format === "3inch" ? "14px" : "12px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
-                  <div className="mb-3 border-b border-dashed border-[#d7c2a5] pb-2 text-center">
-                    <p className="mt-0.5 text-base font-semibold text-stone-900">
+                  <div className="mb-4 border-b border-dashed border-[#d7c2a5] pb-3 text-center">
+                    <p
+                      className="font-semibold text-stone-900"
+                      style={{
+                        fontSize: receipt.format === "3inch" ? "18px" : "15px",
+                      }}
+                    >
                       {receipt.title || "대출확인증"}
                     </p>
-                    <p className="mt-1 text-xs text-stone-600">
+                    <p
+                      className="mt-1.5 text-stone-600"
+                      style={{
+                        fontSize: receipt.format === "3inch" ? "12px" : "11px",
+                      }}
+                    >
                       총{" "}
                       <span className="font-semibold">
                         {selected.length.toString().padStart(2, "0")}
@@ -533,10 +550,13 @@ export default function Home() {
                       권
                     </p>
                   </div>
-                  {/* <div className="mb-3 text-center text-xs text-stone-400">
-                    ------
-                  </div> */}
-                  <div className="space-y-3">
+
+                  <div
+                    className="space-y-2.5"
+                    style={{
+                      fontSize: receipt.format === "3inch" ? "13px" : "11px",
+                    }}
+                  >
                     <div className="flex justify-between">
                       <span className="text-stone-600">이용자</span>
                       <span className="font-semibold text-stone-900">
@@ -547,42 +567,69 @@ export default function Home() {
                       <span className="text-stone-600">대여일</span>
                       <span className="font-semibold text-stone-900">
                         {receipt.rentalDate || "—"}
-                  </span>
-            </div>
+                      </span>
+                    </div>
                     <div className="flex justify-between">
                       <span className="text-stone-600">반납 예정</span>
                       <span className="font-semibold text-stone-900">
                         {receipt.returnDate || "—"}
                       </span>
-          </div>
-        </div>
+                    </div>
+                  </div>
 
                   {selected.length > 0 && (
-                    <div className="mb-4 mt-4 border-b border-dashed border-[#d7c2a5] pb-2"></div>
+                    <div className="my-4 border-b border-dashed border-[#d7c2a5]"></div>
                   )}
 
-                  <div className="mt-5">
+                  <div className="mt-4">
                     {selected.length === 0 ? (
-                      <p className="text-sm text-stone-500">
+                      <p
+                        className="text-stone-500"
+                        style={{
+                          fontSize: receipt.format === "3inch" ? "13px" : "11px",
+                        }}
+                      >
                         아직 책을 선택하지 않았어요.
                       </p>
                     ) : (
-                      <div className="space-y-3">
+                      <div
+                        className="space-y-2.5"
+                        style={{
+                          fontSize: receipt.format === "3inch" ? "13px" : "11px",
+                        }}
+                      >
                         {selected.map((book, idx) => (
                           <div
                             key={`${getKey(book)}-preview`}
-                            className="flex items-start justify-between gap-3 px-1 py-1 text-sm text-stone-800"
+                            className="flex items-start justify-between gap-2 py-1 text-stone-800"
                           >
-                            <div className="flex-1">
-                              <div className="font-semibold">{book.title}</div>
-                              <div className="text-xs text-stone-600">
+                            <div className="flex-1 min-w-0">
+                              <div className="font-semibold leading-tight break-words">
+                                {book.title}
+                              </div>
+                              <div
+                                className="text-stone-600 leading-tight mt-0.5"
+                                style={{
+                                  fontSize: receipt.format === "3inch" ? "11px" : "10px",
+                                }}
+                              >
                                 {book.author} · {book.publisher}
                               </div>
-                              <div className="text-[11px] text-stone-500">
+                              <div
+                                className="text-stone-500 mt-0.5"
+                                style={{
+                                  fontSize: receipt.format === "3inch" ? "10px" : "9px",
+                                }}
+                              >
                                 {book.isbn || book.published_at || "—"}
                               </div>
                             </div>
-                            <div className="text-xs font-semibold text-amber-900/80">
+                            <div
+                              className="font-semibold text-amber-900/80 flex-shrink-0"
+                              style={{
+                                fontSize: receipt.format === "3inch" ? "12px" : "11px",
+                              }}
+                            >
                               {idx + 1}
                             </div>
                           </div>
@@ -592,9 +639,15 @@ export default function Home() {
                   </div>
 
                   {receipt.note && (
-                    <div className="mt-5">
-                      <div className="mb-3 border-b border-dashed border-[#d7c2a5] pb-2"></div>
-                      <div className="text-sm text-stone-800">
+                    <div className="mt-6">
+                      <div className="mb-3 border-b border-dashed border-[#d7c2a5]"></div>
+                      <div
+                        className="text-stone-800 whitespace-pre-wrap break-words"
+                        style={{
+                          fontSize: receipt.format === "3inch" ? "13px" : "11px",
+                          lineHeight: "1.6",
+                        }}
+                      >
                         {receipt.note}
                       </div>
                     </div>
@@ -621,6 +674,9 @@ export default function Home() {
           </div>
         </div>
 
+        <footer className="mt-4 border-t border-[#e2d2bd] pt-4 text-xs text-stone-500">
+          <p>© {new Date().getFullYear()} HI-JIN2. All rights reserved.</p>
+        </footer>
       </section>
     </main>
   );

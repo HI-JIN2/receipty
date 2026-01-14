@@ -134,3 +134,4 @@ vercel env add NAVER_CLIENT_SECRET
 - 성능 모니터링 무료 제공
 - 프로젝트 → **Speed Insights** 탭에서 활성화
 
+

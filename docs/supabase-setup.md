@@ -147,3 +147,4 @@ npm run dev
 - `/stats` 페이지에서 랭킹/통계 표시
 - Supabase 대시보드에서 직접 데이터 확인 가능
 
+

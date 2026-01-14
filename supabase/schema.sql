@@ -39,3 +39,4 @@ CREATE POLICY "Public read access" ON prints FOR SELECT USING (true);
 CREATE POLICY "Public insert access" ON books FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert access" ON prints FOR INSERT WITH CHECK (true);
 
+
