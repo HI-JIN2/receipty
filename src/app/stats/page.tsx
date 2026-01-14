@@ -142,17 +142,19 @@ export default async function StatsPage() {
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-900/10 text-xs font-semibold text-amber-900">
-                            {idx + 1}
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-semibold text-amber-900">
+                            {idx + 1}.
                           </span>
-                          <p className="line-clamp-2 text-sm font-semibold text-stone-900">
-                            {b.title}
-                          </p>
+                          <div className="min-w-0">
+                            <p className="line-clamp-2 text-sm font-semibold text-stone-900">
+                              {b.title}
+                            </p>
+                            <p className="mt-1 line-clamp-1 text-xs text-stone-600">
+                              {b.author ?? "—"}
+                            </p>
+                          </div>
                         </div>
-                        <p className="mt-1 line-clamp-1 text-xs text-stone-600">
-                          {b.author ?? "—"}
-                        </p>
                         <div className="mt-2 flex items-center justify-between gap-2">
                           <p className="text-xs font-semibold text-amber-900/80">
                             {b.count.toLocaleString()}회
