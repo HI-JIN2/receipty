@@ -155,7 +155,7 @@ export default function Home() {
         if (!res.ok) {
           throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
         }
-        setSaveMessage("이미지 저장 및 Supabase 기록 완료");
+        setSaveMessage("이미지 저장 완료");
       } catch (err) {
         console.error("Supabase 저장 실패:", err);
         setSaveMessage("이미지는 저장되었지만 Supabase 기록에 실패했습니다.");

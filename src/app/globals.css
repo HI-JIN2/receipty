@@ -9,12 +9,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   /* next/font/local 에서 지정한 변수 사용 */
-  --font-sans: var(--font-book-cafe);
+  --font-sans: var(--font-jalnan);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-book-cafe), system-ui, -apple-system, BlinkMacSystemFont,
+  font-family: var(--font-jalnan), system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
 }
