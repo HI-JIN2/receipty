@@ -507,7 +507,7 @@ export default function Home() {
                       name="renter"
                       value={receipt.renter}
                       onChange={handleReceiptChange}
-                      placeholder="예: 홍길동"
+                      placeholder="홍길동"
                       className="rounded-lg border border-[#d1bda0] bg-[#fdf6ee] px-3 py-2 text-sm text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
                     />
                   </div>
