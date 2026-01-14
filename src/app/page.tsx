@@ -1009,7 +1009,6 @@ export default function Home() {
                     display: "flex",
                     flexDirection: "column",
                     fontFamily: "var(--font-book-cafe), system-ui, sans-serif",
-                    border: `1px solid ${getBorderColor(receipt.backgroundColor)}`,
                   }}
                 >
                   <div 
