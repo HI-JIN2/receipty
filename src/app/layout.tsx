@@ -46,8 +46,8 @@ export const metadata: Metadata = {
   authors: [{ name: "HI-JIN2" }],
   creator: "HI-JIN2",
   openGraph: {
-    title: "Book Receipt - 나만의 도서 영수증 만들기",
-    description: "도서 영수증이 필요할때 자유롭게 만들고 프린트해보세요.",
+    title: "Book Receipt",
+    description: "나만의 도서 영수증 만들기",
     type: "website",
     locale: "ko_KR",
     siteName: "Book Receipt",
