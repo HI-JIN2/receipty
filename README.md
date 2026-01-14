@@ -1,5 +1,10 @@
 ## Book Receipt
-전자 도서 대여 영수증을 만들고 인쇄할 수 있는 웹앱. 로그인 없이 공용 집계(많이 뽑힌 책 랭킹, 총 생성 횟수)만 Supabase에 저장합니다. 스택: Next.js(App Router) + Supabase + Tailwind.
+
+<img width="1200" height="630" alt="image" src="https://github.com/user-attachments/assets/8e2854c9-4ec0-4a5e-b932-00e23a84e55e" />
+
+- 도서 대여 영수증을 만드는 웹사이트.   
+- 로그인 없이 공용 집계(많이 뽑힌 책 랭킹, 총 생성 횟수)만 Supabase에 저장합니다. 
+- 스택: Next.js(App Router) + Supabase + Tailwind.
 
 ### 빠른 시작
 ```bash
