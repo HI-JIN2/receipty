@@ -44,6 +44,9 @@ export default function AboutPage() {
               <p className="text-sm text-stone-500">
                 궁금한 점이나 제안사항이 있으시면 언제든지 연락주세요.
               </p>
+              <p className="text-sm text-stone-500">
+                활용한 사진을 이메일로 보내주시면 사이트에 함께 공유할게요.
+              </p>
               <p className="text-sm text-stone-700">
                 이메일:{" "}
                 <a
@@ -52,9 +55,6 @@ export default function AboutPage() {
                 >
                   qldls0307@naver.com
                 </a>
-              </p>
-              <p className="text-sm italic text-stone-600">
-                활용한 사진을 이메일로 보내주시면 사이트에 함께 공유할게요.
               </p>
             </div>
           </div>
