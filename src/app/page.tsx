@@ -22,6 +22,8 @@ export default function Home() {
   const [results, setResults] = useState<BookResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [displayCount, setDisplayCount] = useState(10); // 처음에 보여줄 개수
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false); // 모바일 검색 모달 상태
   const [selected, setSelected] = useState<BookResult[]>([]);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [isExporting, setIsExporting] = useState(false);
@@ -110,6 +112,7 @@ export default function Home() {
         return;
       }
       setResults(data.items ?? []);
+      setDisplayCount(10); // 새 검색 시 초기화
     } catch (err) {
       setError("네트워크 오류가 발생했습니다.");
       setResults([]);
@@ -379,13 +382,48 @@ export default function Home() {
 
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="flex flex-col gap-6">
-            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.15)] sm:p-6">
-              <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
-                네이버 도서 검색
-              </h2>
-              <p className="mt-2 text-xs text-stone-700 sm:text-sm">
-                영수증에 담을 책을 검색해보세요. 
-              </p>
+            {/* 모바일: 검색 버튼만 표시 */}
+            <div className="lg:hidden">
+              <button
+                type="button"
+                onClick={() => setIsSearchModalOpen(true)}
+                className="w-full rounded-xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 text-left shadow-[0_18px_45px_rgba(87,63,36,0.15)] transition hover:shadow-[0_20px_50px_rgba(87,63,36,0.2)]"
+              >
+                <h2 className="text-lg font-semibold text-stone-900">
+                  네이버 도서 검색
+                </h2>
+                <p className="mt-2 text-xs text-stone-700">
+                  영수증에 담을 책을 검색해보세요.
+                </p>
+                <div className="mt-4 flex items-center gap-2 text-sm font-medium text-amber-900">
+                  <span>검색하기</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
+
+            {/* 데스크톱: 기존 검색 UI */}
+            <div className="hidden lg:block">
+              <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.15)] sm:p-6">
+                <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
+                  네이버 도서 검색
+                </h2>
+                <p className="mt-2 text-xs text-stone-700 sm:text-sm">
+                  영수증에 담을 책을 검색해보세요. 
+                </p>
               <form
                 onSubmit={handleSearch}
                 className="mt-6 flex flex-col gap-3 sm:flex-row"
@@ -438,7 +476,8 @@ export default function Home() {
                     {/* 지금 마음에 떠오르는 책 제목을 적어보면, 아래에 조용히 결과가 나타납니다. */}
                   </p>
                 ) : (
-                  results.map((item) => (
+                  <>
+                    {results.slice(0, displayCount).map((item) => (
                     <div
                       key={`${item.isbn ?? item.title}-${item.publisher}`}
                       className="flex flex-col gap-3 rounded-2xl border border-[#e0cdb3] bg-[#fbf4ea] p-3 shadow-sm transition hover:border-amber-700/70 hover:shadow-[0_12px_28px_rgba(87,63,36,0.28)] sm:flex-row sm:gap-4 sm:p-4"
@@ -523,10 +562,221 @@ export default function Home() {
                         </button>
                       </div>
                     </div>
-                  ))
+                    ))}
+                    {results.length > displayCount && (
+                      <button
+                        type="button"
+                        onClick={() => setDisplayCount(results.length)}
+                        className="mt-2 rounded-lg border border-amber-900/20 bg-white/50 px-4 py-2 text-sm font-medium text-amber-900/80 transition-all hover:border-amber-900/40 hover:bg-white/80 hover:text-amber-900"
+                      >
+                        더 보기 ({results.length - displayCount}개)
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
+              </div>
             </div>
+
+            {/* 모바일 검색 모달 */}
+            {isSearchModalOpen && (
+              <div className="fixed inset-0 z-50 lg:hidden">
+                {/* 배경 오버레이 */}
+                <div
+                  className="absolute inset-0 bg-black/50"
+                  onClick={() => setIsSearchModalOpen(false)}
+                />
+                {/* 모달 컨텐츠 */}
+                <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col bg-[#f7f1e8]">
+                  {/* 헤더 */}
+                  <div className="flex items-center justify-between border-b border-[#e2d2bd] bg-[#fcf7ef] px-4 py-4">
+                    <h2 className="text-lg font-semibold text-stone-900">
+                      도서 검색
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={() => setIsSearchModalOpen(false)}
+                      className="rounded-lg p-2 text-stone-600 transition hover:bg-stone-200"
+                      aria-label="닫기"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* 검색 폼 */}
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <form
+                      onSubmit={handleSearch}
+                      className="mb-4 flex flex-col gap-3"
+                    >
+                      <div className="relative flex-1">
+                        <input
+                          value={query}
+                          onChange={(e) => setQuery(e.target.value)}
+                          placeholder="제목, 저자, ISBN을 입력하세요"
+                          className="w-full rounded-xl border border-[#d1bda0] bg-[#fdf6ee] px-4 py-3 pr-10 text-base text-stone-900 shadow-sm outline-none ring-amber-100 transition focus:border-amber-700 focus:ring"
+                          autoFocus
+                        />
+                        {query && (
+                          <button
+                            type="button"
+                            onClick={() => setQuery("")}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-stone-400 transition hover:bg-stone-200 hover:text-stone-600"
+                            aria-label="검색어 지우기"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              className="h-4 w-4"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_10px_25px_rgba(87,63,36,0.4)] transition hover:bg-amber-950 disabled:opacity-60"
+                      >
+                        {loading ? "검색 중..." : "검색"}
+                      </button>
+                    </form>
+
+                    {error && (
+                      <div className="mb-4 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                        {error}
+                      </div>
+                    )}
+
+                    {/* 검색 결과 */}
+                    <div className="grid gap-4">
+                      {results.length === 0 && !loading ? (
+                        <p className="text-sm text-stone-500">
+                          검색어를 입력하고 검색 버튼을 눌러주세요.
+                        </p>
+                      ) : (
+                        <>
+                          {results.slice(0, displayCount).map((item) => (
+                            <div
+                              key={`${item.isbn ?? item.title}-${item.publisher}`}
+                              className="flex flex-col gap-3 rounded-2xl border border-[#e0cdb3] bg-[#fbf4ea] p-3 shadow-sm transition hover:border-amber-700/70 hover:shadow-[0_12px_28px_rgba(87,63,36,0.28)]"
+                            >
+                              <div className="flex gap-3">
+                                {item.cover_url ? (
+                                  <img
+                                    src={item.cover_url}
+                                    alt={item.title}
+                                    className="h-20 w-14 flex-shrink-0 rounded-md border border-[#d3b894] bg-[#f7efe2] object-cover shadow-sm"
+                                  />
+                                ) : (
+                                  <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-md border border-dashed border-[#d3b894] bg-[#f7efe2] text-xs text-stone-400">
+                                    no cover
+                                  </div>
+                                )}
+                                <div className="flex flex-1 flex-col gap-1 text-xs text-stone-700">
+                                  <div className="break-words text-sm font-semibold text-stone-900">
+                                    {item.title}
+                                  </div>
+                                  <div className="text-stone-600">
+                                    {item.author} · {item.publisher}
+                                  </div>
+                                  <div className="flex flex-wrap gap-2 text-[10px] text-stone-500">
+                                    {item.isbn && <span>ISBN: {item.isbn}</span>}
+                                    {item.published_at && (
+                                      <span>출간일: {item.published_at}</span>
+                                    )}
+                                    {item.link && (
+                                      <a
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="rounded-full bg-[#f0e0c7] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 hover:bg-[#e8d4b3] transition"
+                                      >
+                                        naver↗
+                                      </a>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex justify-end">
+                                <button
+                                  type="button"
+                                  onClick={() => handleAdd(item)}
+                                  className={`flex h-9 w-9 items-center justify-center rounded-lg border-2 transition-all duration-200 ${
+                                    selected.some((b) => getKey(b) === getKey(item))
+                                      ? "border-rose-300 bg-rose-50 text-rose-600 hover:border-rose-400 hover:bg-rose-100"
+                                      : "border-amber-700 bg-amber-50 text-amber-900 hover:border-amber-800 hover:bg-amber-100"
+                                  }`}
+                                  aria-label={
+                                    selected.some((b) => getKey(b) === getKey(item))
+                                      ? "제거"
+                                      : "추가"
+                                  }
+                                >
+                                  {selected.some((b) => getKey(b) === getKey(item)) ? (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      className="h-5 w-5"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                                        clipRule="evenodd"
+                                      />
+                                    </svg>
+                                  ) : (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      className="h-5 w-5"
+                                    >
+                                      <path
+                                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                                      />
+                                    </svg>
+                                  )}
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                          {results.length > displayCount && (
+                            <button
+                              type="button"
+                              onClick={() => setDisplayCount(results.length)}
+                              className="mt-2 rounded-lg border border-amber-900/20 bg-white/50 px-4 py-2 text-sm font-medium text-amber-900/80 transition-all hover:border-amber-900/40 hover:bg-white/80 hover:text-amber-900"
+                            >
+                              더 보기 ({results.length - displayCount}개)
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-6">
