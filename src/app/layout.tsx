@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
     images: [
       {
-        url: "https://book-receipt.vercel.app/og-image.png",
+        url: "https://book-receipt.vercel.app/og-image-v2.png",
         width: 1200,
         height: 630,
         alt: "Book Receipt Maker",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "Book Receipt Maker - 나만의 도서 영수증 만들기",
     description:
       "나만의 도서 영수증을 자유롭게 만들고 프린트해보세요. 로그인은 필요하지 않아요.",
-    images: ["https://book-receipt.vercel.app/og-image.png"],
+    images: ["https://book-receipt.vercel.app/og-image-v2.png"],
   },
   robots: {
     index: true,
