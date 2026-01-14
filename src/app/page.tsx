@@ -4,6 +4,7 @@
 import { useRef, useState } from "react";
 import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
+import Link from "next/link";
 
 type BookResult = {
   title: string;
@@ -238,7 +239,7 @@ export default function Home() {
             Book Receipt
             <span className="h-[1px] w-6 bg-amber-900/40" />
           </p>
-          <h1 className="text-2xl font-semibold leading-tight text-stone-900 sm:text-4xl lg:text-5xl">
+          <h1 className="text-xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
             나만의 도서영수증 만들기
           </h1>
           <div className="flex flex-col gap-1">
@@ -796,8 +797,26 @@ export default function Home() {
           </div>
         </div>
 
-        <footer className="mt-4 border-t border-[#e2d2bd] pt-4 text-xs text-stone-500">
-          <p>© {new Date().getFullYear()} HI-JIN2. All rights reserved.</p>
+        <footer className="mt-8 border-t border-[#e2d2bd] pt-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex gap-4">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="text-sm font-medium text-stone-600 transition hover:text-amber-900"
+              >
+                홈
+              </button>
+              <Link
+                href="/about"
+                className="text-sm font-medium text-stone-600 transition hover:text-amber-900"
+              >
+                제작자의 말
+              </Link>
+            </div>
+            <p className="text-xs text-stone-500">
+              © {new Date().getFullYear()} HI-JIN2. All rights reserved.
+            </p>
+          </div>
         </footer>
       </section>
     </main>
