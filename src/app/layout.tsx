@@ -43,6 +43,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     siteName: "Book Receipt",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
     images: [
       {
         url: "/og-image.png",
