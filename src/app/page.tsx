@@ -190,7 +190,7 @@ export default function Home() {
         if (!res.ok) {
           throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
         }
-        setSaveMessage("이미지 저장 및 Supabase 기록 완료");
+        setSaveMessage("이미지 저장 완료");
       } catch (err) {
         console.error("Supabase 저장 실패:", err);
         setSaveMessage("이미지는 저장되었지만 Supabase 기록에 실패했습니다.");
@@ -205,33 +205,60 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f1e8] text-stone-900">
-      <section className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
+    <>
+      {/* 구조화된 데이터 (JSON-LD) - SEO 향상 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Book Receipt",
+            description: "전자책 대여 내역을 작은 영수증으로 기록해서 프린트하거나 라벨로 붙여두세요.",
+            url: process.env.NEXT_PUBLIC_SITE_URL || "",
+            applicationCategory: "UtilityApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "KRW",
+            },
+            creator: {
+              "@type": "Organization",
+              name: "HI-JIN2",
+            },
+          }),
+        }}
+      />
+      <main className="min-h-screen bg-[#f7f1e8] text-stone-900">
+        <section className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8 sm:gap-10 sm:px-6 sm:py-16">
         <header className="flex flex-col gap-4">
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-900/70">
             <span className="h-[1px] w-6 bg-amber-900/40" />
             Book Receipt
             <span className="h-[1px] w-6 bg-amber-900/40" />
           </p>
-          <h1 className="text-4xl font-semibold leading-tight text-stone-900 sm:text-5xl">
-            북카페처럼, 조용히 책 영수증을 남기는 공간.
+          <h1 className="text-2xl font-semibold leading-tight text-stone-900 sm:text-4xl lg:text-5xl">
+            나만의 도서영수증 만들기
           </h1>
-          <p className="max-w-3xl text-lg text-stone-700">
-            전자책 대여 내역을 작은 영수증으로 기록해서 프린트하거나 라벨로 붙여두세요.
-          </p>
-          <p className="max-w-3xl text-lg text-stone-700">
-            로그인 없이 가볍게 쓰고, 인기 책 랭킹만 살짝 공유합니다.
-          </p>
+          <div className="flex flex-col gap-1">
+            <p className="max-w-3xl text-base text-stone-700 sm:text-lg">
+              전자책이나 친구에게 빌린 책 등 대출영수증이 없을 때 사용할 수 있어요.
+            </p>
+            <p className="max-w-3xl text-base text-stone-700 sm:text-lg">
+              프린트기나 라벨지로 뽑아서 스크랩, 다이어리 등에 활용해요. 
+            </p>
+          </div>
       
         </header>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="flex flex-col gap-6">
-            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.15)]">
-              <h2 className="text-xl font-semibold text-stone-900">
+            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.15)] sm:p-6">
+              <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
                 네이버 도서 검색
               </h2>
-              <p className="mt-2 text-sm text-stone-700">
+              <p className="mt-2 text-xs text-stone-700 sm:text-sm">
                 오늘 읽을 책, 혹은 최근에 빌린 전자책을 검색해서 영수증에 담아보세요.
               </p>
               <form
@@ -289,55 +316,85 @@ export default function Home() {
                   results.map((item) => (
                     <div
                       key={`${item.isbn ?? item.title}-${item.publisher}`}
-                      className="flex gap-4 rounded-2xl border border-[#e0cdb3] bg-[#fbf4ea] p-4 shadow-sm transition hover:border-amber-700/70 hover:shadow-[0_12px_28px_rgba(87,63,36,0.28)]"
+                      className="flex flex-col gap-3 rounded-2xl border border-[#e0cdb3] bg-[#fbf4ea] p-3 shadow-sm transition hover:border-amber-700/70 hover:shadow-[0_12px_28px_rgba(87,63,36,0.28)] sm:flex-row sm:gap-4 sm:p-4"
                     >
-                      {item.cover_url ? (
-                        <img
-                          src={item.cover_url}
-                          alt={item.title}
-                          className="h-24 w-16 rounded-md border border-[#d3b894] bg-[#f7efe2] object-cover shadow-sm"
-                        />
-                      ) : (
-                        <div className="flex h-24 w-16 items-center justify-center rounded-md border border-dashed border-[#d3b894] bg-[#f7efe2] text-xs text-stone-400">
-                          no cover
-                        </div>
-                      )}
-                      <div className="flex flex-1 flex-col gap-1 text-sm text-stone-700">
-                        <div className="text-base font-semibold text-stone-900">
-                          {item.title}
-                        </div>
-                        <div className="text-stone-600">
-                          {item.author} · {item.publisher}
-                        </div>
-                        <div className="flex flex-wrap gap-3 text-xs text-stone-500">
-                          {item.isbn && <span>ISBN: {item.isbn}</span>}
-                          {item.published_at && (
-                            <span>출간일: {item.published_at}</span>
-                          )}
-                          {item.link && (
-                            <a
-                              href={item.link}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="rounded-full bg-[#f0e0c7] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 hover:bg-[#e8d4b3] transition"
-                            >
-                              naver↗
-                            </a>
-                          )}
+                      <div className="flex gap-3 sm:gap-4">
+                        {item.cover_url ? (
+                          <img
+                            src={item.cover_url}
+                            alt={item.title}
+                            className="h-20 w-14 flex-shrink-0 rounded-md border border-[#d3b894] bg-[#f7efe2] object-cover shadow-sm sm:h-24 sm:w-16"
+                          />
+                        ) : (
+                          <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-md border border-dashed border-[#d3b894] bg-[#f7efe2] text-xs text-stone-400 sm:h-24 sm:w-16">
+                            no cover
+                          </div>
+                        )}
+                        <div className="flex flex-1 flex-col gap-1 text-xs text-stone-700 sm:text-sm">
+                          <div className="break-words text-sm font-semibold text-stone-900 sm:text-base">
+                            {item.title}
+                          </div>
+                          <div className="text-stone-600">
+                            {item.author} · {item.publisher}
+                          </div>
+                          <div className="flex flex-wrap gap-2 text-[10px] text-stone-500 sm:gap-3 sm:text-xs">
+                            {item.isbn && <span>ISBN: {item.isbn}</span>}
+                            {item.published_at && (
+                              <span>출간일: {item.published_at}</span>
+                            )}
+                            {item.link && (
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="rounded-full bg-[#f0e0c7] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 hover:bg-[#e8d4b3] transition"
+                              >
+                                naver↗
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-col justify-between">
+                      <div className="flex justify-end sm:flex-col sm:justify-between">
                         <button
                           type="button"
                           onClick={() => handleAdd(item)}
-                          className="rounded-xl bg-stone-900 px-4 py-2 text-xs font-semibold text-amber-50 shadow-sm transition hover:bg-stone-950 disabled:opacity-50"
-                          disabled={selected.some(
-                            (b) => getKey(b) === getKey(item),
-                          )}
+                          className={`flex h-9 w-9 items-center justify-center rounded-lg border-2 transition-all duration-200 sm:h-10 sm:w-10 ${
+                            selected.some((b) => getKey(b) === getKey(item))
+                              ? "border-rose-300 bg-rose-50 text-rose-600 hover:border-rose-400 hover:bg-rose-100"
+                              : "border-amber-700 bg-amber-50 text-amber-900 hover:border-amber-800 hover:bg-amber-100"
+                          }`}
+                          aria-label={
+                            selected.some((b) => getKey(b) === getKey(item))
+                              ? "제거"
+                              : "추가"
+                          }
                         >
-                          {selected.some((b) => getKey(b) === getKey(item))
-                            ? "취소"
-                            : "추가"}
+                          {selected.some((b) => getKey(b) === getKey(item)) ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              className="h-5 w-5"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              className="h-5 w-5"
+                            >
+                              <path
+                                d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                              />
+                            </svg>
+                          )}
                         </button>
                       </div>
                     </div>
@@ -348,11 +405,11 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.15)]">
-              <h2 className="text-xl font-semibold text-stone-900">
+            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.15)] sm:p-6">
+              <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
                 영수증 에디터
               </h2>
-              <p className="mt-2 text-sm text-stone-700">
+              <p className="mt-2 text-xs text-stone-700 sm:text-sm">
                 선택한 도서 정보를 기반으로 영수증 상단 정보와 메모를 설정하세요.
               </p>
               <div className="mt-5 grid gap-4">
@@ -534,22 +591,21 @@ export default function Home() {
             </div>
 
             <div className="rounded-2xl border border-[#e2d2bd] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                <h2 className="text-xl font-semibold text-stone-900">
-                         미리보기       
-                </h2>      
-                  
+                  <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
+                    미리보기
+                  </h2>
                 </div>
-                <span className="bg-[#f0e0c7] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-900/80">
+                <span className="bg-[#f0e0c7] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 sm:text-[11px]">
                   {receipt.format === "3inch" ? "3인치 (가로 3인치)" : "2인치 (가로 2인치)"}
                 </span>
               </div>
 
-              <div className="mt-4 flex justify-center">
+              <div className="mt-4 flex justify-center overflow-x-auto">
                 <div
                   ref={previewRef}
-                  className="bg-[#fdf6ee] text-stone-700"
+                  className="bg-[#fdf6ee] text-stone-700 flex-shrink-0"
                   style={{
                     backgroundColor: receipt.backgroundColor,
                     width: receipt.format === "3inch" ? "288px" : "192px",
@@ -698,29 +754,26 @@ export default function Home() {
 
                   {selected.length > 0 && (
                     <div className="mt-6 flex flex-col items-center">
-                      <div 
-                        className="mb-3 w-full border-b border-dashed"
-                        style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
-                      ></div>
-                      <div
-                        style={{
-                          width: receipt.format === "3inch" ? "120px" : "100px",
-                          height: receipt.format === "3inch" ? "120px" : "100px",
-                          padding: "8px",
-                          backgroundColor: "#ffffff",
-                          border: `1px solid ${getBorderColor(receipt.backgroundColor)}`,
-                        }}
-                      >
-                        <QRCodeSVG
-                          value={getReceiptQRData()}
-                          size={receipt.format === "3inch" ? 104 : 84}
-                          level="M"
-                          includeMargin={false}
-                        />
+ 
+                        <div
+                          style={{
+                            width: receipt.format === "3inch" ? "80px" : "70px",
+                            height: receipt.format === "3inch" ? "80px" : "70px",
+                            padding: "6px",
+                            backgroundColor: "#ffffff",
+                            border: `1px solid ${getBorderColor(receipt.backgroundColor)}`,
+                          }}
+                        >
+                          <QRCodeSVG
+                            value={getReceiptQRData()}
+                            size={receipt.format === "3inch" ? 68 : 58}
+                            level="M"
+                            includeMargin={false}
+                          />
+                        </div>
+           
                       </div>
-          
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
 
@@ -748,5 +801,6 @@ export default function Home() {
         </footer>
       </section>
     </main>
+    </>
   );
 }
