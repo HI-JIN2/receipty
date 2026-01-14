@@ -12,7 +12,7 @@ export default function AboutPage() {
             About
             <span className="h-[1px] w-6 bg-amber-900/40" />
           </p>
-          <h1 className="text-xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
+          <h1 className="text-2xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
             제작자의 말
           </h1>
         </header>

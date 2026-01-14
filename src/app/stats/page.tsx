@@ -70,7 +70,7 @@ export default async function StatsPage() {
             Stats
             <span className="h-[1px] w-6 bg-amber-900/40" />
           </p>
-          <h1 className="text-xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
+          <h1 className="text-2xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
             독서 발자국
           </h1>
           <p className="max-w-3xl text-base text-stone-700 sm:text-lg">
@@ -86,7 +86,7 @@ export default async function StatsPage() {
         ) : (
           <>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.12)]">
+              <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_10px_25px_rgba(193,160,120,0.14)]">
                 <p className="text-sm font-medium text-stone-600">
                   지금까지 만들어진 영수증 수
                 </p>
@@ -94,7 +94,7 @@ export default async function StatsPage() {
                   {data.printsCount.toLocaleString()}
                 </p>
               </div>
-              <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.12)]">
+              <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_10px_25px_rgba(193,160,120,0.14)]">
                 <p className="text-sm font-medium text-stone-600">
                   지금까지 영수증에 들어간 책 수
                 </p>
@@ -104,7 +104,7 @@ export default async function StatsPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_18px_45px_rgba(87,63,36,0.12)]">
+            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-6 shadow-[0_10px_25px_rgba(193,160,120,0.14)]">
               <div className="flex items-center justify-between gap-4">
                 <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
                   인기 도서 TOP 10

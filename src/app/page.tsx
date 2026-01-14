@@ -366,7 +366,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          <h1 className="text-xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
+          <h1 className="text-2xl font-semibold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">
             나만의 도서영수증 만들기
           </h1>
           <div className="flex flex-col gap-1">
@@ -387,7 +387,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setIsSearchModalOpen(true)}
-                className="w-full rounded-xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 text-left shadow-[0_18px_45px_rgba(87,63,36,0.15)] transition hover:shadow-[0_20px_50px_rgba(87,63,36,0.2)]"
+                className="w-full rounded-xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 text-left shadow-[0_14px_32px_rgba(193,160,120,0.16)] transition hover:shadow-[0_20px_50px_rgba(193,160,120,0.22)]"
               >
                 <h2 className="text-lg font-semibold text-stone-900">
                   네이버 도서 검색
@@ -460,7 +460,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_10px_25px_rgba(87,63,36,0.4)] transition hover:bg-amber-950 disabled:opacity-60"
+                  className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_8px_18px_rgba(193,160,120,0.3)] transition hover:bg-amber-950 disabled:opacity-60"
                 >
                   {loading ? "검색 중..." : "검색"}
                 </button>
@@ -655,7 +655,7 @@ export default function Home() {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_10px_25px_rgba(87,63,36,0.4)] transition hover:bg-amber-950 disabled:opacity-60"
+                        className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_8px_18px_rgba(193,160,120,0.3)] transition hover:bg-amber-950 disabled:opacity-60"
                       >
                         {loading ? "검색 중..." : "검색"}
                       </button>
@@ -779,8 +779,8 @@ export default function Home() {
             )}
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.15)] sm:p-6">
+          <div className="flex flex-col gap-6 mt-8 lg:mt-0">
+            <div className="rounded-2xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 shadow-[0_14px_32px_rgba(193,160,120,0.16)] sm:p-6">
               <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
                 영수증 에디터
               </h2>
@@ -790,7 +790,7 @@ export default function Home() {
               <div className="mt-5 grid gap-4">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                    배경색 (파스텔)
+                    배경색
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {pastelColors.map((color) => (
@@ -854,7 +854,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-2">
                     <label className="text-xs font-semibold uppercase tracking-wide text-amber-900/80">
-                      이용자/메모 이름
+                      이용자
                     </label>
                     <input
                       name="renter"
@@ -986,7 +986,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#e2d2bd] p-4 shadow-[0_18px_45px_rgba(87,63,36,0.12)] transition">
+            <div className="rounded-2xl border border-[#e2d2bd] p-4 shadow-[0_12px_28px_rgba(193,160,120,0.14)] transition">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
@@ -1103,8 +1103,16 @@ export default function Home() {
                         {selected.map((book, idx) => (
                           <div
                             key={`${getKey(book)}-preview`}
-                            className="flex items-start justify-between gap-2 py-1 text-stone-800"
+                            className="flex items-start gap-2 py-1 text-stone-800"
                           >
+                            <div
+                              className="flex-shrink-0 font-semibold text-amber-900/80 pt-0.5"
+                              style={{
+                                fontSize: receipt.format === "3inch" ? "12px" : "11px",
+                              }}
+                            >
+                              {idx + 1}
+                            </div>
                             <div className="flex-1 min-w-0">
                               <div className="font-semibold leading-tight break-words">
                                 {book.title}
@@ -1125,14 +1133,6 @@ export default function Home() {
                               >
                                 {book.isbn || book.published_at || "—"}
                               </div>
-                            </div>
-                            <div
-                              className="font-semibold text-amber-900/80 flex-shrink-0"
-                              style={{
-                                fontSize: receipt.format === "3inch" ? "12px" : "11px",
-                              }}
-                            >
-                              {idx + 1}
                             </div>
                           </div>
                         ))}
@@ -1198,7 +1198,7 @@ export default function Home() {
                   type="button"
                   onClick={handlePrint}
                   disabled={isExporting || isSaving || selected.length === 0}
-                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_12px_30px_rgba(87,63,36,0.35)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_10px_24px_rgba(193,160,120,0.32)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isExporting || isSaving ? "저장 중..." : "JPEG로 저장"}
                 </button>
