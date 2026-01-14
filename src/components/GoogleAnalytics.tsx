@@ -5,12 +5,16 @@ import Script from "next/script";
 export default function GoogleAnalytics() {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
+  // GA ID가 없으면 렌더링하지 않음
+  if (!gaId) {
+    return null;
+  }
+
   return (
     <>
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        async
       />
       <Script
         id="google-analytics"
@@ -20,7 +24,9 @@ export default function GoogleAnalytics() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${gaId}');
+            gtag('config', '${gaId}', {
+              page_path: window.location.pathname,
+            });
           `,
         }}
       />
