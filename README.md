@@ -1,7 +1,6 @@
 ## Book Receipt
-<img width="1200" height="630" alt="og-image" src="https://github.com/user-attachments/assets/17c0cda5-fa45-4598-8a33-ebe928099566" />
-
-<img width="1200" height="630" alt="image" src="https://github.com/user-attachments/assets/8e2854c9-4ec0-4a5e-b932-00e23a84e55e" />
+<img width="1200" height="630" alt="og-image" src="https://github.com/user-attachments/assets/c4133625-953e-441f-9be5-ffe43cdbda23" />
+<img width="1200" height="630" alt="Frame 1" src="https://github.com/user-attachments/assets/8b48d3bb-e3f7-4526-8816-e83067335e5b" />
 
 - 도서 대여 영수증을 만드는 웹사이트.   
 - 로그인 없이 공용 집계(많이 뽑힌 책 랭킹, 총 생성 횟수)만 Supabase에 저장합니다. 
