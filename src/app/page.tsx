@@ -33,7 +33,7 @@ export default function Home() {
   const [copySuccess, setCopySuccess] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
   const [receipt, setReceipt] = useState({
-    title: "Book Receipt",
+    title: "Book Receipt Maker",
     renter: "",
     rentalDate: "",
     returnDate: "",
@@ -308,7 +308,7 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Book Receipt",
+            name: "Book Receipt Maker",
             description: "전자책 대여 내역을 작은 영수증으로 기록해서 프린트하거나 라벨로 붙여두세요.",
             url: process.env.NEXT_PUBLIC_SITE_URL || "",
             applicationCategory: "UtilityApplication",
@@ -331,7 +331,7 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-900/70">
               <span className="h-[1px] w-6 bg-amber-900/40" />
-              Book Receipt
+              Book Receipt Maker
               <span className="h-[1px] w-6 bg-amber-900/40" />
             </p>
             <div className="relative">

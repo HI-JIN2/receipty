@@ -32,8 +32,9 @@ const metadataBase = process.env.NEXT_PUBLIC_SITE_URL
 
 export const metadata: Metadata = {
   metadataBase,
-  title: "Book Receipt - 나만의 도서 영수증 만들기",
-  description: "도서 영수증이 필요할때 자유롭게 만들고 프린트해보세요. 로그인은 필요하지 않아요.",
+  title: "Book Receipt Maker - 나만의 도서 영수증 만들기",
+  description:
+    "나만의 도서 영수증을 자유롭게 만들고 프린트해보세요. 로그인은 필요하지 않아요.",
   keywords: ["책 영수증", "도서 대출 영수증", "전자책", "도서관", "독서", "도서 대여", "북카페", "독립서점", "책 기록", "독서", "책 목록", "영수증 프린트",
     "책 영수증", "도서 영수증 만들기", "도서 대출 영수증",
     "책 대여증", "도서 대여", "대출 기록표",
@@ -46,25 +47,26 @@ export const metadata: Metadata = {
   authors: [{ name: "HI-JIN2" }],
   creator: "HI-JIN2",
   openGraph: {
-    title: "Book Receipt",
+    title: "Book Receipt Maker",
     description: "나만의 도서 영수증 만들기",
     type: "website",
     locale: "ko_KR",
-    siteName: "Book Receipt",
+    siteName: "Book Receipt Maker",
     url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
     images: [
       {
         url: "https://book-receipt.vercel.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Book Receipt",
+        alt: "Book Receipt Maker",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Book Receipt - 나만의 도서 영수증 만들기",
-    description: "도서 영수증이 필요할때 자유롭게 만들고 프린트해보세요.",
+    title: "Book Receipt Maker - 나만의 도서 영수증 만들기",
+    description:
+      "나만의 도서 영수증을 자유롭게 만들고 프린트해보세요. 로그인은 필요하지 않아요.",
     images: ["https://book-receipt.vercel.app/og-image.png"],
   },
   robots: {
