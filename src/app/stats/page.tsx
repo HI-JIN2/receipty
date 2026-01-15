@@ -74,7 +74,7 @@ export default async function StatsPage() {
             독서 발자국
           </h1>
           <p className="max-w-3xl text-base text-stone-700 sm:text-lg">
-            지금까지 만들어진 영수증과, 영수증에 담은 책들을 모아봤어요.
+            지금까지 만들어진 영수증과, 영수증에 담긴 책들을 모아봤어요.
           </p>
         </header>
 

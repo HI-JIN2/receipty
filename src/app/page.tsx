@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import Link from "next/link";
+import { PrimaryButton, SecondaryButton } from "@/components/Button";
 
 type BookResult = {
   title: string;
@@ -323,19 +324,19 @@ export default function Home() {
           }),
         }}
       />
-      <main className="min-h-screen bg-[#f7f1e8] text-stone-900">
+    <main className="min-h-screen bg-[#f7f1e8] text-stone-900">
         <section className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8 sm:gap-10 sm:px-6 sm:py-16">
         <header className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-900/70">
-              <span className="h-[1px] w-6 bg-amber-900/40" />
+          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-900/70">
+            <span className="h-[1px] w-6 bg-amber-900/40" />
               Book Receipt Maker
-              <span className="h-[1px] w-6 bg-amber-900/40" />
-            </p>
+            <span className="h-[1px] w-6 bg-amber-900/40" />
+          </p>
             <div className="relative">
-              <button
+              <SecondaryButton
                 onClick={handleShare}
-                className="group flex items-center gap-2 rounded-lg border border-amber-900/20 bg-white/50 px-3 py-1.5 text-xs font-medium text-amber-900/80 transition-all hover:border-amber-900/40 hover:bg-white/80 hover:text-amber-900 active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
+                className="group flex items-center gap-2 px-3 py-1.5 text-xs active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
                 aria-label="링크 공유"
               >
                 <svg
@@ -353,7 +354,7 @@ export default function Home() {
                   />
                 </svg>
                 <span className="hidden sm:inline">공유</span>
-              </button>
+              </SecondaryButton>
               {copySuccess && (
                 <div className="absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2">
                   <div className="relative rounded-lg bg-stone-900 px-3 py-2 text-[11px] text-white shadow-lg whitespace-nowrap sm:text-xs">
@@ -370,10 +371,10 @@ export default function Home() {
           <div className="flex flex-col gap-1">
             <p className="max-w-3xl text-base text-stone-700 sm:text-lg">
               전자책이나 친구에게 빌린 책 등 대출영수증이 없을 때 사용할 수 있어요.
-            </p>
+          </p>
             <p className="max-w-3xl text-base text-stone-700 sm:text-lg">
               프린트기나 라벨지로 뽑아서 스크랩, 다이어리 등에 활용해요. 
-            </p>
+          </p>
           </div>
       
         </header>
@@ -388,8 +389,8 @@ export default function Home() {
                 className="w-full rounded-xl border border-[#e2d2bd] bg-[#fcf7ef] p-4 text-left shadow-[0_14px_32px_rgba(193,160,120,0.16)] transition hover:shadow-[0_20px_50px_rgba(193,160,120,0.22)]"
               >
                 <h2 className="text-lg font-semibold text-stone-900">
-                  네이버 도서 검색
-                </h2>
+                네이버 도서 검색
+              </h2>
                 <p className="mt-2 text-xs text-stone-700">
                   영수증에 담을 책을 검색해보세요.
                 </p>
@@ -421,7 +422,7 @@ export default function Home() {
                 </h2>
                 <p className="mt-2 text-xs text-stone-700 sm:text-sm">
                   영수증에 담을 책을 검색해보세요. 
-                </p>
+              </p>
               <form
                 onSubmit={handleSearch}
                 className="mt-6 flex flex-col gap-3 sm:flex-row"
@@ -455,13 +456,13 @@ export default function Home() {
                     </button>
                   )}
                 </div>
-                <button
+                <PrimaryButton
                   type="submit"
                   disabled={loading}
-                  className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_8px_18px_rgba(193,160,120,0.3)] transition hover:bg-amber-950 disabled:opacity-60"
+                  className="px-5 py-3 text-sm font-semibold"
                 >
                   {loading ? "검색 중..." : "검색"}
-                </button>
+                </PrimaryButton>
               </form>
               {error && (
                 <div className="mt-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
@@ -481,40 +482,40 @@ export default function Home() {
                       className="flex flex-col gap-3 rounded-2xl border border-[#e0cdb3] bg-[#fbf4ea] p-3 shadow-sm transition hover:border-amber-700/70 hover:shadow-[0_12px_28px_rgba(87,63,36,0.28)] sm:flex-row sm:gap-4 sm:p-4"
                     >
                       <div className="flex gap-3 sm:gap-4">
-                        {item.cover_url ? (
-                          <img
-                            src={item.cover_url}
-                            alt={item.title}
+                      {item.cover_url ? (
+                        <img
+                          src={item.cover_url}
+                          alt={item.title}
                             className="h-20 w-14 flex-shrink-0 rounded-md border border-[#d3b894] bg-[#f7efe2] object-cover shadow-sm sm:h-24 sm:w-16"
-                          />
-                        ) : (
+                        />
+                      ) : (
                           <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-md border border-dashed border-[#d3b894] bg-[#f7efe2] text-xs text-stone-400 sm:h-24 sm:w-16">
-                            no cover
-                          </div>
-                        )}
+                          no cover
+                        </div>
+                      )}
                         <div className="flex flex-1 flex-col gap-1 text-xs text-stone-700 sm:text-sm">
                           <div className="break-words text-sm font-semibold text-stone-900 sm:text-base">
-                            {item.title}
-                          </div>
-                          <div className="text-stone-600">
-                            {item.author} · {item.publisher}
-                          </div>
+                          {item.title}
+                        </div>
+                        <div className="text-stone-600">
+                          {item.author} · {item.publisher}
+                        </div>
                           <div className="flex flex-wrap gap-2 text-[10px] text-stone-500 sm:gap-3 sm:text-xs">
-                            {item.isbn && <span>ISBN: {item.isbn}</span>}
-                            {item.published_at && (
-                              <span>출간일: {item.published_at}</span>
-                            )}
-                            {item.link && (
-                              <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noreferrer"
+                          {item.isbn && <span>ISBN: {item.isbn}</span>}
+                          {item.published_at && (
+                            <span>출간일: {item.published_at}</span>
+                          )}
+                        {item.link && (
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noreferrer"
                                 className="rounded-full bg-[#f0e0c7] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 hover:bg-[#e8d4b3] transition"
-                              >
+                          >
                                 naver↗
-                              </a>
-                            )}
-                          </div>
+                          </a>
+                        )}
+                      </div>
                         </div>
                       </div>
                       <div className="flex justify-end sm:flex-col sm:justify-between">
@@ -568,12 +569,12 @@ export default function Home() {
                         className="mt-2 rounded-lg border border-amber-900/20 bg-white/50 px-4 py-2 text-sm font-medium text-amber-900/80 transition-all hover:border-amber-900/40 hover:bg-white/80 hover:text-amber-900"
                       >
                         더 보기 ({results.length - displayCount}개)
-                      </button>
+                        </button>
                     )}
                   </>
                 )}
-              </div>
-              </div>
+                      </div>
+                    </div>
             </div>
 
             {/* 모바일 검색 모달 */}
@@ -648,21 +649,21 @@ export default function Home() {
                               />
                             </svg>
                           </button>
-                        )}
-                      </div>
-                      <button
+                )}
+              </div>
+                      <PrimaryButton
                         type="submit"
                         disabled={loading}
-                        className="rounded-xl bg-amber-900 px-5 py-3 text-sm font-semibold text-amber-50 shadow-[0_8px_18px_rgba(193,160,120,0.3)] transition hover:bg-amber-950 disabled:opacity-60"
+                        className="px-5 py-3 text-sm font-semibold"
                       >
                         {loading ? "검색 중..." : "검색"}
-                      </button>
+                      </PrimaryButton>
                     </form>
 
                     {error && (
                       <div className="mb-4 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
                         {error}
-                      </div>
+            </div>
                     )}
 
                     {/* 검색 결과 */}
@@ -760,13 +761,13 @@ export default function Home() {
                             </div>
                           ))}
                           {results.length > displayCount && (
-                            <button
+                            <SecondaryButton
                               type="button"
                               onClick={() => setDisplayCount(results.length)}
-                              className="mt-2 rounded-lg border border-amber-900/20 bg-white/50 px-4 py-2 text-sm font-medium text-amber-900/80 transition-all hover:border-amber-900/40 hover:bg-white/80 hover:text-amber-900"
+                              className="mt-2 px-4 py-2 text-sm font-medium"
                             >
                               더 보기 ({results.length - displayCount}개)
-                            </button>
+                            </SecondaryButton>
                           )}
                         </>
                       )}
@@ -988,8 +989,8 @@ export default function Home() {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="text-lg font-semibold text-stone-900 sm:text-xl">
-                    미리보기
-                  </h2>
+                         미리보기       
+                </h2>      
                 </div>
                 <span className="bg-[#f0e0c7] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900/80 sm:text-[11px]">
                   {receipt.format === "3inch" ? "3인치 (가로 3인치)" : "2인치 (가로 2인치)"}
@@ -1063,15 +1064,15 @@ export default function Home() {
                       <span className="text-stone-600">대여일</span>
                       <span className="font-semibold text-stone-900">
                         {receipt.rentalDate || "—"}
-                      </span>
-                    </div>
+                  </span>
+            </div>
                     <div className="flex justify-between">
                       <span className="text-stone-600">반납 예정</span>
                       <span className="font-semibold text-stone-900">
                         {receipt.returnDate || "—"}
                       </span>
-                    </div>
-                  </div>
+          </div>
+        </div>
 
                   {selected.length > 0 && (
                     <div 
@@ -1191,14 +1192,14 @@ export default function Home() {
                     {saveMessage}
                   </p>
                 )}
-                <button
+                <PrimaryButton
                   type="button"
                   onClick={handlePrint}
                   disabled={isExporting || isSaving || selected.length === 0}
-                  className="rounded-2xl bg-amber-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-amber-50 shadow-[0_10px_24px_rgba(193,160,120,0.32)] transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="rounded-2xl px-6 py-3 text-sm font-semibold uppercase tracking-wide shadow-[0_10px_24px_rgba(193,160,120,0.32)]"
                 >
                   {isExporting || isSaving ? "저장 중..." : "JPEG로 저장"}
-                </button>
+                </PrimaryButton>
             </div>
             </div>
           </div>
