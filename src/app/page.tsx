@@ -1226,6 +1226,12 @@ export default function Home() {
               >
                 제작자의 말
               </Link>
+              <Link
+                href="/hall-of-fame"
+                className="text-sm font-medium text-stone-600 transition hover:text-amber-900"
+              >
+                명예의 전당
+              </Link>
             </div>
             <p className="text-xs text-stone-500">
               © {new Date().getFullYear()} HI-JIN2. All rights reserved.
