@@ -91,7 +91,6 @@ export default async function MovieStatsPage() {
         <StatMetricCard
           label="영화의 수"
           value={movieIdSet.size}
-          note="(영수증에 1회 이상 등장한 영화 기준)"
         />
       </div>
 
