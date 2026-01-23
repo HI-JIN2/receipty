@@ -3,7 +3,7 @@ import MovieReceiptClient from "@/features/receipts/movie/MovieReceiptClient";
 
 export default function MovieReceiptPage() {
   return (
-    <SiteChrome>
+    <SiteChrome activeHref="/movie">
       <MovieReceiptClient />
     </SiteChrome>
   );

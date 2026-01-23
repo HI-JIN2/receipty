@@ -29,7 +29,7 @@ export default function BookReceiptPage() {
         }}
       />
 
-      <SiteChrome>
+      <SiteChrome activeHref="/book">
         <BookReceiptClient />
       </SiteChrome>
     </>

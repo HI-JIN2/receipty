@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { toJpeg } from "html-to-image";
 
 import Barcode from "@/components/Barcode";
-import { PrimaryButton } from "@/components/Button";
+import { PrimaryButton, SecondaryButton } from "@/components/Button";
+import ReceiptCard from "@/features/receipts/shared/ReceiptCard";
+import ReceiptColumns from "@/features/receipts/shared/ReceiptColumns";
+import { PASTEL_COLORS } from "@/features/receipts/shared/palette";
 import type { MovieMode, MovieReceipt } from "@/features/receipts/movie/types";
 
 type MovieSearchItem = {
@@ -19,16 +22,6 @@ type MovieSearchItem = {
 type ReceiptState = MovieReceipt & {
   includeBarcode: boolean;
 };
-
-const pastelColors = [
-  { name: "화이트", value: "#ffffff" },
-  { name: "베이지", value: "#fef7ed" },
-  { name: "핑크", value: "#fce7f3" },
-  { name: "라벤더", value: "#f3e8ff" },
-  { name: "민트", value: "#d1fae5" },
-  { name: "스카이", value: "#e0f2fe" },
-  { name: "피치", value: "#ffe4d6" },
-];
 
 const PHOTO_TICKET_MM = { width: 55, height: 85 };
 const MINI_RECEIPT_MM = { width: 85, height: 60 };
@@ -58,6 +51,7 @@ export default function MovieReceiptClient() {
   const [receiptNumber, setReceiptNumber] = useState<number | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const [movieQuery, setMovieQuery] = useState("");
   const [movieResults, setMovieResults] = useState<MovieSearchItem[]>([]);
@@ -363,30 +357,115 @@ export default function MovieReceiptClient() {
     }
   };
 
+  const handleShare = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    if (!url) {
+      alert("링크를 가져올 수 없습니다.");
+      return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+        return;
+      } catch (err) {
+        console.error("Clipboard API 실패:", err);
+      }
+    }
+
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = url;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      if (successful) {
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      } else {
+        throw new Error("execCommand failed");
+      }
+    } catch (err) {
+      console.error("링크 복사 실패:", err);
+      alert(`링크: ${url}\n\n위 링크를 수동으로 복사해주세요.`);
+    }
+  };
+
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
       <header className="flex flex-col gap-4">
-        <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-          <span className="h-[1px] w-6 bg-black/20" />
-          Movie Receipt
-          <span className="h-[1px] w-6 bg-black/20" />
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
+            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
+            Movie Receipt Maker
+            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
+          </p>
+          <div className="relative">
+            <SecondaryButton
+              onClick={handleShare}
+              className="group flex items-center gap-2 px-3 py-1.5 text-xs active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
+              aria-label="링크 공유"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="h-4 w-4 sm:h-5 sm:w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                />
+              </svg>
+              <span className="hidden sm:inline">공유</span>
+            </SecondaryButton>
+            {copySuccess && (
+              <div className="absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2">
+                <div className="relative whitespace-nowrap rounded-lg bg-[var(--foreground)] px-3 py-2 text-[11px] text-white shadow-lg sm:text-xs">
+                  링크 복사
+                  <div className="absolute left-1/2 -top-1 h-2.5 w-2.5 -translate-x-1/2 rotate-45 bg-[var(--foreground)]" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
         <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
           영화 영수증 만들기
         </h1>
-        <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-          관람 기록을 영수증처럼 뽑아, 다이어리나 티켓북에 붙여두세요.
-        </p>
+        <div className="flex flex-col gap-1">
+          <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
+            관람 기록을 영수증처럼 뽑아, 다이어리나 티켓북에 붙여두세요.
+          </p>
+          <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
+            영수증/미니 영수증/포토티켓 모드를 지원해요.
+          </p>
+        </div>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div className="ui-card p-4 sm:p-6">
-          <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
-          <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
-            제목/관람일/극장명 같은 기본 정보를 채워보세요.
-          </p>
+      <ReceiptColumns
+        left={
+          <ReceiptCard className="p-4 sm:p-6">
+            <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
+            <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
+              제목/관람일/극장명 같은 기본 정보를 채워보세요.
+            </p>
 
-          <div className="mt-5 grid gap-4">
+            <div className="mt-5 grid gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 TMDB 검색 (자동 채우기)
@@ -481,7 +560,7 @@ export default function MovieReceiptClient() {
                 배경색
               </label>
               <div className="flex flex-wrap gap-2">
-                {pastelColors.map((color) => (
+                {PASTEL_COLORS.map((color) => (
                   <button
                     key={color.value}
                     type="button"
@@ -499,9 +578,9 @@ export default function MovieReceiptClient() {
                     style={{ backgroundColor: color.value }}
                     title={color.name}
                   />
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
@@ -709,63 +788,57 @@ export default function MovieReceiptClient() {
               </label>
               </div>
             )}
-          </div>
-        </div>
+            </div>
+          </ReceiptCard>
+        }
+        right={
+          <ReceiptCard className="p-4">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">미리보기</h2>
+              <span className="rounded-full bg-black/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                {receipt.mode === "photo"
+                  ? "포토티켓 55×85mm"
+                  : receipt.mode === "mini"
+                    ? "미니 85×60mm"
+                    : "60mm"}
+              </span>
+            </div>
 
-        <div className="ui-card p-4">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">미리보기</h2>
-            <span className="rounded-full bg-black/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-              {receipt.mode === "photo"
-                ? "포토티켓 55×85mm"
-                : receipt.mode === "mini"
-                  ? "미니 85×55mm"
-                : "60mm"}
-            </span>
-          </div>
-
-          <div className="mt-4 flex justify-center overflow-x-auto">
-            <div
-              ref={previewRef}
-              className="flex-shrink-0 text-stone-700"
-              style={{
-                backgroundColor: receipt.backgroundColor,
-                width:
-                  receipt.mode === "photo"
-                    ? `${PHOTO_TICKET_PX.width}px`
-                    : receipt.mode === "mini"
-                      ? `${MINI_RECEIPT_PX.width}px`
-                    : `${MOVIE_RECEIPT_PX.width}px`,
-                height:
-                  receipt.mode === "photo"
-                    ? `${PHOTO_TICKET_PX.height}px`
-                    : receipt.mode === "mini"
-                      ? `${MINI_RECEIPT_PX.height}px`
-                    : undefined,
-                minHeight:
-                  receipt.mode === "photo"
-                    ? undefined
-                    : receipt.mode === "mini"
-                      ? undefined
-                      : undefined,
-                padding:
-                  receipt.mode === "photo"
-                    ? "12px 10px 12px 10px"
-                    : receipt.mode === "mini"
-                      ? "10px 10px 10px 10px"
-                      : "18px 14px 20px 14px",
-                fontSize:
-                  receipt.mode === "photo" ? "13px" : "16px",
-                display: "flex",
-                flexDirection: "column",
-                fontFamily:
-                  receipt.mode === "photo"
-                    ? "var(--font-ui), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif"
-                    : "Galmuri11, var(--font-ui), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
-                borderRadius: receipt.mode === "photo" ? "12px" : "0px",
-                boxShadow: "none",
-              }}
-            >
+            <div className="mt-4 flex justify-center overflow-x-auto">
+              <div
+                ref={previewRef}
+                className="flex-shrink-0 text-stone-700"
+                style={{
+                  backgroundColor: receipt.backgroundColor,
+                  width:
+                    receipt.mode === "photo"
+                      ? `${PHOTO_TICKET_PX.width}px`
+                      : receipt.mode === "mini"
+                        ? `${MINI_RECEIPT_PX.width}px`
+                        : `${MOVIE_RECEIPT_PX.width}px`,
+                  height:
+                    receipt.mode === "photo"
+                      ? `${PHOTO_TICKET_PX.height}px`
+                      : receipt.mode === "mini"
+                        ? `${MINI_RECEIPT_PX.height}px`
+                        : undefined,
+                  padding:
+                    receipt.mode === "photo"
+                      ? "12px 10px 12px 10px"
+                      : receipt.mode === "mini"
+                        ? "10px 10px 10px 10px"
+                        : "18px 14px 20px 14px",
+                  fontSize: receipt.mode === "photo" ? "13px" : "16px",
+                  display: "flex",
+                  flexDirection: "column",
+                  fontFamily:
+                    receipt.mode === "photo"
+                      ? "var(--font-ui), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif"
+                      : "Galmuri11, var(--font-ui), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
+                  borderRadius: receipt.mode === "photo" ? "12px" : "0px",
+                  boxShadow: "none",
+                }}
+              >
               {receipt.mode === "photo" ? (
                 <>
                   {/* Top Section: Format, Age Rating, Title */}
@@ -1213,21 +1286,24 @@ export default function MovieReceiptClient() {
             </div>
           </div>
 
-          <div className="mt-4 flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end">
-            {saveMessage && (
-              <p className="text-xs text-[var(--ui-muted)] sm:mr-auto sm:text-right">{saveMessage}</p>
-            )}
-            <PrimaryButton
-              type="button"
-              onClick={handleSave}
-              disabled={isExporting}
-              className="rounded-2xl px-6 py-3 text-sm uppercase tracking-wide"
-            >
-              {isExporting ? "저장 중..." : "JPEG로 저장"}
-            </PrimaryButton>
-          </div>
-        </div>
-      </div>
+            <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-end">
+              {saveMessage && (
+                <p className="text-center text-xs text-[var(--ui-muted)] sm:mr-auto sm:text-left">
+                  {saveMessage}
+                </p>
+              )}
+              <PrimaryButton
+                type="button"
+                onClick={handleSave}
+                disabled={isExporting}
+                className="rounded-2xl px-6 py-3 text-sm uppercase tracking-wide"
+              >
+                {isExporting ? "저장 중..." : "JPEG로 저장"}
+              </PrimaryButton>
+            </div>
+          </ReceiptCard>
+        }
+      />
     </section>
   );
 }

@@ -5,6 +5,9 @@ import { useRef, useState } from "react";
 import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
+import ReceiptColumns from "@/features/receipts/shared/ReceiptColumns";
+import ReceiptCard from "@/features/receipts/shared/ReceiptCard";
+import { PASTEL_COLORS, getPreviewBorderColor } from "@/features/receipts/shared/palette";
 
 import type { BaseReceipt } from "@/features/receipts/core/types";
 import type { BookResult } from "@/features/receipts/book/types";
@@ -39,28 +42,7 @@ export default function BookReceiptClient() {
     includeQRCode: true,
   });
 
-  const pastelColors = [
-    { name: "화이트", value: "#ffffff" },
-    { name: "베이지", value: "#fef7ed" },
-    { name: "핑크", value: "#fce7f3" },
-    { name: "라벤더", value: "#f3e8ff" },
-    { name: "민트", value: "#d1fae5" },
-    { name: "스카이", value: "#e0f2fe" },
-    { name: "피치", value: "#ffe4d6" },
-  ];
-
-  const getBorderColor = (bgColor: string) => {
-    const colorMap: Record<string, string> = {
-      "#ffffff": "#1a1a1a",
-      "#fef7ed": "#8b6914",
-      "#fce7f3": "#c2185b",
-      "#f3e8ff": "#7b2cbf",
-      "#d1fae5": "#15803d",
-      "#e0f2fe": "#0369a1",
-      "#ffe4d6": "#ea580c",
-    };
-    return colorMap[bgColor] || "#1a1a1a";
-  };
+  const getBorderColor = getPreviewBorderColor;
 
   const getReceiptQRData = () => {
     const receiptNum = receiptNumber
@@ -287,9 +269,9 @@ export default function BookReceiptClient() {
       <header className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-            <span className="h-[1px] w-6 bg-black/20" />
+            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
             Book Receipt Maker
-            <span className="h-[1px] w-6 bg-black/20" />
+            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
           </p>
           <div className="relative">
             <SecondaryButton
@@ -336,372 +318,367 @@ export default function BookReceiptClient() {
         </div>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div className="flex min-w-0 flex-col gap-6">
-          <div className="lg:hidden">
-            <button
-              type="button"
-              onClick={() => setIsSearchModalOpen(true)}
-              className="ui-card w-full p-4 text-left transition"
-            >
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">네이버 도서 검색</h2>
-              <p className="mt-2 text-xs text-[var(--ui-muted)]">영수증에 담을 책을 검색해보세요.</p>
-              <div className="mt-4 flex items-center justify-end gap-2 text-sm font-semibold text-[var(--ui-muted)]">
-                <span>검색하기</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="h-4 w-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </div>
-            </button>
-          </div>
+      <ReceiptColumns
+        left={
+          <>
+            <div className="lg:hidden">
+              <button
+                type="button"
+                onClick={() => setIsSearchModalOpen(true)}
+                className="ui-card w-full p-4 text-left transition"
+              >
+                <h2 className="text-lg font-semibold text-[var(--foreground)]">네이버 도서 검색</h2>
+                <p className="mt-2 text-xs text-[var(--ui-muted)]">영수증에 담을 책을 검색해보세요.</p>
+                <div className="mt-4 flex items-center justify-end gap-2 text-sm font-semibold text-[var(--ui-muted)]">
+                  <span>검색하기</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
 
-          <div className="hidden lg:block">
-            <div className="ui-card p-4 sm:p-6">
-              <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">
-                네이버 도서 검색
-              </h2>
-              <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
-                영수증에 담을 책을 검색해보세요.
-              </p>
-              <form onSubmit={handleSearch} className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <div className="relative flex-1">
-                  <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="제목, 저자, ISBN을 입력하세요"
-                    className="ui-input w-full pr-10 text-base text-[var(--foreground)]"
-                  />
-                  {query && (
+            <div className="hidden lg:block">
+              <ReceiptCard className="p-4 sm:p-6">
+                <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">
+                  네이버 도서 검색
+                </h2>
+                <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
+                  영수증에 담을 책을 검색해보세요.
+                </p>
+                <form onSubmit={handleSearch} className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <div className="relative flex-1">
+                    <input
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="제목, 저자, ISBN을 입력하세요"
+                      className="ui-input w-full pr-10 text-base text-[var(--foreground)]"
+                    />
+                    {query && (
+                      <button
+                        type="button"
+                        onClick={() => setQuery("")}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-black/40 transition hover:bg-black/5 hover:text-[var(--ui-muted)]"
+                        aria-label="검색어 지우기"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="h-4 w-4"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                  <PrimaryButton type="submit" disabled={loading} className="px-5 py-3 text-sm">
+                    {loading ? "검색 중..." : "검색"}
+                  </PrimaryButton>
+                </form>
+                {error && (
+                  <div className="mt-3 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                    {error}
+                  </div>
+                )}
+
+                <div className="mt-6 grid gap-4">
+                  {results.length === 0 && !loading ? null : (
+                    <>
+                      {results.slice(0, displayCount).map((item) => (
+                        <div
+                          key={`${item.isbn ?? item.title}-${item.publisher}`}
+                          className="ui-card-solid flex flex-col gap-3 p-3 transition hover:shadow-[var(--ui-shadow-hover)] sm:flex-row sm:gap-4 sm:p-4"
+                        >
+                          <div className="flex gap-3 sm:gap-4">
+                            {item.cover_url ? (
+                              <img
+                                src={item.cover_url}
+                                alt={item.title}
+                                className="h-20 w-14 flex-shrink-0 rounded-xl border border-black/10 bg-white object-cover shadow-sm sm:h-24 sm:w-16"
+                              />
+                            ) : (
+                              <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-dashed border-black/10 bg-white text-xs text-black/40 sm:h-24 sm:w-16">
+                                no cover
+                              </div>
+                            )}
+                            <div className="flex flex-1 flex-col gap-1 text-xs text-[var(--ui-muted)] sm:text-sm">
+                              <div className="break-words text-sm font-semibold text-[var(--foreground)] sm:text-base">
+                                {item.title}
+                              </div>
+                              <div className="text-[var(--ui-muted)]">
+                                {item.author} · {item.publisher}
+                              </div>
+                              <div className="flex flex-wrap gap-2 text-[10px] text-black/45 sm:gap-3 sm:text-xs">
+                                {item.isbn && <span>ISBN: {item.isbn}</span>}
+                                {item.published_at && <span>출간일: {item.published_at}</span>}
+                                {item.link && (
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)] transition hover:bg-black/10"
+                                  >
+                                    naver↗
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex justify-end sm:flex-col sm:justify-between">
+                            <button
+                              type="button"
+                              onClick={() => handleAdd(item)}
+                              className={`flex h-9 w-9 items-center justify-center rounded-2xl border-2 transition-all duration-200 sm:h-10 sm:w-10 ${
+                                selected.some((b) => getKey(b) === getKey(item))
+                                  ? "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
+                                  : "border-[color-mix(in_srgb,var(--ui-primary)_65%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_14%,transparent)] text-[var(--ui-primary)]"
+                              }`}
+                              aria-label={
+                                selected.some((b) => getKey(b) === getKey(item)) ? "제거" : "추가"
+                              }
+                            >
+                              {selected.some((b) => getKey(b) === getKey(item)) ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="h-5 w-5"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="h-5 w-5"
+                                >
+                                  <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                </svg>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                      {results.length > displayCount && (
+                        <button
+                          type="button"
+                          onClick={() => setDisplayCount(results.length)}
+                          className="mt-2 rounded-2xl border border-[var(--ui-border)] bg-[var(--ui-card)] px-4 py-2 text-sm font-semibold text-[var(--ui-muted)] transition hover:bg-[var(--ui-card-solid)]"
+                        >
+                          더 보기 ({results.length - displayCount}개)
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+              </ReceiptCard>
+            </div>
+
+            {isSearchModalOpen && (
+              <div className="fixed inset-0 z-50 lg:hidden">
+                <div
+                  className="absolute inset-0 bg-black/50"
+                  onClick={() => setIsSearchModalOpen(false)}
+                />
+                <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col bg-[var(--background)]">
+                  <div className="flex items-center justify-between border-b border-black/10 bg-white/80 px-4 py-4 backdrop-blur">
+                    <h2 className="text-lg font-semibold text-[var(--foreground)]">도서 검색</h2>
                     <button
                       type="button"
-                      onClick={() => setQuery("")}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-black/40 transition hover:bg-black/5 hover:text-[var(--ui-muted)]"
-                      aria-label="검색어 지우기"
+                      onClick={() => setIsSearchModalOpen(false)}
+                      className="rounded-2xl p-2 text-[var(--ui-muted)] transition hover:bg-black/5"
+                      aria-label="닫기"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="h-6 w-6"
                       >
                         <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-                          clipRule="evenodd"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
                     </button>
-                  )}
-                </div>
-                <PrimaryButton type="submit" disabled={loading} className="px-5 py-3 text-sm">
-                  {loading ? "검색 중..." : "검색"}
-                </PrimaryButton>
-              </form>
-              {error && (
-                <div className="mt-3 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
-                  {error}
-                </div>
-              )}
+                  </div>
 
-              <div className="mt-6 grid gap-4">
-                {results.length === 0 && !loading ? null : (
-                  <>
-                    {results.slice(0, displayCount).map((item) => (
-                      <div
-                        key={`${item.isbn ?? item.title}-${item.publisher}`}
-                        className="ui-card-solid flex flex-col gap-3 p-3 transition hover:shadow-[var(--ui-shadow-hover)] sm:flex-row sm:gap-4 sm:p-4"
-                      >
-                        <div className="flex gap-3 sm:gap-4">
-                          {item.cover_url ? (
-                            <img
-                              src={item.cover_url}
-                              alt={item.title}
-                              className="h-20 w-14 flex-shrink-0 rounded-xl border border-black/10 bg-white object-cover shadow-sm sm:h-24 sm:w-16"
-                            />
-                          ) : (
-                            <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-dashed border-black/10 bg-white text-xs text-black/40 sm:h-24 sm:w-16">
-                              no cover
-                            </div>
-                          )}
-                          <div className="flex flex-1 flex-col gap-1 text-xs text-[var(--ui-muted)] sm:text-sm">
-                            <div className="break-words text-sm font-semibold text-[var(--foreground)] sm:text-base">
-                              {item.title}
-                            </div>
-                            <div className="text-[var(--ui-muted)]">
-                              {item.author} · {item.publisher}
-                            </div>
-                            <div className="flex flex-wrap gap-2 text-[10px] text-black/45 sm:gap-3 sm:text-xs">
-                              {item.isbn && <span>ISBN: {item.isbn}</span>}
-                              {item.published_at && <span>출간일: {item.published_at}</span>}
-                              {item.link && (
-                                <a
-                                  href={item.link}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)] transition hover:bg-black/10"
-                                >
-                                  naver↗
-                                </a>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-end sm:flex-col sm:justify-between">
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <form onSubmit={handleSearch} className="mb-4 flex flex-col gap-3">
+                      <div className="relative flex-1">
+                        <input
+                          value={query}
+                          onChange={(e) => setQuery(e.target.value)}
+                          placeholder="제목, 저자, ISBN을 입력하세요"
+                          className="ui-input w-full pr-10 text-base text-[var(--foreground)]"
+                          autoFocus
+                        />
+                        {query && (
                           <button
                             type="button"
-                            onClick={() => handleAdd(item)}
-                            className={`flex h-9 w-9 items-center justify-center rounded-2xl border-2 transition-all duration-200 sm:h-10 sm:w-10 ${
-                              selected.some((b) => getKey(b) === getKey(item))
-                                ? "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
-                                : "border-[color-mix(in_srgb,var(--ui-primary)_65%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_14%,transparent)] text-[var(--ui-primary)]"
-                            }`}
-                            aria-label={
-                              selected.some((b) => getKey(b) === getKey(item))
-                                ? "제거"
-                                : "추가"
-                            }
+                            onClick={() => setQuery("")}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-black/40 transition hover:bg-black/5 hover:text-[var(--ui-muted)]"
+                            aria-label="검색어 지우기"
                           >
-                            {selected.some((b) => getKey(b) === getKey(item)) ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                className="h-5 w-5"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                className="h-5 w-5"
-                              >
-                                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                              </svg>
-                            )}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              className="h-4 w-4"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
                           </button>
-                        </div>
+                        )}
                       </div>
-                    ))}
-                    {results.length > displayCount && (
-                      <button
-                        type="button"
-                        onClick={() => setDisplayCount(results.length)}
-                        className="mt-2 rounded-2xl border border-[var(--ui-border)] bg-[var(--ui-card)] px-4 py-2 text-sm font-semibold text-[var(--ui-muted)] transition hover:bg-[var(--ui-card-solid)]"
-                      >
-                        더 보기 ({results.length - displayCount}개)
-                      </button>
+                      <PrimaryButton type="submit" disabled={loading} className="px-5 py-3 text-sm">
+                        {loading ? "검색 중..." : "검색"}
+                      </PrimaryButton>
+                    </form>
+
+                    {error && (
+                      <div className="mb-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                        {error}
+                      </div>
                     )}
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
 
-          {isSearchModalOpen && (
-            <div className="fixed inset-0 z-50 lg:hidden">
-              <div
-                className="absolute inset-0 bg-black/50"
-                onClick={() => setIsSearchModalOpen(false)}
-              />
-              <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col bg-[var(--background)]">
-                <div className="flex items-center justify-between border-b border-black/10 bg-white/80 px-4 py-4 backdrop-blur">
-                  <h2 className="text-lg font-semibold text-[var(--foreground)]">도서 검색</h2>
-                  <button
-                    type="button"
-                    onClick={() => setIsSearchModalOpen(false)}
-                    className="rounded-2xl p-2 text-[var(--ui-muted)] transition hover:bg-black/5"
-                    aria-label="닫기"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="flex-1 overflow-y-auto p-4">
-                  <form onSubmit={handleSearch} className="mb-4 flex flex-col gap-3">
-                    <div className="relative flex-1">
-                      <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="제목, 저자, ISBN을 입력하세요"
-                        className="ui-input w-full pr-10 text-base text-[var(--foreground)]"
-                        autoFocus
-                      />
-                      {query && (
-                        <button
-                          type="button"
-                          onClick={() => setQuery("")}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-black/40 transition hover:bg-black/5 hover:text-[var(--ui-muted)]"
-                          aria-label="검색어 지우기"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            className="h-4 w-4"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
-                    <PrimaryButton type="submit" disabled={loading} className="px-5 py-3 text-sm">
-                      {loading ? "검색 중..." : "검색"}
-                    </PrimaryButton>
-                  </form>
-
-                  {error && (
-                    <div className="mb-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
-                      {error}
-                    </div>
-                  )}
-
-                  <div className="grid gap-4">
-                    {results.length === 0 && !loading ? (
-                      <p className="text-sm text-[var(--ui-muted)]">
-                        검색어를 입력하고 검색 버튼을 눌러주세요.
-                      </p>
-                    ) : (
-                      <>
-                        {results.slice(0, displayCount).map((item) => (
-                          <div
-                            key={`${item.isbn ?? item.title}-${item.publisher}`}
-                            className="ui-card-solid flex flex-col gap-3 p-3"
-                          >
-                            <div className="flex gap-3">
-                              {item.cover_url ? (
-                                <img
-                                  src={item.cover_url}
-                                  alt={item.title}
-                                  className="h-20 w-14 flex-shrink-0 rounded-xl border border-black/10 bg-white object-cover shadow-sm"
-                                />
-                              ) : (
+                    <div className="grid gap-4">
+                      {results.length === 0 && !loading ? (
+                        <p className="text-sm text-[var(--ui-muted)]">
+                          검색어를 입력하고 검색 버튼을 눌러주세요.
+                        </p>
+                      ) : (
+                        <>
+                          {results.slice(0, displayCount).map((item) => (
+                            <div
+                              key={`${item.isbn ?? item.title}-${item.publisher}`}
+                              className="ui-card-solid flex flex-col gap-3 p-3"
+                            >
+                              <div className="flex gap-3">
+                                {item.cover_url ? (
+                                  <img
+                                    src={item.cover_url}
+                                    alt={item.title}
+                                    className="h-20 w-14 flex-shrink-0 rounded-xl border border-black/10 bg-white object-cover shadow-sm"
+                                  />
+                                ) : (
                                   <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-dashed border-black/10 bg-white text-xs text-black/40">
                                     no cover
                                   </div>
                                 )}
-                              <div className="flex flex-1 flex-col gap-1 text-xs text-[var(--ui-muted)]">
-                                <div className="break-words text-sm font-semibold text-[var(--foreground)]">
-                                  {item.title}
-                                </div>
-                                <div className="text-[var(--ui-muted)]">
-                                  {item.author} · {item.publisher}
-                                </div>
-                                <div className="flex flex-wrap gap-2 text-[10px] text-black/45">
-                                  {item.isbn && <span>ISBN: {item.isbn}</span>}
-                                  {item.published_at && <span>출간일: {item.published_at}</span>}
-                                  {item.link && (
-                                    <a
-                                      href={item.link}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)] transition hover:bg-black/10"
-                                    >
-                                      naver↗
-                                    </a>
-                                  )}
+                                <div className="flex flex-1 flex-col gap-1 text-xs text-[var(--ui-muted)]">
+                                  <div className="break-words text-sm font-semibold text-[var(--foreground)]">
+                                    {item.title}
+                                  </div>
+                                  <div className="text-[var(--ui-muted)]">
+                                    {item.author} · {item.publisher}
+                                  </div>
+                                  <div className="flex flex-wrap gap-2 text-[10px] text-black/45">
+                                    {item.isbn && <span>ISBN: {item.isbn}</span>}
+                                    {item.published_at && <span>출간일: {item.published_at}</span>}
+                                    {item.link && (
+                                      <a
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)] transition hover:bg-black/10"
+                                      >
+                                        naver↗
+                                      </a>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
+                              <div className="flex justify-end">
+                                <button
+                                  type="button"
+                                  onClick={() => handleAdd(item)}
+                                  className={`flex h-9 w-9 items-center justify-center rounded-2xl border-2 transition-all duration-200 ${
+                                    selected.some((b) => getKey(b) === getKey(item))
+                                      ? "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
+                                      : "border-[color-mix(in_srgb,var(--ui-primary)_65%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_14%,transparent)] text-[var(--ui-primary)]"
+                                  }`}
+                                  aria-label={
+                                    selected.some((b) => getKey(b) === getKey(item)) ? "제거" : "추가"
+                                  }
+                                >
+                                  {selected.some((b) => getKey(b) === getKey(item)) ? (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      className="h-5 w-5"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                                        clipRule="evenodd"
+                                      />
+                                    </svg>
+                                  ) : (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      className="h-5 w-5"
+                                    >
+                                      <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                    </svg>
+                                  )}
+                                </button>
+                              </div>
                             </div>
-                            <div className="flex justify-end">
-                              <button
-                                type="button"
-                                onClick={() => handleAdd(item)}
-                                className={`flex h-9 w-9 items-center justify-center rounded-2xl border-2 transition-all duration-200 ${
-                                  selected.some((b) => getKey(b) === getKey(item))
-                                    ? "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
-                                    : "border-[color-mix(in_srgb,var(--ui-primary)_65%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_14%,transparent)] text-[var(--ui-primary)]"
-                                }`}
-                                aria-label={
-                                  selected.some((b) => getKey(b) === getKey(item))
-                                    ? "제거"
-                                    : "추가"
-                                }
-                              >
-                                {selected.some((b) => getKey(b) === getKey(item)) ? (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    className="h-5 w-5"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
-                                ) : (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    className="h-5 w-5"
-                                  >
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                  </svg>
-                                )}
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                        {results.length > displayCount && (
-                          <SecondaryButton
-                            type="button"
-                            onClick={() => setDisplayCount(results.length)}
-                            className="mt-2 px-4 py-2 text-sm"
-                          >
-                            더 보기 ({results.length - displayCount}개)
-                          </SecondaryButton>
-                        )}
-                      </>
-                    )}
+                          ))}
+                          {results.length > displayCount && (
+                            <SecondaryButton
+                              type="button"
+                              onClick={() => setDisplayCount(results.length)}
+                              className="mt-2 px-4 py-2 text-sm"
+                            >
+                              더 보기 ({results.length - displayCount}개)
+                            </SecondaryButton>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
 
-        <div className="mt-8 flex min-w-0 flex-col gap-8 lg:mt-0">
-          <div className="ui-card min-w-0 overflow-hidden p-4 sm:p-6">
-            <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
-            <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
-              선택한 도서 정보를 기반으로 영수증 상단 정보와 메모를 설정하세요.
-            </p>
+            <ReceiptCard className="p-4 sm:p-6">
+              <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
+              <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
+                선택한 도서 정보를 기반으로 영수증 상단 정보와 메모를 설정하세요.
+              </p>
 
             <div className="mt-5 grid gap-4">
               <div className="flex flex-col gap-2">
@@ -709,7 +686,7 @@ export default function BookReceiptClient() {
                   배경색
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {pastelColors.map((color) => (
+                  {PASTEL_COLORS.map((color) => (
                     <button
                       key={color.value}
                       type="button"
@@ -906,9 +883,12 @@ export default function BookReceiptClient() {
                 </label>
               </div>
             </div>
-          </div>
+            </ReceiptCard>
 
-          <div className="ui-card p-4 transition">
+          </>
+        }
+        right={
+          <ReceiptCard className="p-4 transition">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">미리보기</h2>
@@ -1098,9 +1078,11 @@ export default function BookReceiptClient() {
               </div>
             </div>
 
-            <div className="mt-4 flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-end">
               {saveMessage && (
-                <p className="text-xs text-[var(--ui-muted)] sm:mr-auto sm:text-right">{saveMessage}</p>
+                <p className="text-center text-xs text-[var(--ui-muted)] sm:mr-auto sm:text-left">
+                  {saveMessage}
+                </p>
               )}
               <PrimaryButton
                 type="button"
@@ -1111,9 +1093,9 @@ export default function BookReceiptClient() {
                 {isExporting || isSaving ? "저장 중..." : "JPEG로 저장"}
               </PrimaryButton>
             </div>
-          </div>
-        </div>
-      </div>
+          </ReceiptCard>
+        }
+      />
     </section>
   );
 }

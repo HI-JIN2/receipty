@@ -2,22 +2,22 @@ import SiteChrome from "@/components/SiteChrome";
 
 export default function CreditsPage() {
   return (
-    <SiteChrome>
-      <header className="flex flex-col gap-4">
+    <SiteChrome activeHref="/credits">
+      <header className="ui-page-header">
         <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
           <span className="h-[1px] w-6 bg-black/20" />
           Credits
           <span className="h-[1px] w-6 bg-black/20" />
         </p>
         <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
-          폰트 및 저작권
+          라이선스
         </h1>
         <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-          이 페이지는 본 서비스에서 사용한 폰트/데이터 소스/표기 의무를 정리합니다.
+          이 페이지는 본 서비스에서 사용한 폰트/데이터 소스/표기 의무(라이선스)를 정리합니다.
         </p>
       </header>
 
-      <section className="ui-card mt-8 p-6 sm:p-8">
+      <section className="ui-section">
         <h2 className="text-lg font-semibold text-[var(--foreground)]">Fonts</h2>
         <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
           <div className="rounded-2xl bg-black/5 p-4">
@@ -55,7 +55,7 @@ export default function CreditsPage() {
         </div>
       </section>
 
-      <section className="ui-card mt-4 p-6 sm:p-8">
+      <section className="ui-section-compact sm:p-8">
         <h2 className="text-lg font-semibold text-[var(--foreground)]">Data & APIs</h2>
         <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
           <div className="rounded-2xl bg-black/5 p-4">

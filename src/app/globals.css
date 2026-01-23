@@ -2,15 +2,21 @@
 @import "galmuri/dist/galmuri.css";
 
 :root {
-  --background: #f7f1e8;
-  --foreground: #1f1a14;
+  --background: #f7f7f6;
+  --foreground: #171412;
 
-  --ui-card: rgba(255, 250, 242, 0.74);
-  --ui-card-solid: #fffaf2;
-  --ui-border: rgba(61, 37, 15, 0.12);
-  --ui-muted: #6b5d4f;
+  --ui-page-pad-x: 16px;
+  --ui-page-pad-x-sm: 24px;
+  --ui-page-pad-y: 32px;
+  --ui-page-pad-y-sm: 48px;
+  --ui-header-pad-y: 12px;
+
+  --ui-card: rgba(255, 255, 255, 0.72);
+  --ui-card-solid: rgba(255, 255, 255, 0.92);
+  --ui-border: rgba(47, 107, 87, 0.16);
+  --ui-muted: #5f655d;
   --ui-primary: #2f6b57;
-  --ui-primary-ink: #fffaf2;
+  --ui-primary-ink: #ffffff;
   --ui-accent: #b45309;
 
   --ui-radius-card: 24px;
@@ -20,12 +26,12 @@
   --ui-space-input-y: 12px;
   --ui-space-input-x: 14px;
 
-  --ui-secondary-bg: var(--background);
-  --ui-secondary-hover-bg: var(--ui-card-solid);
+  --ui-secondary-bg: rgba(255, 255, 255, 0.55);
+  --ui-secondary-hover-bg: rgba(255, 255, 255, 0.75);
   --ui-secondary-border: var(--ui-border);
   --ui-secondary-text: var(--foreground);
-  --ui-shadow: 0 10px 24px rgba(87, 63, 36, 0.10);
-  --ui-shadow-hover: 0 14px 32px rgba(87, 63, 36, 0.14);
+  --ui-shadow: 0 12px 30px rgba(25, 36, 31, 0.08);
+  --ui-shadow-hover: 0 18px 44px rgba(25, 36, 31, 0.12);
 
   /* Movie receipt typography scale */
   --movie-receipt-size-sm: 8.5px;
@@ -50,12 +56,41 @@ body {
 }
 
 @layer components {
+  .ui-page-header {
+    @apply flex flex-col gap-4;
+  }
+
+  .ui-section {
+    border: 1px solid var(--ui-border);
+    background: var(--ui-card);
+    border-radius: var(--ui-radius-card);
+    box-shadow: var(--ui-shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    @apply mt-6 p-6 sm:p-8;
+  }
+
+  .ui-section-compact {
+    border: 1px solid var(--ui-border);
+    background: var(--ui-card);
+    border-radius: var(--ui-radius-card);
+    box-shadow: var(--ui-shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    @apply mt-4 p-6;
+  }
+
+  .ui-stats-grid {
+    @apply mt-6 grid gap-4 sm:grid-cols-2;
+  }
+
   .ui-card {
     border: 1px solid var(--ui-border);
     background: var(--ui-card);
     border-radius: var(--ui-radius-card);
     box-shadow: var(--ui-shadow);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .ui-card-solid {
@@ -67,7 +102,7 @@ body {
 
   .ui-input {
     border: 1px solid var(--ui-border);
-    background: rgba(255, 250, 242, 0.9);
+    background: rgba(255, 255, 255, 0.86);
     border-radius: var(--ui-radius-control);
     padding: var(--ui-space-input-y) var(--ui-space-input-x);
     width: 100%;

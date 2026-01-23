@@ -1,11 +1,9 @@
-import Link from "next/link";
-
 import SiteChrome from "@/components/SiteChrome";
 
 export default function AboutPage() {
   return (
     <SiteChrome activeHref="/about">
-      <header className="flex flex-col gap-4">
+      <header className="ui-page-header">
         <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
           <span className="h-[1px] w-6 bg-black/20" />
           About
@@ -16,7 +14,7 @@ export default function AboutPage() {
         </h1>
       </header>
 
-      <div className="ui-card mt-6 p-6 sm:p-8">
+      <div className="ui-section">
         <div className="space-y-6 text-base leading-relaxed text-[var(--ui-muted)] sm:text-lg">
           <p>안녕하세요. 아날로그를 좋아하는 개발자 HI-JIN2입니다.</p>
 
@@ -48,16 +46,6 @@ export default function AboutPage() {
                 qldls0307@naver.com
               </a>
             </p>
-          </div>
-
-          <div className="pt-6">
-            <Link
-              href="/credits"
-              className="inline-flex items-center gap-2 rounded-[var(--ui-radius-control)] border border-[var(--ui-secondary-border)] bg-[var(--ui-secondary-bg)] px-4 py-2 text-sm font-semibold text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
-            >
-              폰트/저작권 보기
-              <span aria-hidden>→</span>
-            </Link>
           </div>
         </div>
       </div>
