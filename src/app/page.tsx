@@ -42,8 +42,8 @@ export default function HomePage() {
         >
           <div className="flex items-center justify-between gap-4">
             <h2
-              className="text-lg font-semibold text-[var(--foreground)]"
-              style={{ fontFamily: "var(--font-book-cafe), var(--font-ui)" }}
+              className="text-lg font-medium text-[var(--foreground)]"
+              style={{ fontFamily: "Galmuri11, var(--font-ui)" }}
             >
               영화 영수증
             </h2>

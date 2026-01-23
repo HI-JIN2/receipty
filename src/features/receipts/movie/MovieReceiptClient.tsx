@@ -65,7 +65,7 @@ export default function MovieReceiptClient() {
     tmdbId: null,
     posterUrl: null,
     releaseDate: null,
-    title: "Movie Receipt",
+    title: "Movie Title",
     watchedAt: "",
     watchedTime: "",
     issuedAt: "",
