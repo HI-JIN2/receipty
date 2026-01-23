@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans_KR, Nanum_Gothic_Coding, Noto_Sans_KR, Roboto_Mono } from "next/font/google";
+import { IBM_Plex_Sans_KR } from "next/font/google";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
@@ -11,25 +11,25 @@ const uiFont = IBM_Plex_Sans_KR({
   display: "swap",
 });
 
-const ticketFont = Nanum_Gothic_Coding({
-  weight: ["400", "700"],
-  subsets: ["latin"],
+const ticketFont = localFont({
+  src: [
+    {
+      path: "./fonts/PFStardust-S-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/PFStardust-S-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/PFStardust-S-ExtraBold.ttf",
+      weight: "800",
+      style: "normal",
+    },
+  ],
   variable: "--font-ticket",
-  display: "swap",
-});
-
-// 영화 영수증용 폰트
-const notoSansKR = Noto_Sans_KR({
-  weight: ["400", "500", "700", "900"],
-  subsets: ["latin"],
-  variable: "--font-noto-sans-kr",
-  display: "swap",
-});
-
-const robotoMono = Roboto_Mono({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  variable: "--font-roboto-mono",
   display: "swap",
 });
 
@@ -123,7 +123,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${uiFont.variable} ${ticketFont.variable} ${bookCafe.variable} ${notoSansKR.variable} ${robotoMono.variable} antialiased`}>
+      <body className={`${uiFont.variable} ${ticketFont.variable} ${bookCafe.variable} antialiased`}>
         <GoogleAnalytics />
         {children}
       </body>

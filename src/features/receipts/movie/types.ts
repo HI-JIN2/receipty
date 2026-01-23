@@ -6,6 +6,7 @@ export type MovieReceipt = {
   mode: MovieMode;
   title: string;
   watchedAt: string;
+  watchedTime: string;
   theater: string;
   medium: MovieMedium;
   note: string;

@@ -33,6 +33,7 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
     mode: receipt.mode,
     title: receipt.title,
     watchedAt: receipt.watchedAt,
+    watchedTime: receipt.watchedTime,
     theater: receipt.theater,
     medium: receipt.medium,
     note: receipt.note,
