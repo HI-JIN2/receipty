@@ -57,7 +57,6 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
     hall: receipt.hall,
     seat: receipt.seat,
     ticketType: receipt.ticketType,
-    brand: receipt.brand,
 
     format: receipt.format,
     backgroundColor: receipt.backgroundColor,

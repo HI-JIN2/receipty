@@ -26,7 +26,6 @@ export type MovieReceipt = {
   hall: string;
   seat: string;
   ticketType: string;
-  brand: string;
 
   format: string;
   backgroundColor: string;

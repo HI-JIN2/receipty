@@ -85,7 +85,6 @@ export default function MovieReceiptClient() {
     hall: "",
     seat: "",
     ticketType: "일반 1명",
-    brand: "Receipt Marker",
 
     format: "60mm",
     backgroundColor: "#ffffff",
@@ -306,7 +305,6 @@ export default function MovieReceiptClient() {
         hall: receipt.hall,
         seat: receipt.seat,
         ticketType: receipt.ticketType,
-        brand: receipt.brand,
 
         format: receipt.format,
         backgroundColor: receipt.backgroundColor,
@@ -654,13 +652,6 @@ export default function MovieReceiptClient() {
                     placeholder="좌석 (예: E열 07)"
                     className="ui-input text-sm text-[var(--foreground)]"
                   />
-                  <input
-                    name="brand"
-                    value={receipt.brand}
-                    onChange={handleChange}
-                    placeholder="하단 문구 (예: Receipt Marker)"
-                    className="ui-input text-sm text-[var(--foreground)]"
-                  />
                 </div>
               </div>
             )}
@@ -868,7 +859,7 @@ export default function MovieReceiptClient() {
                   )}
 
                   <div
-                    className="mt-1 mr-auto inline-block w-fit max-w-full whitespace-nowrap bg-stone-900 px-1 py-0.5 text-left text-white"
+                    className="mt-1 inline-block w-fit max-w-full self-start whitespace-nowrap bg-stone-900 px-1 py-0.5 text-left text-white"
                     style={{
                       fontWeight: 500,
                       fontSize: "var(--movie-receipt-size-md)",
@@ -987,12 +978,12 @@ export default function MovieReceiptClient() {
                   {/* Showtime Info (Black Box) */}
                   {receipt.showtime && (
                     <div
-                      className="my-1.5 mr-auto inline-block w-fit max-w-full whitespace-nowrap bg-stone-900 px-1 py-0.5 text-left text-white"
+                      className="my-1.5 inline-block w-fit max-w-full self-start whitespace-nowrap bg-stone-900 px-0.5 py-[1px] text-left text-white"
                       style={{
                         fontWeight: 500,
                         fontSize: "var(--movie-receipt-size-md)",
                         lineHeight: "1.1",
-                        letterSpacing: "-0.03em",
+                        letterSpacing: "-0.04em",
                       }}
                     >
                       {(() => {
@@ -1141,29 +1132,49 @@ export default function MovieReceiptClient() {
                 </div>
               )}
 
-              {receipt.mode !== "mini" && receipt.includeBarcode && (
-                <div className="mt-4 flex flex-col items-center">
-                  <div
-                    style={{
-                      width: "100%",
-                      backgroundColor: receipt.backgroundColor,
-                      padding: "6px 6px",
-                    }}
-                  >
-                    <Barcode
-                      value={getBarcodeValue()}
-                      width={receipt.mode === "photo" ? 1.25 : 1.45}
-                      height={receipt.mode === "photo" ? 32 : 40}
-                      background={receipt.backgroundColor}
-                      lineColor="#1a1a1a"
-                      className="mx-auto"
-                    />
+              <div className="mt-auto flex flex-col items-center pt-3">
+                {receipt.mode !== "mini" && receipt.includeBarcode && (
+                  <div className="flex w-full flex-col items-center">
+                    <div
+                      style={{
+                        width: "100%",
+                        backgroundColor: receipt.backgroundColor,
+                        padding: "6px 6px",
+                      }}
+                    >
+                      <Barcode
+                        value={getBarcodeValue()}
+                        width={receipt.mode === "photo" ? 1.25 : 1.45}
+                        height={receipt.mode === "photo" ? 32 : 40}
+                        background={receipt.backgroundColor}
+                        lineColor="#1a1a1a"
+                        className="mx-auto"
+                      />
+                    </div>
+                    <div className="mt-2 text-[11px] text-stone-700">
+                      NO.{" "}
+                      {receiptNumber !== null
+                        ? receiptNumber.toString().padStart(6, "0")
+                        : "------"}
+                    </div>
                   </div>
-                  <div className="mt-2 text-[11px] text-stone-700">
-                    NO. {receiptNumber !== null ? receiptNumber.toString().padStart(6, "0") : "------"}
-                  </div>
+                )}
+
+                <div
+                  className="mt-3 text-center text-stone-900"
+                  style={{
+                    fontSize:
+                      receipt.mode === "photo"
+                        ? "10px"
+                        : "var(--movie-receipt-size-sm)",
+                    fontWeight: 600,
+                    letterSpacing: "0.08em",
+                    fontFamily: "var(--font-book-cafe), var(--font-ui)",
+                  }}
+                >
+                  Receipt Marker
                 </div>
-              )}
+              </div>
             </div>
           </div>
 

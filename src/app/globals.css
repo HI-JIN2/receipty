@@ -28,7 +28,7 @@
   --ui-shadow-hover: 0 14px 32px rgba(87, 63, 36, 0.14);
 
   /* Movie receipt typography scale */
-  --movie-receipt-size-sm: 9px;
+  --movie-receipt-size-sm: 8.5px;
   --movie-receipt-size-md: 13px;
   --movie-receipt-size-lg: 24px;
 }

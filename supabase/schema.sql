@@ -51,6 +51,9 @@ CREATE POLICY "Public insert access" ON books FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert access" ON prints FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert access" ON print_books FOR INSERT WITH CHECK (true);
 
+-- upsert 지원을 위해 UPDATE도 허용
+CREATE POLICY "Public update access" ON books FOR UPDATE USING (true) WITH CHECK (true);
+
 -- =========================================================
 -- Movie Receipt 스키마 (도서와 분리)
 -- =========================================================
@@ -103,3 +106,6 @@ CREATE POLICY "Public read access" ON movie_print_movies FOR SELECT USING (true)
 CREATE POLICY "Public insert access" ON movies FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert access" ON movie_prints FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert access" ON movie_print_movies FOR INSERT WITH CHECK (true);
+
+-- upsert 지원을 위해 UPDATE도 허용
+CREATE POLICY "Public update access" ON movies FOR UPDATE USING (true) WITH CHECK (true);
