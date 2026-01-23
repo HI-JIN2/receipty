@@ -1,22 +1,15 @@
 import SiteChrome from "@/components/SiteChrome";
+import PageHeader from "@/components/PageHeader";
 
 export default function AboutPage() {
   return (
     <SiteChrome activeHref="/about">
-      <header className="ui-page-header">
-        <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-          <span className="h-[1px] w-6 bg-black/20" />
-          About
-          <span className="h-[1px] w-6 bg-black/20" />
-        </p>
-        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
-          제작자의 말
-        </h1>
-      </header>
+      <section className="flex flex-col gap-6 sm:gap-10">
+        <PageHeader eyebrow="About" title="제작자의 말" />
 
-      <div className="ui-section">
-        <div className="space-y-6 text-base leading-relaxed text-[var(--ui-muted)] sm:text-lg">
-          <p>안녕하세요. 아날로그를 좋아하는 개발자 HI-JIN2입니다.</p>
+        <div className="ui-card p-6 sm:p-8">
+          <div className="space-y-6 text-base leading-relaxed text-[var(--ui-muted)] sm:text-lg">
+            <p>안녕하세요. 아날로그를 좋아하는 개발자 HI-JIN2입니다.</p>
 
           <p>
             전자책을 읽거나 친구에게 책을 빌릴 때, 대출 영수증이 없어서 아쉬웠던 경험이 있었어요.
@@ -47,10 +40,10 @@ export default function AboutPage() {
               </a>
             </p>
           </div>
+          </div>
         </div>
-      </div>
 
-      <div className="mt-6" />
+      </section>
     </SiteChrome>
   );
 }

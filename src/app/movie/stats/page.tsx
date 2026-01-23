@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import SiteChrome from "@/components/SiteChrome";
+import PageHeader from "@/components/PageHeader";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -78,19 +79,11 @@ export default async function MovieStatsPage() {
 
   return (
     <SiteChrome activeHref="/movie/stats">
-      <header className="ui-page-header">
-        <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-          <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-          Movie Stats
-          <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-        </p>
-        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
-          영화 통계
-        </h1>
-        <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-          영화 영수증 생성 현황과 인기 영화를 보여줘요.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Movie Stats"
+        title="영화 통계"
+        description="영화 영수증 생성 현황과 인기 영화를 보여줘요."
+      />
 
       <div className="ui-stats-grid">
         <div className="ui-card p-6">

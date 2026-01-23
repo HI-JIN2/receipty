@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "galmuri/dist/galmuri.css";
 
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
 :root {
   --background: #f7f7f6;
   --foreground: #171412;
@@ -32,6 +37,11 @@
   --ui-secondary-text: var(--foreground);
   --ui-shadow: 0 12px 30px rgba(25, 36, 31, 0.08);
   --ui-shadow-hover: 0 18px 44px rgba(25, 36, 31, 0.12);
+
+  --ui-border-hover: color-mix(in srgb, var(--ui-primary) 42%, transparent);
+  --ui-ring: color-mix(in srgb, var(--ui-primary) 22%, transparent);
+  --ui-card-hover-bg: rgba(255, 255, 255, 0.80);
+  --ui-card-solid-hover-bg: rgba(255, 255, 255, 0.97);
 
   /* Movie receipt typography scale */
   --movie-receipt-size-sm: 8.5px;
@@ -91,6 +101,50 @@ body {
     box-shadow: var(--ui-shadow);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+  }
+
+  a.ui-card,
+  button.ui-card,
+  a.ui-card-solid,
+  button.ui-card-solid {
+    cursor: pointer;
+    transition-property: transform, box-shadow, border-color, background-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.2, 0.9, 0.2, 1);
+    will-change: transform;
+  }
+
+  a.ui-card:hover,
+  button.ui-card:hover {
+    border-color: var(--ui-border-hover);
+    background: var(--ui-card-hover-bg);
+    box-shadow: var(--ui-shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  a.ui-card-solid:hover,
+  button.ui-card-solid:hover {
+    border-color: var(--ui-border-hover);
+    background: var(--ui-card-solid-hover-bg);
+    box-shadow: var(--ui-shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  a.ui-card:active,
+  button.ui-card:active,
+  a.ui-card-solid:active,
+  button.ui-card-solid:active {
+    transform: translateY(0px);
+  }
+
+  a.ui-card:focus-visible,
+  button.ui-card:focus-visible,
+  a.ui-card-solid:focus-visible,
+  button.ui-card-solid:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 4px var(--ui-ring),
+      var(--ui-shadow);
   }
 
   .ui-card-solid {

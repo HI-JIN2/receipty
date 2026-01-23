@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
+import PageHeader from "@/components/PageHeader";
 import ReceiptColumns from "@/features/receipts/shared/ReceiptColumns";
 import ReceiptCard from "@/features/receipts/shared/ReceiptCard";
 import { PASTEL_COLORS, getPreviewBorderColor } from "@/features/receipts/shared/palette";
@@ -266,14 +267,15 @@ export default function BookReceiptClient() {
 
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
-      <header className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-            Book Receipt Maker
-            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-          </p>
-          <div className="relative">
+      <PageHeader
+        eyebrow="Book Receipt Maker"
+        title="나만의 도서영수증 만들기"
+        description={[
+          "전자책이나 친구에게 빌린 책 등 대출영수증이 없을 때 사용할 수 있어요.",
+          "프린트기나 라벨지로 뽑아서 스크랩, 다이어리 등에 활용해요.",
+        ]}
+        action={
+          <>
             <SecondaryButton
               onClick={handleShare}
               className="group flex items-center gap-2 px-3 py-1.5 text-xs active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
@@ -303,20 +305,9 @@ export default function BookReceiptClient() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
-          나만의 도서영수증 만들기
-        </h1>
-        <div className="flex flex-col gap-1">
-          <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-            전자책이나 친구에게 빌린 책 등 대출영수증이 없을 때 사용할 수 있어요.
-          </p>
-          <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-            프린트기나 라벨지로 뽑아서 스크랩, 다이어리 등에 활용해요.
-          </p>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       <ReceiptColumns
         left={

@@ -5,6 +5,7 @@ import { toJpeg } from "html-to-image";
 
 import Barcode from "@/components/Barcode";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
+import PageHeader from "@/components/PageHeader";
 import ReceiptCard from "@/features/receipts/shared/ReceiptCard";
 import ReceiptColumns from "@/features/receipts/shared/ReceiptColumns";
 import { PASTEL_COLORS } from "@/features/receipts/shared/palette";
@@ -405,14 +406,12 @@ export default function MovieReceiptClient() {
 
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
-      <header className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-            Movie Receipt Maker
-            <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-          </p>
-          <div className="relative">
+      <PageHeader
+        eyebrow="Movie Receipt Maker"
+        title="영화 영수증 만들기"
+        description={["관람 기록을 영수증처럼 뽑아, 다이어리나 티켓북에 붙여두세요.", "영수증/미니 영수증/포토티켓 모드를 지원해요."]}
+        action={
+          <>
             <SecondaryButton
               onClick={handleShare}
               className="group flex items-center gap-2 px-3 py-1.5 text-xs active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
@@ -442,20 +441,9 @@ export default function MovieReceiptClient() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
-          영화 영수증 만들기
-        </h1>
-        <div className="flex flex-col gap-1">
-          <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-            관람 기록을 영수증처럼 뽑아, 다이어리나 티켓북에 붙여두세요.
-          </p>
-          <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-            영수증/미니 영수증/포토티켓 모드를 지원해요.
-          </p>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       <ReceiptColumns
         left={

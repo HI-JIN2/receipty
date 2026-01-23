@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import SiteChrome from "@/components/SiteChrome";
+import PageHeader from "@/components/PageHeader";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -63,19 +64,11 @@ export default async function BookStatsPage() {
 
   return (
     <SiteChrome activeHref="/book/stats">
-      <header className="ui-page-header">
-        <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ui-muted)]">
-          <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-          Book Stats
-          <span className="h-[1px] w-6 bg-[color-mix(in_srgb,var(--ui-primary)_25%,transparent)]" />
-        </p>
-        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl lg:text-4xl">
-          도서 통계
-        </h1>
-        <p className="max-w-3xl text-base text-[var(--ui-muted)] sm:text-lg">
-          지금까지 만들어진 도서 영수증과 인기 도서를 모아봤어요.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Book Stats"
+        title="도서 통계"
+        description="지금까지 만들어진 도서 영수증과 인기 도서를 모아봤어요."
+      />
 
       {!data.ok ? (
         <div className="mt-6 rounded-3xl border border-rose-200 bg-rose-50 p-6 text-rose-700">
