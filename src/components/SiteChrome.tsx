@@ -96,7 +96,7 @@ function ModePill({
   icon,
 }: {
   mode: Mode;
-  href: "/book" | "/movie";
+  href: "/book" | "/movie" | "/book/stats" | "/movie/stats";
   label: string;
   active: boolean;
   icon: React.ReactNode;
@@ -120,8 +120,11 @@ function ModePill({
 
 export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
   const mode: Mode = activeHref?.startsWith("/movie") ? "movie" : "book";
+  const isStatsPage = activeHref === "/book/stats" || activeHref === "/movie/stats";
   const makerHref: NavHref = mode === "movie" ? "/movie" : "/book";
   const statsHref: NavHref = mode === "movie" ? "/movie/stats" : "/book/stats";
+  const bookModeHref: "/book" | "/book/stats" = isStatsPage ? "/book/stats" : "/book";
+  const movieModeHref: "/movie" | "/movie/stats" = isStatsPage ? "/movie/stats" : "/movie";
 
   return (
     <div className="relative min-h-screen text-[var(--foreground)]">
@@ -148,14 +151,14 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
             <div className="inline-flex items-center gap-1 rounded-[var(--ui-radius-pill)] border border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] p-1">
               <ModePill
                 mode="book"
-                href="/book"
+                href={bookModeHref}
                 label="도서"
                 active={mode === "book"}
                 icon={<BookIcon className="h-4 w-4" />}
               />
               <ModePill
                 mode="movie"
-                href="/movie"
+                href={movieModeHref}
                 label="영화"
                 active={mode === "movie"}
                 icon={<FilmIcon className="h-4 w-4" />}
@@ -197,7 +200,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
           className="pointer-events-none fixed inset-0 z-50 bg-black/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 peer-checked:pointer-events-auto peer-checked:opacity-100 sm:hidden"
         />
 
-        <aside className="fixed right-0 top-0 z-50 h-dvh w-[min(360px,92vw)] translate-x-full border-l border-[var(--ui-border)] bg-[var(--ui-card-solid)] p-4 shadow-2xl transition-transform duration-200 ease-out peer-checked:translate-x-0 sm:hidden">
+        <aside className="fixed right-0 top-0 z-50 h-dvh w-[min(288px,84vw)] translate-x-full border-l border-[var(--ui-border)] bg-[var(--ui-card-solid)] p-4 shadow-2xl transition-transform duration-200 ease-out peer-checked:translate-x-0 sm:hidden">
           <div className="flex items-center justify-between gap-3">
             <div className="text-sm font-semibold text-[var(--foreground)]">메뉴</div>
             <label
@@ -212,14 +215,14 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
             <div className="grid grid-cols-2 gap-2">
               <ModePill
                 mode="book"
-                href="/book"
+                href={bookModeHref}
                 label="도서"
                 active={mode === "book"}
                 icon={<BookIcon className="h-4 w-4" />}
               />
               <ModePill
                 mode="movie"
-                href="/movie"
+                href={movieModeHref}
                 label="영화"
                 active={mode === "movie"}
                 icon={<FilmIcon className="h-4 w-4" />}

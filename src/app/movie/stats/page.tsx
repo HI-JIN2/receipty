@@ -1,7 +1,8 @@
-import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import SiteChrome from "@/components/SiteChrome";
 import PageHeader from "@/components/PageHeader";
+import RankedMediaItem from "@/components/stats/RankedMediaItem";
+import StatMetricCard from "@/components/stats/StatMetricCard";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -86,19 +87,12 @@ export default async function MovieStatsPage() {
       />
 
       <div className="ui-stats-grid">
-        <div className="ui-card p-6">
-          <p className="text-sm font-medium text-[var(--ui-muted)]">영화 영수증 수</p>
-          <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">
-            {(printsCount ?? 0).toLocaleString()}
-          </p>
-        </div>
-        <div className="ui-card p-6">
-          <p className="text-sm font-medium text-[var(--ui-muted)]">영화의 수</p>
-          <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">
-            {movieIdSet.size.toLocaleString()}
-          </p>
-          <p className="mt-2 text-xs text-[var(--ui-muted)]">(영수증에 1회 이상 등장한 영화 기준)</p>
-        </div>
+        <StatMetricCard label="영화 영수증 수" value={printsCount ?? 0} />
+        <StatMetricCard
+          label="영화의 수"
+          value={movieIdSet.size}
+          note="(영수증에 1회 이상 등장한 영화 기준)"
+        />
       </div>
 
       <div className="ui-section-compact">
@@ -111,35 +105,15 @@ export default async function MovieStatsPage() {
         ) : (
           <ol className="mt-6 grid gap-4 sm:grid-cols-2">
             {topMovies.map((m, idx) => (
-              <li key={m.movieId} className="ui-card-solid flex gap-3 p-4">
-                <div className="flex h-16 w-12 items-center justify-center overflow-hidden rounded-xl border border-black/10 bg-white">
-                  {m.posterUrl ? (
-                    <Image
-                      src={m.posterUrl}
-                      alt={m.titleKo}
-                      width={48}
-                      height={64}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-[10px] text-black/40">no</span>
-                  )}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-start gap-2">
-                    <span className="text-xs font-bold text-[var(--ui-primary)]">{idx + 1}.</span>
-                    <div className="min-w-0">
-                      <p className="line-clamp-2 text-sm font-semibold text-[var(--foreground)]">
-                        {m.titleKo}
-                      </p>
-                      <p className="mt-1 line-clamp-1 text-xs text-[var(--ui-muted)]">{m.titleEn ?? "—"}</p>
-                    </div>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between gap-2">
-                    <p className="text-xs font-semibold text-[var(--ui-muted)]">{m.count.toLocaleString()}회</p>
-                  </div>
-                </div>
-              </li>
+              <RankedMediaItem
+                key={m.movieId}
+                rank={idx + 1}
+                imageSrc={m.posterUrl}
+                imageAlt={m.titleKo}
+                primaryText={m.titleKo}
+                secondaryText={m.titleEn}
+                count={m.count}
+              />
             ))}
           </ol>
         )}

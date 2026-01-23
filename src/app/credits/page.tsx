@@ -8,7 +8,7 @@ export default function CreditsPage() {
         <PageHeader
           eyebrow="Credits"
           title="Licenses"
-          description="Third-party fonts and data sources used by this service."
+          description="Required attributions and licenses."
         />
 
         <section className="ui-card p-6 sm:p-8">
@@ -16,23 +16,18 @@ export default function CreditsPage() {
           <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">Galmuri</div>
-              <div className="mt-1">Use: movie receipt typography</div>
-              <div className="mt-1">Source: npm package `galmuri`</div>
               <div className="mt-1">License: SIL Open Font License 1.1</div>
+              <div className="mt-1">Source: `galmuri` (npm)</div>
             </div>
 
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">IBM Plex Sans KR</div>
-              <div className="mt-1">Use: UI font</div>
-              <div className="mt-1">Source: Google Fonts (via `next/font/google`)</div>
               <div className="mt-1">License: SIL Open Font License 1.1</div>
+              <div className="mt-1">Source: Google Fonts</div>
             </div>
 
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">PFStardust</div>
-              <div className="mt-1">Use: book receipt preview; movie bitmap-style typography</div>
-              <div className="mt-1">Files: `src/app/fonts/PFStardust-*.ttf`, `src/app/fonts/PFStardust-S-*.ttf`</div>
-              <div className="mt-1">Copyright: Pinata (Campanuta)</div>
               <div className="mt-1">
                 Source:{" "}
                 <a
@@ -41,12 +36,10 @@ export default function CreditsPage() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  noonnu.cc (PFStardust)
+                  noonnu.cc/font_page/393
                 </a>
               </div>
-              <div className="mt-1">
-                License summary: free for personal & commercial use; modification/derivative work/redistribution/sale require permission.
-              </div>
+              <div className="mt-1">License: see source page (restrictions apply)</div>
             </div>
           </div>
         </section>
@@ -56,7 +49,6 @@ export default function CreditsPage() {
           <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">TMDB</div>
-              <div className="mt-1">Use: movie search; metadata autofill</div>
               <div className="mt-1">
                 Attribution: “This product uses the TMDB API but is not endorsed or certified by TMDB.”
               </div>
@@ -64,8 +56,7 @@ export default function CreditsPage() {
 
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">Naver Search API</div>
-              <div className="mt-1">Use: book search</div>
-              <div className="mt-1">Attribution: follow Naver Open API terms.</div>
+              <div className="mt-1">Attribution: Powered by NAVER Open API.</div>
             </div>
           </div>
         </section>

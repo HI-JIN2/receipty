@@ -1,7 +1,8 @@
-import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import SiteChrome from "@/components/SiteChrome";
 import PageHeader from "@/components/PageHeader";
+import RankedMediaItem from "@/components/stats/RankedMediaItem";
+import StatMetricCard from "@/components/stats/StatMetricCard";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -77,18 +78,8 @@ export default async function BookStatsPage() {
       ) : (
         <>
           <div className="ui-stats-grid">
-            <div className="ui-card p-6">
-              <p className="text-sm font-medium text-[var(--ui-muted)]">지금까지 만들어진 영수증 수</p>
-              <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">
-                {data.printsCount.toLocaleString()}
-              </p>
-            </div>
-            <div className="ui-card p-6">
-              <p className="text-sm font-medium text-[var(--ui-muted)]">지금까지 영수증에 들어간 책 수</p>
-              <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">
-                {data.printBooksCount.toLocaleString()}
-              </p>
-            </div>
+            <StatMetricCard label="지금까지 만들어진 영수증 수" value={data.printsCount} />
+            <StatMetricCard label="지금까지 영수증에 들어간 책 수" value={data.printBooksCount} />
           </div>
 
           <div className="ui-section-compact">
@@ -101,39 +92,15 @@ export default async function BookStatsPage() {
             ) : (
               <ol className="mt-6 grid gap-4 sm:grid-cols-2">
                 {data.topBooks.map((b, idx) => (
-                  <li key={`${b.bookId}`} className="ui-card-solid flex gap-3 p-4">
-                    <div className="flex h-16 w-12 items-center justify-center overflow-hidden rounded-xl border border-black/10 bg-white">
-                      {b.cover_url ? (
-                        <Image
-                          src={b.cover_url}
-                          alt={b.title}
-                          width={48}
-                          height={64}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-[10px] text-black/40">no</span>
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-start gap-2">
-                        <span className="text-xs font-bold text-[var(--ui-primary)]">{idx + 1}.</span>
-                        <div className="min-w-0">
-                          <p className="line-clamp-2 text-sm font-semibold text-[var(--foreground)]">
-                            {b.title}
-                          </p>
-                          <p className="mt-1 line-clamp-1 text-xs text-[var(--ui-muted)]">
-                            {b.author ?? "—"}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-2 flex items-center justify-between gap-2">
-                        <p className="text-xs font-semibold text-[var(--ui-muted)]">
-                          {b.count.toLocaleString()}회
-                        </p>
-                      </div>
-                    </div>
-                  </li>
+                  <RankedMediaItem
+                    key={`${b.bookId}`}
+                    rank={idx + 1}
+                    imageSrc={b.cover_url}
+                    imageAlt={b.title}
+                    primaryText={b.title}
+                    secondaryText={b.author}
+                    count={b.count}
+                  />
                 ))}
               </ol>
             )}
