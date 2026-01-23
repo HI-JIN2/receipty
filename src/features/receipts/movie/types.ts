@@ -1,12 +1,13 @@
 export type MovieMedium = "theater" | "ott" | "other";
 
-export type MovieMode = "receipt" | "photo";
+export type MovieMode = "receipt" | "photo" | "mini";
 
 export type MovieReceipt = {
   mode: MovieMode;
   title: string;
   watchedAt: string;
   watchedTime: string;
+  issuedAt: string;
   theater: string;
   medium: MovieMedium;
   note: string;

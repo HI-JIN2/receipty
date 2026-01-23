@@ -21,6 +21,13 @@ export default function CreditsPage() {
         <h2 className="text-lg font-semibold text-[var(--foreground)]">Fonts</h2>
         <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
           <div className="rounded-2xl bg-black/5 p-4">
+            <div className="font-semibold text-[var(--foreground)]">Galmuri</div>
+            <div className="mt-1">용도: 영화 영수증(레시트)용 폰트</div>
+            <div className="mt-1">소스: npm `galmuri` 패키지</div>
+            <div className="mt-1">라이선스: SIL Open Font License 1.1</div>
+          </div>
+
+          <div className="rounded-2xl bg-black/5 p-4">
             <div className="font-semibold text-[var(--foreground)]">IBM Plex Sans KR</div>
             <div className="mt-1">용도: UI 기본 폰트</div>
             <div className="mt-1">소스: Google Fonts (next/font/google)</div>
