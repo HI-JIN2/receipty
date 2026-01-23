@@ -186,6 +186,18 @@ export default function MovieReceiptClient() {
     return `[${num.slice(0, 3)}-${num.slice(3, 5)}-${num.slice(5)}]`;
   };
 
+  const getSerialNumber = () => {
+    if (receiptNumber === null) return "----";
+
+    const date = receipt.issuedAt ? new Date(receipt.issuedAt) : new Date();
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+
+    const seq = receiptNumber.toString().padStart(4, "0");
+    return `${yyyy}-${mm}${dd}-${seq}`;
+  };
+
   const getMiniSeatLine = () => {
     const hall = receipt.hall?.trim() || "1관";
     const seat = (receipt.seat?.trim() || "E열 07").replace(/번\s*$/u, "");
@@ -931,7 +943,12 @@ export default function MovieReceiptClient() {
                     style={{ fontWeight: 400, fontSize: "var(--movie-receipt-size-md)", lineHeight: "1.1" }}
                   >
                     {receipt.theater}
-                    {getReceiptNumberTag()}
+                    <span
+                      className="ml-1"
+                      style={{ fontSize: "var(--movie-receipt-size-sm)", color: "#78716c" }}
+                    >
+                      {getReceiptNumberTag()}
+                    </span>
                   </div>
                 </>
               ) : (
@@ -1103,18 +1120,12 @@ export default function MovieReceiptClient() {
                       }}
                     >
                       {receipt.theater}
-                      {receiptNumber !== null && (
-                        <span
-                          style={{
-                            marginLeft: "4px",
-                          }}
-                        >
-                          [{(() => {
-                            const num = receiptNumber.toString().padStart(10, "0");
-                            return `${num.slice(0, 3)}-${num.slice(3, 5)}-${num.slice(5)}`;
-                          })()}]
-                        </span>
-                      )}
+                      <span
+                        className="ml-1"
+                        style={{ fontSize: "var(--movie-receipt-size-sm)", color: "#78716c" }}
+                      >
+                        {getReceiptNumberTag()}
+                      </span>
                     </div>
                   )}
 
@@ -1178,11 +1189,11 @@ export default function MovieReceiptClient() {
                         className="mx-auto"
                       />
                     </div>
-                    <div className="mt-2 text-[11px] text-stone-700">
-                      NO.{" "}
-                      {receiptNumber !== null
-                        ? receiptNumber.toString().padStart(6, "0")
-                        : "------"}
+                    <div
+                      className="mt-2 text-stone-700"
+                      style={{ fontSize: "var(--movie-receipt-size-sm)" }}
+                    >
+                      일련번호 {getSerialNumber()}
                     </div>
                   </div>
                 )}
