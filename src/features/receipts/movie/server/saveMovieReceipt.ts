@@ -30,6 +30,7 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
 
   const payload = {
     kind: "movie" as const,
+    mode: receipt.mode,
     title: receipt.title,
     viewer: receipt.viewer,
     watchedAt: receipt.watchedAt,

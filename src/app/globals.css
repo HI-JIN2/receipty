@@ -12,6 +12,13 @@
   --ui-primary-ink: #fffaf2;
   --ui-accent: #b45309;
 
+  --ui-radius-card: 24px;
+  --ui-radius-control: 16px;
+  --ui-radius-pill: 999px;
+
+  --ui-space-input-y: 12px;
+  --ui-space-input-x: 14px;
+
   --ui-secondary-bg: var(--background);
   --ui-secondary-hover-bg: var(--ui-card-solid);
   --ui-secondary-border: var(--ui-border);
@@ -40,7 +47,7 @@ body {
   .ui-card {
     border: 1px solid var(--ui-border);
     background: var(--ui-card);
-    border-radius: 24px;
+    border-radius: var(--ui-radius-card);
     box-shadow: var(--ui-shadow);
     backdrop-filter: blur(10px);
   }
@@ -48,15 +55,15 @@ body {
   .ui-card-solid {
     border: 1px solid var(--ui-border);
     background: var(--ui-card-solid);
-    border-radius: 24px;
+    border-radius: var(--ui-radius-card);
     box-shadow: var(--ui-shadow);
   }
 
   .ui-input {
     border: 1px solid var(--ui-border);
     background: rgba(255, 250, 242, 0.9);
-    border-radius: 16px;
-    padding: 12px 14px;
+    border-radius: var(--ui-radius-control);
+    padding: var(--ui-space-input-y) var(--ui-space-input-x);
     width: 100%;
     min-width: 0;
     outline: none;

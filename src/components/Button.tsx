@@ -9,7 +9,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const baseClasses =
-  "inline-flex items-center justify-center rounded-2xl text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--ui-primary)_28%,transparent)] focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-60 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center rounded-[var(--ui-radius-control)] text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--ui-primary)_28%,transparent)] focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-60 disabled:cursor-not-allowed";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:

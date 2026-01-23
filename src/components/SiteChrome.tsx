@@ -28,7 +28,7 @@ function NavLink({
     <Link
       href={href}
       aria-current={isActive ? "page" : undefined}
-      className={`rounded-full px-3 py-2 text-sm font-medium transition ${
+      className={`rounded-[var(--ui-radius-pill)] px-3 py-2 text-sm font-medium transition ${
         isActive
           ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-sm"
           : "text-[var(--ui-muted)] hover:bg-[var(--ui-card-solid)] hover:text-[var(--foreground)]"
@@ -71,7 +71,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
           <nav className="flex items-center gap-1 sm:hidden">
             <Link
               href="/stats"
-              className="rounded-full bg-[var(--ui-card-solid)] px-3 py-2 text-sm font-medium text-[var(--foreground)] shadow-sm"
+              className="rounded-[var(--ui-radius-pill)] bg-[var(--ui-card-solid)] px-3 py-2 text-sm font-medium text-[var(--foreground)] shadow-sm"
             >
               통계
             </Link>

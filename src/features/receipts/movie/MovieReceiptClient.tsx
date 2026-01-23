@@ -5,7 +5,7 @@ import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 
 import { PrimaryButton } from "@/components/Button";
-import type { MovieMedium, MovieReceipt } from "@/features/receipts/movie/types";
+import type { MovieMedium, MovieMode, MovieReceipt } from "@/features/receipts/movie/types";
 
 type ReceiptState = MovieReceipt & {
   includeQRCode: boolean;
@@ -34,6 +34,19 @@ const getBorderColor = (bgColor: string) => {
   return colorMap[bgColor] || "#1a1a1a";
 };
 
+const PHOTO_TICKET_MM = { width: 55, height: 85 };
+const PX_PER_MM = 96 / 25.4;
+const PHOTO_TICKET_PX = {
+  width: Math.round(PHOTO_TICKET_MM.width * PX_PER_MM),
+  height: Math.round(PHOTO_TICKET_MM.height * PX_PER_MM),
+};
+
+const mediumLabel: Record<MovieMedium, string> = {
+  theater: "극장",
+  ott: "OTT",
+  other: "기타",
+};
+
 export default function MovieReceiptClient() {
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -42,6 +55,7 @@ export default function MovieReceiptClient() {
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   const [receipt, setReceipt] = useState<ReceiptState>({
+    mode: "receipt",
     title: "Movie Receipt",
     viewer: "",
     watchedAt: "",
@@ -52,6 +66,17 @@ export default function MovieReceiptClient() {
     backgroundColor: "#ffffff",
     includeQRCode: true,
   });
+
+  const setMode = (mode: MovieMode) => {
+    setReceipt((prev) => {
+      if (mode === prev.mode) return prev;
+      return {
+        ...prev,
+        mode,
+        format: mode === "photo" ? "photo-ticket" : prev.format === "photo-ticket" ? "3inch" : prev.format,
+      };
+    });
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -65,14 +90,9 @@ export default function MovieReceiptClient() {
       ? `발급번호: ${receiptNumber.toString().padStart(6, "0")}\n`
       : "";
 
-    const mediumLabel: Record<MovieMedium, string> = {
-      theater: "극장",
-      ott: "OTT",
-      other: "기타",
-    };
-
     return [
       receiptNum,
+      `모드: ${receipt.mode === "photo" ? "포토티켓" : "영수증"}`,
       `제목: ${receipt.title || "Movie Receipt"}`,
       `관람자: ${receipt.viewer || "-"}`,
       `관람일: ${receipt.watchedAt || "-"}`,
@@ -92,6 +112,7 @@ export default function MovieReceiptClient() {
 
     try {
       const receiptPayload: MovieReceipt = {
+        mode: receipt.mode,
         title: receipt.title,
         viewer: receipt.viewer,
         watchedAt: receipt.watchedAt,
@@ -126,11 +147,11 @@ export default function MovieReceiptClient() {
         quality: 0.95,
         backgroundColor: receipt.backgroundColor,
         cacheBust: true,
-        pixelRatio: 2,
+        pixelRatio: receipt.mode === "photo" ? 3 : 2,
       });
 
       const link = document.createElement("a");
-      link.download = `movie-receipt-${receipt.title || "receipt"}-${Date.now()}.jpg`;
+      link.download = `movie-${receipt.mode}-${receipt.title || "receipt"}-${Date.now()}.jpg`;
       link.href = dataUrl;
       link.click();
 
@@ -167,6 +188,35 @@ export default function MovieReceiptClient() {
           </p>
 
           <div className="mt-5 grid gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                모드
+              </label>
+              <div className="flex w-full gap-2">
+                <button
+                  type="button"
+                  onClick={() => setMode("receipt")}
+                  className={`flex-1 rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition ${
+                    receipt.mode === "receipt"
+                      ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
+                      : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
+                  }`}
+                >
+                  영수증
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode("photo")}
+                  className={`flex-1 rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition ${
+                    receipt.mode === "photo"
+                      ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
+                      : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
+                  }`}
+                >
+                  포토티켓 (55×85mm)
+                </button>
+              </div>
+            </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 배경색
@@ -263,20 +313,22 @@ export default function MovieReceiptClient() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-                출력 포맷
-              </label>
-              <select
-                name="format"
-                value={receipt.format}
-                onChange={handleChange}
-                className="ui-input text-sm text-[var(--foreground)]"
-              >
-                <option value="3inch">3인치 (가로 3인치)</option>
-                <option value="2inch">2인치 (가로 2인치)</option>
-              </select>
-            </div>
+            {receipt.mode === "receipt" && (
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                  출력 포맷
+                </label>
+                <select
+                  name="format"
+                  value={receipt.format}
+                  onChange={handleChange}
+                  className="ui-input text-sm text-[var(--foreground)]"
+                >
+                  <option value="3inch">3인치 (가로 3인치)</option>
+                  <option value="2inch">2인치 (가로 2인치)</option>
+                </select>
+              </div>
+            )}
 
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
@@ -320,7 +372,11 @@ export default function MovieReceiptClient() {
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">미리보기</h2>
             <span className="rounded-full bg-black/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-              {receipt.format === "3inch" ? "3인치" : "2인치"}
+              {receipt.mode === "photo"
+                ? "포토티켓 55×85mm"
+                : receipt.format === "3inch"
+                  ? "3인치"
+                  : "2인치"}
             </span>
           </div>
 
@@ -330,13 +386,30 @@ export default function MovieReceiptClient() {
               className="flex-shrink-0 text-stone-700"
               style={{
                 backgroundColor: receipt.backgroundColor,
-                width: receipt.format === "3inch" ? "288px" : "192px",
-                minHeight: receipt.format === "3inch" ? "560px" : "480px",
+                width:
+                  receipt.mode === "photo"
+                    ? `${PHOTO_TICKET_PX.width}px`
+                    : receipt.format === "3inch"
+                      ? "288px"
+                      : "192px",
+                height:
+                  receipt.mode === "photo"
+                    ? `${PHOTO_TICKET_PX.height}px`
+                    : undefined,
+                minHeight:
+                  receipt.mode === "photo"
+                    ? undefined
+                    : receipt.format === "3inch"
+                      ? "560px"
+                      : "480px",
                 padding:
-                  receipt.format === "3inch"
-                    ? "24px 18px 32px 18px"
-                    : "20px 14px 28px 14px",
-                fontSize: receipt.format === "3inch" ? "14px" : "12px",
+                  receipt.mode === "photo"
+                    ? "14px 12px 16px 12px"
+                    : receipt.format === "3inch"
+                      ? "24px 18px 32px 18px"
+                      : "20px 14px 28px 14px",
+                fontSize:
+                  receipt.mode === "photo" ? "12px" : receipt.format === "3inch" ? "14px" : "12px",
                 display: "flex",
                 flexDirection: "column",
                 fontFamily: "var(--font-book-cafe), var(--font-ui), system-ui, sans-serif",
@@ -344,61 +417,94 @@ export default function MovieReceiptClient() {
                 boxShadow: "none",
               }}
             >
-              <div
-                className="mb-4 border-b border-dashed pb-3 text-center"
-                style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
-              >
-                <p
-                  className="font-semibold text-stone-900"
-                  style={{
-                    fontSize: receipt.format === "3inch" ? "18px" : "15px",
-                  }}
-                >
-                  {receipt.title || "관람확인증"}
-                </p>
-                {receiptNumber !== null && (
-                  <p
-                    className="mt-1 text-stone-500"
+              {receipt.mode === "photo" ? (
+                <>
+                  <div
+                    className="border-b border-dashed pb-2 text-center"
+                    style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
+                  >
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-600">
+                      Photo Ticket
+                    </div>
+                    <div
+                      className="mt-1 font-semibold text-stone-900"
+                      style={{ fontSize: "14px", lineHeight: "1.15" }}
+                    >
+                      {receipt.title || "Movie"}
+                    </div>
+                    <div className="mt-1 text-[11px] text-stone-600">
+                      {receipt.watchedAt || "—"}
+                      {receipt.place ? ` · ${receipt.place}` : ""}
+                    </div>
+                  </div>
+
+                  <div className="mt-3 flex-1">
+                    <div className="text-[11px] text-stone-600">
+                      {mediumLabel[receipt.medium]}
+                      {receipt.viewer ? ` · ${receipt.viewer}` : ""}
+                    </div>
+                    {receipt.note && (
+                      <div className="mt-2 whitespace-pre-wrap break-words text-[11px] leading-relaxed text-stone-800">
+                        {receipt.note}
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div
+                    className="mb-4 border-b border-dashed pb-3 text-center"
+                    style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
+                  >
+                    <p
+                      className="font-semibold text-stone-900"
+                      style={{
+                        fontSize: receipt.format === "3inch" ? "18px" : "15px",
+                      }}
+                    >
+                      {receipt.title || "관람확인증"}
+                    </p>
+                    {receiptNumber !== null && (
+                      <p
+                        className="mt-1 text-stone-500"
+                        style={{
+                          fontSize: receipt.format === "3inch" ? "10px" : "9px",
+                        }}
+                      >
+                        발급번호: {receiptNumber.toString().padStart(6, "0")}
+                      </p>
+                    )}
+                  </div>
+
+                  <div
+                    className="space-y-1"
                     style={{
-                      fontSize: receipt.format === "3inch" ? "10px" : "9px",
+                      fontSize: receipt.format === "3inch" ? "13px" : "11px",
                     }}
                   >
-                    발급번호: {receiptNumber.toString().padStart(6, "0")}
-                  </p>
-                )}
-              </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">관람자</span>
+                      <span className="font-semibold text-stone-900">{receipt.viewer || "—"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">관람일</span>
+                      <span className="font-semibold text-stone-900">{receipt.watchedAt || "—"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">장소</span>
+                      <span className="font-semibold text-stone-900">{receipt.place || "—"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-600">형태</span>
+                      <span className="font-semibold text-stone-900">
+                        {mediumLabel[receipt.medium]}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
 
-              <div
-                className="space-y-1"
-                style={{
-                  fontSize: receipt.format === "3inch" ? "13px" : "11px",
-                }}
-              >
-                <div className="flex justify-between">
-                  <span className="text-stone-600">관람자</span>
-                  <span className="font-semibold text-stone-900">{receipt.viewer || "—"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-600">관람일</span>
-                  <span className="font-semibold text-stone-900">{receipt.watchedAt || "—"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-600">장소</span>
-                  <span className="font-semibold text-stone-900">{receipt.place || "—"}</span>
-                </div>
-              <div className="flex justify-between">
-                <span className="text-stone-600">형태</span>
-                <span className="font-semibold text-stone-900">
-                  {receipt.medium === "theater"
-                    ? "극장"
-                    : receipt.medium === "ott"
-                      ? "OTT"
-                      : "기타"}
-                </span>
-              </div>
-              </div>
-
-              {receipt.note && (
+              {receipt.mode === "receipt" && receipt.note && (
                 <div className="mt-6">
                   <div
                     className="mb-3 border-b border-dashed"
