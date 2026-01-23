@@ -5,11 +5,22 @@ export type MovieMode = "receipt" | "photo";
 export type MovieReceipt = {
   mode: MovieMode;
   title: string;
-  viewer: string;
   watchedAt: string;
-  place: string;
+  theater: string;
   medium: MovieMedium;
   note: string;
+
+  // Photo ticket fields (55 x 85mm)
+  photoFormat: string;
+  ageRating: string;
+  subtitle: string;
+  showtime: string;
+  session: string;
+  hall: string;
+  seat: string;
+  ticketType: string;
+  brand: string;
+
   format: string;
   backgroundColor: string;
 };

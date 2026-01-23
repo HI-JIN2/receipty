@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",
+    "@types/jsbarcode": "^3.11.4",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
+    "jsbarcode": "^3.12.3",
     "next": "16.1.1",
     "qrcode.react": "^4.2.0",
     "react": "19.2.3",

@@ -32,11 +32,21 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
     kind: "movie" as const,
     mode: receipt.mode,
     title: receipt.title,
-    viewer: receipt.viewer,
     watchedAt: receipt.watchedAt,
-    place: receipt.place,
+    theater: receipt.theater,
     medium: receipt.medium,
     note: receipt.note,
+
+    photoFormat: receipt.photoFormat,
+    ageRating: receipt.ageRating,
+    subtitle: receipt.subtitle,
+    showtime: receipt.showtime,
+    session: receipt.session,
+    hall: receipt.hall,
+    seat: receipt.seat,
+    ticketType: receipt.ticketType,
+    brand: receipt.brand,
+
     format: receipt.format,
     backgroundColor: receipt.backgroundColor,
   };
