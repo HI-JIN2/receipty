@@ -6,6 +6,7 @@ import { toJpeg } from "html-to-image";
 import Barcode from "@/components/Barcode";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import PageHeader from "@/components/PageHeader";
+import SearchIcon from "@/components/icons/SearchIcon";
 import ReceiptCard from "@/features/receipts/shared/ReceiptCard";
 import ReceiptColumns from "@/features/receipts/shared/ReceiptColumns";
 import { PASTEL_COLORS } from "@/features/receipts/shared/palette";
@@ -467,10 +468,11 @@ export default function MovieReceiptClient() {
                 />
                 <PrimaryButton
                   type="submit"
+                  aria-label="검색"
                   className="shrink-0 px-4 py-2 text-sm"
                   disabled={movieSearching}
                 >
-                  {movieSearching ? "검색 중" : "검색"}
+                  {movieSearching ? "검색 중" : <SearchIcon className="h-4 w-4" />}
                 </PrimaryButton>
               </form>
               {movieSearchError && (
@@ -1274,17 +1276,15 @@ export default function MovieReceiptClient() {
             </div>
           </div>
 
-            <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <div className="mt-4 flex flex-col items-center gap-2">
               {saveMessage && (
-                <p className="text-center text-xs text-[var(--ui-muted)] sm:mr-auto sm:text-left">
-                  {saveMessage}
-                </p>
+                <p className="text-center text-xs text-[var(--ui-muted)]">{saveMessage}</p>
               )}
               <PrimaryButton
                 type="button"
                 onClick={handleSave}
                 disabled={isExporting}
-                className="rounded-2xl px-6 py-3 text-sm uppercase tracking-wide"
+                className="w-full max-w-[320px] rounded-2xl px-8 py-3 text-sm uppercase tracking-wide sm:max-w-[360px]"
               >
                 {isExporting ? "저장 중..." : "JPEG로 저장"}
               </PrimaryButton>

@@ -16,8 +16,8 @@
   </g>
 
   <g fill="#171412" opacity="0.86">
-    <text x="360" y="170" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="2">MOVIE RECEIPT</text>
-    <text x="360" y="198" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle" opacity="0.7">Sample Preview</text>
+    <text x="360" y="170" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="800" text-anchor="middle" letter-spacing="2">MOVIE RECEIPT</text>
+    <text x="360" y="198" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="650" text-anchor="middle" opacity="0.7">Ticket Stub</text>
   </g>
 
   <g stroke="#171412" stroke-opacity="0.18" stroke-width="2">
@@ -33,15 +33,15 @@
   </g>
 
   <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" fill="#171412">
-    <text x="360" y="294" font-size="12" font-weight="700" opacity="0.6">TITLE</text>
-    <text x="360" y="324" font-size="18" font-weight="800">Movie Title</text>
+    <text x="360" y="294" font-size="12" font-weight="800" opacity="0.6">TITLE</text>
+    <text x="360" y="324" font-size="18" font-weight="900">Movie Title</text>
     <text x="360" y="350" font-size="13" font-weight="700" opacity="0.7">Original Title</text>
 
-    <text x="360" y="398" font-size="12" font-weight="700" opacity="0.6">DATE</text>
+    <text x="360" y="398" font-size="12" font-weight="800" opacity="0.6">DATE</text>
     <text x="360" y="424" font-size="14" font-weight="700">2026-01-23</text>
 
-    <text x="360" y="470" font-size="12" font-weight="700" opacity="0.6">RATING</text>
-    <text x="360" y="496" font-size="14" font-weight="700">15+</text>
+    <text x="360" y="470" font-size="12" font-weight="800" opacity="0.6">RATING</text>
+    <text x="360" y="496" font-size="14" font-weight="800">15+</text>
   </g>
 
   <g stroke="#171412" stroke-opacity="0.16" stroke-width="2">
@@ -64,10 +64,10 @@
       <path d="M206 810h316"/>
     </g>
     <g fill="#171412" opacity="0.72" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
-      <text x="206" y="746" font-size="11" font-weight="700">MEMO</text>
-      <text x="206" y="772" font-size="12" font-weight="600">Write a short review,</text>
-      <text x="206" y="796" font-size="12" font-weight="600">pick a layout,</text>
-      <text x="206" y="820" font-size="12" font-weight="600">export as JPEG.</text>
+      <text x="206" y="746" font-size="11" font-weight="800">MEMO</text>
+      <text x="206" y="772" font-size="12" font-weight="650">Write a short review,</text>
+      <text x="206" y="796" font-size="12" font-weight="650">pick a layout,</text>
+      <text x="206" y="820" font-size="12" font-weight="650">export as JPEG.</text>
     </g>
   </g>
 </svg>

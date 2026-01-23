@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="960" viewBox="0 0 720 960" fill="none">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.82"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#19241f" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="720" height="960" fill="#f7f7f6"/>
+
+  <g filter="url(#shadow)">
+    <path d="M152 118h416a28 28 0 0 1 28 28v668a28 28 0 0 1-28 28H152a28 28 0 0 1-28-28V146a28 28 0 0 1 28-28Z" fill="url(#paper)" stroke="#b45309" stroke-opacity="0.22" stroke-width="2"/>
+  </g>
+
+  <g fill="#171412" opacity="0.86">
+    <text x="360" y="176" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="2">BOOK LOG</text>
+    <text x="360" y="204" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle" opacity="0.7">Reading Log</text>
+  </g>
+
+  <g stroke="#171412" stroke-opacity="0.18" stroke-width="2">
+    <line x1="172" y1="236" x2="548" y2="236"/>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" fill="#171412">
+    <text x="184" y="286" font-size="12" font-weight="700" opacity="0.6">TITLE</text>
+    <text x="184" y="314" font-size="18" font-weight="800">A Cozy Book Title</text>
+    <text x="184" y="340" font-size="13" font-weight="650" opacity="0.7">Author Name</text>
+
+    <text x="184" y="386" font-size="12" font-weight="700" opacity="0.6">DATE</text>
+    <text x="184" y="412" font-size="14" font-weight="650">2026-01-23</text>
+
+    <text x="384" y="386" font-size="12" font-weight="700" opacity="0.6">TAG</text>
+    <text x="384" y="412" font-size="14" font-weight="650">Cafe / Gift</text>
+  </g>
+
+  <g stroke="#171412" stroke-opacity="0.16" stroke-width="2">
+    <line x1="172" y1="448" x2="548" y2="448"/>
+  </g>
+
+  <g>
+    <rect x="184" y="476" width="364" height="224" rx="24" fill="#ffffff" fill-opacity="0.72" stroke="#171412" stroke-opacity="0.18"/>
+    <g fill="#171412" opacity="0.72" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
+      <text x="206" y="514" font-size="11" font-weight="800">MEMO</text>
+      <text x="206" y="546" font-size="13" font-weight="650">A short quote, a feeling,</text>
+      <text x="206" y="570" font-size="13" font-weight="650">and one line that captures</text>
+      <text x="206" y="594" font-size="13" font-weight="650">why you liked it.</text>
+    </g>
+    <g stroke="#171412" stroke-opacity="0.2" stroke-width="2">
+      <path d="M206 622h320"/>
+      <path d="M206 650h292"/>
+      <path d="M206 678h256"/>
+    </g>
+  </g>
+
+  <g>
+    <rect x="184" y="732" width="164" height="96" rx="18" fill="#ffffff" fill-opacity="0.7" stroke="#171412" stroke-opacity="0.18"/>
+    <g fill="#b45309" opacity="0.85">
+      <text x="266" y="790" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="26" font-weight="900" text-anchor="middle">5★</text>
+    </g>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" fill="#171412" opacity="0.72">
+    <text x="372" y="760" font-size="12" font-weight="800">EXPORT</text>
+    <text x="372" y="784" font-size="12" font-weight="650">Download as JPEG</text>
+    <text x="372" y="806" font-size="12" font-weight="650">for your diary.</text>
+  </g>
+</svg>

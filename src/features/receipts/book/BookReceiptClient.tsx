@@ -6,6 +6,7 @@ import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import PageHeader from "@/components/PageHeader";
+import SearchIcon from "@/components/icons/SearchIcon";
 import ReceiptColumns from "@/features/receipts/shared/ReceiptColumns";
 import ReceiptCard from "@/features/receipts/shared/ReceiptCard";
 import { PASTEL_COLORS, getPreviewBorderColor } from "@/features/receipts/shared/palette";
@@ -321,21 +322,8 @@ export default function BookReceiptClient() {
                 <h2 className="text-lg font-semibold text-[var(--foreground)]">네이버 도서 검색</h2>
                 <p className="mt-2 text-xs text-[var(--ui-muted)]">영수증에 담을 책을 검색해보세요.</p>
                 <div className="mt-4 flex items-center justify-end gap-2 text-sm font-semibold text-[var(--ui-muted)]">
-                  <span>검색하기</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-4 w-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                    />
-                  </svg>
+                  <span className="sr-only">검색</span>
+                  <SearchIcon className="h-4 w-4" />
                 </div>
               </button>
             </div>
@@ -348,7 +336,7 @@ export default function BookReceiptClient() {
                 <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
                   영수증에 담을 책을 검색해보세요.
                 </p>
-                <form onSubmit={handleSearch} className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <form onSubmit={handleSearch} className="mt-6 flex items-stretch gap-2">
                   <div className="relative flex-1">
                     <input
                       value={query}
@@ -378,8 +366,13 @@ export default function BookReceiptClient() {
                       </button>
                     )}
                   </div>
-                  <PrimaryButton type="submit" disabled={loading} className="px-5 py-3 text-sm">
-                    {loading ? "검색 중..." : "검색"}
+                  <PrimaryButton
+                    type="submit"
+                    aria-label="검색"
+                    disabled={loading}
+                    className="shrink-0 px-4 py-2 text-sm"
+                  >
+                    {loading ? "검색 중..." : <SearchIcon className="h-4 w-4" />}
                   </PrimaryButton>
                 </form>
                 {error && (
@@ -519,7 +512,7 @@ export default function BookReceiptClient() {
                   </div>
 
                   <div className="flex-1 overflow-y-auto p-4">
-                    <form onSubmit={handleSearch} className="mb-4 flex flex-col gap-3">
+                    <form onSubmit={handleSearch} className="mb-4 flex items-stretch gap-2">
                       <div className="relative flex-1">
                         <input
                           value={query}
@@ -550,8 +543,13 @@ export default function BookReceiptClient() {
                           </button>
                         )}
                       </div>
-                      <PrimaryButton type="submit" disabled={loading} className="px-5 py-3 text-sm">
-                        {loading ? "검색 중..." : "검색"}
+                      <PrimaryButton
+                        type="submit"
+                        aria-label="검색"
+                        disabled={loading}
+                        className="shrink-0 px-4 py-2 text-sm"
+                      >
+                        {loading ? "검색 중..." : <SearchIcon className="h-4 w-4" />}
                       </PrimaryButton>
                     </form>
 
@@ -1069,17 +1067,15 @@ export default function BookReceiptClient() {
               </div>
             </div>
 
-            <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <div className="mt-4 flex flex-col items-center gap-2">
               {saveMessage && (
-                <p className="text-center text-xs text-[var(--ui-muted)] sm:mr-auto sm:text-left">
-                  {saveMessage}
-                </p>
+                <p className="text-center text-xs text-[var(--ui-muted)]">{saveMessage}</p>
               )}
               <PrimaryButton
                 type="button"
                 onClick={handlePrint}
                 disabled={isExporting || isSaving || selected.length === 0}
-                className="rounded-2xl px-6 py-3 text-sm uppercase tracking-wide"
+                className="w-full max-w-[320px] rounded-2xl px-8 py-3 text-sm uppercase tracking-wide sm:max-w-[360px]"
               >
                 {isExporting || isSaving ? "저장 중..." : "JPEG로 저장"}
               </PrimaryButton>

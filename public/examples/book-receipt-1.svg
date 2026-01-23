@@ -17,7 +17,7 @@
 
   <g fill="#171412" opacity="0.86">
     <text x="360" y="176" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="2">BOOK RECEIPT</text>
-    <text x="360" y="204" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle" opacity="0.7">Sample Preview</text>
+    <text x="360" y="204" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle" opacity="0.7">Borrow &amp; Return</text>
   </g>
 
   <g stroke="#171412" stroke-opacity="0.2" stroke-width="2">
@@ -41,12 +41,12 @@
 
   <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" fill="#171412">
     <text x="188" y="468" font-size="12" font-weight="700" opacity="0.6">ITEMS</text>
-    <text x="188" y="504" font-size="15" font-weight="700">01</text>
-    <text x="228" y="504" font-size="14" font-weight="600" opacity="0.9">The Book Title Goes Here</text>
+    <text x="188" y="504" font-size="15" font-weight="800">01</text>
+    <text x="228" y="504" font-size="14" font-weight="650" opacity="0.92">The Book Title Goes Here</text>
     <text x="228" y="528" font-size="12" font-weight="600" opacity="0.6">Author Name</text>
 
-    <text x="188" y="580" font-size="15" font-weight="700">02</text>
-    <text x="228" y="580" font-size="14" font-weight="600" opacity="0.9">Another Great Book Title</text>
+    <text x="188" y="580" font-size="15" font-weight="800">02</text>
+    <text x="228" y="580" font-size="14" font-weight="650" opacity="0.92">Another Great Book Title</text>
     <text x="228" y="604" font-size="12" font-weight="600" opacity="0.6">Author Name</text>
   </g>
 
@@ -63,7 +63,7 @@
   </g>
 
   <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" fill="#171412" opacity="0.72">
-    <text x="328" y="726" font-size="12" font-weight="700">NOTE</text>
+    <text x="328" y="726" font-size="12" font-weight="800">NOTE</text>
     <text x="328" y="752" font-size="12" font-weight="600">Add a short message</text>
     <text x="328" y="774" font-size="12" font-weight="600">and export as JPEG.</text>
   </g>
