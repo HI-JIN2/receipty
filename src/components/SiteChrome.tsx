@@ -55,10 +55,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
               className="text-base font-semibold tracking-tight"
               style={{ fontFamily: "var(--font-book-cafe), var(--font-ui)" }}
             >
-              Book Receipt
-            </span>
-            <span className="hidden rounded-full bg-black/5 px-2 py-1 text-[11px] font-semibold text-[var(--ui-muted)] sm:inline">
-              Maker
+              Receipt Marker
             </span>
           </Link>
           <nav className="hidden items-center gap-1 sm:flex">

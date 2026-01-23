@@ -13,9 +13,9 @@ const baseClasses =
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-[var(--ui-primary)] text-[var(--ui-primary-ink)] shadow-[0_16px_40px_rgba(87,63,36,0.22)] hover:brightness-95 active:brightness-90",
+    "bg-[var(--ui-primary)] text-[var(--ui-primary-ink)] shadow-[0_10px_24px_rgba(87,63,36,0.14)] hover:brightness-95 active:brightness-90",
   secondary:
-    "border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--foreground)] shadow-sm hover:bg-[var(--ui-card-solid)] active:bg-[var(--ui-card-solid)]",
+    "border border-[var(--ui-secondary-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-secondary-text)] shadow-none hover:bg-[var(--ui-secondary-hover-bg)] active:bg-[var(--ui-secondary-hover-bg)]",
 };
 
 export function Button({ variant = "primary", className = "", ...props }: ButtonProps) {

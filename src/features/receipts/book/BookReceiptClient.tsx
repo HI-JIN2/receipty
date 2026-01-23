@@ -6,18 +6,14 @@ import { toJpeg } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 
-type BookResult = {
-  title: string;
-  author: string;
-  publisher: string;
-  published_at: string | null;
-  isbn: string | null;
-  cover_url: string;
-  link: string;
-  source: string;
+import type { BaseReceipt } from "@/features/receipts/core/types";
+import type { BookResult } from "@/features/receipts/book/types";
+
+type ReceiptState = BaseReceipt & {
+  includeQRCode: boolean;
 };
 
-export default function HomeClient() {
+export default function BookReceiptClient() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<BookResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -32,7 +28,7 @@ export default function HomeClient() {
   const [receiptNumber, setReceiptNumber] = useState<number | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
-  const [receipt, setReceipt] = useState({
+  const [receipt, setReceipt] = useState<ReceiptState>({
     title: "Book Receipt",
     renter: "",
     rentalDate: "",
@@ -166,11 +162,25 @@ export default function HomeClient() {
 
     try {
       let receiptNum: number | null = null;
+
+      const receiptPayload: BaseReceipt = {
+        title: receipt.title,
+        renter: receipt.renter,
+        rentalDate: receipt.rentalDate,
+        returnDate: receipt.returnDate,
+        note: receipt.note,
+        format: receipt.format,
+        backgroundColor: receipt.backgroundColor,
+      };
       try {
-        const res = await fetch("/api/receipt", {
+        const res = await fetch("/api/receipts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ selected, receipt }),
+          body: JSON.stringify({
+            kind: "book",
+            selected,
+            receipt: receiptPayload,
+          }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data?.error || "기록 저장 중 오류가 발생했습니다.");
@@ -907,25 +917,25 @@ export default function HomeClient() {
             </div>
 
             <div className="mt-4 flex justify-center overflow-x-auto">
-              <div
-                ref={previewRef}
-                className="flex-shrink-0 text-stone-700"
-                style={{
-                  backgroundColor: receipt.backgroundColor,
-                  width: receipt.format === "3inch" ? "288px" : "192px",
-                  minHeight: receipt.format === "3inch" ? "600px" : "500px",
-                  padding:
-                    receipt.format === "3inch"
-                      ? "24px 18px 32px 18px"
-                      : "20px 14px 28px 14px",
-                  fontSize: receipt.format === "3inch" ? "14px" : "12px",
-                  display: "flex",
-                  flexDirection: "column",
-                  fontFamily: "var(--font-book-cafe), var(--font-ui), system-ui, sans-serif",
-                  borderRadius: "16px",
-                  boxShadow: "0 18px 40px rgba(15, 23, 42, 0.10)",
-                }}
-              >
+                <div
+                  ref={previewRef}
+                  className="flex-shrink-0 text-stone-700"
+                  style={{
+                    backgroundColor: receipt.backgroundColor,
+                    width: receipt.format === "3inch" ? "288px" : "192px",
+                    minHeight: receipt.format === "3inch" ? "600px" : "500px",
+                    padding:
+                      receipt.format === "3inch"
+                        ? "24px 18px 32px 18px"
+                        : "20px 14px 28px 14px",
+                    fontSize: receipt.format === "3inch" ? "14px" : "12px",
+                    display: "flex",
+                    flexDirection: "column",
+                    fontFamily: "var(--font-book-cafe), var(--font-ui), system-ui, sans-serif",
+                    borderRadius: "0px",
+                    boxShadow: "none",
+                  }}
+                >
                 <div
                   className="mb-4 border-b border-dashed pb-3 text-center"
                   style={{ borderColor: getBorderColor(receipt.backgroundColor) }}
