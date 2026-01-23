@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import SiteChrome from "@/components/SiteChrome";
 
 export default function AboutPage() {
@@ -46,6 +48,16 @@ export default function AboutPage() {
                 qldls0307@naver.com
               </a>
             </p>
+          </div>
+
+          <div className="pt-6">
+            <Link
+              href="/credits"
+              className="inline-flex items-center gap-2 rounded-[var(--ui-radius-control)] border border-[var(--ui-secondary-border)] bg-[var(--ui-secondary-bg)] px-4 py-2 text-sm font-semibold text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
+            >
+              폰트/저작권 보기
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
       </div>
