@@ -336,8 +336,8 @@ export default function BookReceiptClient() {
         </div>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div className="flex flex-col gap-6">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="flex min-w-0 flex-col gap-6">
           <div className="lg:hidden">
             <button
               type="button"
@@ -696,8 +696,8 @@ export default function BookReceiptClient() {
           )}
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 lg:mt-0">
-          <div className="ui-card p-4 sm:p-6">
+        <div className="mt-8 flex min-w-0 flex-col gap-8 lg:mt-0">
+          <div className="ui-card min-w-0 overflow-hidden p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
             <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
               선택한 도서 정보를 기반으로 영수증 상단 정보와 메모를 설정하세요.
@@ -817,14 +817,14 @@ export default function BookReceiptClient() {
                 <p className="mt-1 text-xs text-black/45">
                   목록을 드래그해서 순서를 정리하거나, 우측 X 버튼으로 삭제할 수 있어요.
                 </p>
-                <div className="mt-3 space-y-2 rounded-2xl border border-dashed border-black/10 bg-white/60 p-3">
+                <div className="mt-3 min-w-0 max-w-full space-y-2 overflow-hidden rounded-2xl border border-dashed border-black/10 bg-white/60 p-3">
                   {selected.length === 0 ? (
                     <p className="text-sm text-[var(--ui-muted)]">아직 책을 선택하지 않았어요.</p>
                   ) : (
                     selected.map((book, index) => (
                       <div
                         key={`${getKey(book)}-editor`}
-                        className={`flex items-center gap-3 rounded-2xl border px-2 py-2 text-sm text-[var(--foreground)] transition ${
+                        className={`flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-2xl border px-2 py-2 text-sm text-[var(--foreground)] transition ${
                           dragIndex === index
                             ? "border-[color-mix(in_srgb,var(--ui-primary)_45%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)]"
                             : "border-transparent hover:border-black/10"
@@ -847,11 +847,13 @@ export default function BookReceiptClient() {
                           </svg>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="truncate font-semibold">{book.title}</div>
-                          <div className="truncate text-xs text-[var(--ui-muted)]">
+                          <div className="line-clamp-2 break-words font-semibold leading-snug">
+                            {book.title}
+                          </div>
+                          <div className="mt-0.5 line-clamp-1 break-words text-xs text-[var(--ui-muted)]">
                             {book.author} · {book.publisher}
                           </div>
-                          <div className="truncate text-[11px] text-black/45">
+                          <div className="mt-0.5 line-clamp-1 break-words text-[11px] text-black/45">
                             {book.isbn || book.published_at || "—"}
                           </div>
                         </div>

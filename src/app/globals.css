@@ -57,6 +57,8 @@ body {
     background: rgba(255, 250, 242, 0.9);
     border-radius: 16px;
     padding: 12px 14px;
+    width: 100%;
+    min-width: 0;
     outline: none;
   }
 
