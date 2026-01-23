@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Sans_KR } from "next/font/google";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
+
+const uiFont = IBM_Plex_Sans_KR({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-ui",
+  display: "swap",
+});
 
 const bookCafe = localFont({
   src: [
@@ -93,7 +101,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${bookCafe.variable} antialiased`}>
+      <body className={`${uiFont.variable} ${bookCafe.variable} antialiased`}>
         <GoogleAnalytics />
         {children}
       </body>

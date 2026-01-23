@@ -9,13 +9,13 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const baseClasses =
-  "inline-flex items-center justify-center rounded-xl text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-60 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center rounded-2xl text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--ui-primary)_28%,transparent)] focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-60 disabled:cursor-not-allowed";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-amber-900 text-amber-50 shadow-[0_8px_18px_rgba(193,160,120,0.3)] hover:bg-amber-950",
+    "bg-[var(--ui-primary)] text-[var(--ui-primary-ink)] shadow-[0_16px_40px_rgba(87,63,36,0.22)] hover:brightness-95 active:brightness-90",
   secondary:
-    "border border-amber-900/20 bg-white/50 text-amber-900/80 hover:border-amber-900/40 hover:bg-white/80",
+    "border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--foreground)] shadow-sm hover:bg-[var(--ui-card-solid)] active:bg-[var(--ui-card-solid)]",
 };
 
 export function Button({ variant = "primary", className = "", ...props }: ButtonProps) {
@@ -35,5 +35,3 @@ export function PrimaryButton(props: ButtonProps) {
 export function SecondaryButton(props: ButtonProps) {
   return <Button variant="secondary" {...props} />;
 }
-
-
