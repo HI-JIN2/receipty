@@ -31,7 +31,7 @@ const pastelColors = [
 ];
 
 const PHOTO_TICKET_MM = { width: 55, height: 85 };
-const MINI_RECEIPT_MM = { width: 85, height: 55 };
+const MINI_RECEIPT_MM = { width: 85, height: 60 };
 const MOVIE_RECEIPT_MM = { width: 60 };
 const PX_PER_MM = 96 / 25.4;
 const PHOTO_TICKET_PX = {
@@ -658,19 +658,21 @@ export default function MovieReceiptClient() {
 
             <input type="hidden" name="format" value={receipt.format} />
 
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-                메모
-              </label>
-              <textarea
-                name="note"
-                value={receipt.note}
-                onChange={handleChange}
-                rows={3}
-                placeholder="별점, 함께 본 사람, 인상적인 대사 등을 남겨보세요."
-                className="ui-input text-sm text-[var(--foreground)]"
-              />
-            </div>
+            {receipt.mode !== "mini" && (
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                  메모
+                </label>
+                <textarea
+                  name="note"
+                  value={receipt.note}
+                  onChange={handleChange}
+                  rows={3}
+                  placeholder="별점, 함께 본 사람, 인상적인 대사 등을 남겨보세요."
+                  className="ui-input text-sm text-[var(--foreground)]"
+                />
+              </div>
+            )}
 
             {receipt.mode !== "mini" && (
               <div className="flex items-center gap-2">
@@ -733,7 +735,7 @@ export default function MovieReceiptClient() {
                     ? undefined
                     : receipt.mode === "mini"
                       ? undefined
-                      : "560px",
+                      : undefined,
                 padding:
                   receipt.mode === "photo"
                     ? "12px 10px 12px 10px"
@@ -823,11 +825,51 @@ export default function MovieReceiptClient() {
                     </div>
                   </div>
 
+                  {receipt.note && (
+                    <div
+                      className="mt-2 whitespace-pre-wrap break-words text-stone-700"
+                      style={{ fontSize: "11px", lineHeight: "1.25" }}
+                    >
+                      {receipt.note}
+                    </div>
+                  )}
+
                 </>
               ) : receipt.mode === "mini" ? (
                 <>
                   <div
-                    className="text-left text-stone-900"
+                    className="text-center text-stone-900"
+                    style={{
+                      fontWeight: 500,
+                      fontSize: "calc(var(--movie-receipt-size-md) + 3px)",
+                      letterSpacing: "-0.01em",
+                      lineHeight: "1.1",
+                    }}
+                  >
+                    ★ 영화입장권 ★
+                  </div>
+
+                  <div
+                    className="mt-0.5 w-full overflow-hidden text-center whitespace-nowrap text-stone-700"
+                    style={{
+                      fontSize: "var(--movie-receipt-size-sm)",
+                      fontWeight: 400,
+                      letterSpacing: "-0.06em",
+                    }}
+                  >
+                    {(() => {
+                      const date = receipt.issuedAt ? new Date(receipt.issuedAt) : new Date();
+                      const yyyy = date.getFullYear();
+                      const mm = String(date.getMonth() + 1).padStart(2, "0");
+                      const dd = String(date.getDate()).padStart(2, "0");
+                      const hh = String(date.getHours()).padStart(2, "0");
+                      const min = String(date.getMinutes()).padStart(2, "0");
+                      return `${yyyy}-${mm}-${dd} ${hh}:${min}(BOX_KIOSK_A5)[전체발권]`;
+                    })()}
+                  </div>
+
+                  <div
+                    className="mt-2 text-left text-stone-900"
                     style={{ fontWeight: 400, fontSize: "var(--movie-receipt-size-md)", lineHeight: "1.1" }}
                   >
                     {(receipt.photoFormat || "2D") + ", " + (receipt.ageRating || "전체관람가")}
@@ -967,7 +1009,6 @@ export default function MovieReceiptClient() {
                           fontWeight: 400,
                           fontSize: "var(--movie-receipt-size-sm)",
                           lineHeight: "1.15",
-                          paddingLeft: "2px",
                         }}
                       >
                         {receipt.subtitle}
@@ -983,7 +1024,9 @@ export default function MovieReceiptClient() {
                         fontWeight: 500,
                         fontSize: "var(--movie-receipt-size-md)",
                         lineHeight: "1.1",
-                        letterSpacing: "-0.04em",
+                        letterSpacing: "-0.07em",
+                        transform: "scaleX(0.98)",
+                        transformOrigin: "left",
                       }}
                     >
                       {(() => {
@@ -1082,22 +1125,6 @@ export default function MovieReceiptClient() {
                   />
 
                   {/* Disclaimer/Notes */}
-              {receipt.note && (
-                <div
-                  className="mb-2 text-left text-stone-700"
-                  style={{
-                    fontWeight: 400,
-                    fontSize: "var(--movie-receipt-size-sm)",
-                    lineHeight: "1.5",
-                  }}
-                >
-                  {receipt.note.split("\n").map((line, idx) => (
-                    <div key={idx} className="mb-1">
-                      * {line}
-                    </div>
-                  ))}
-                </div>
-              )}
 
               {receipt.mode === "receipt" && (
                 <div
@@ -1163,10 +1190,7 @@ export default function MovieReceiptClient() {
                 <div
                   className="mt-3 text-center text-stone-900"
                   style={{
-                    fontSize:
-                      receipt.mode === "photo"
-                        ? "10px"
-                        : "var(--movie-receipt-size-sm)",
+                    fontSize: "var(--movie-receipt-size-sm)",
                     fontWeight: 600,
                     letterSpacing: "0.08em",
                     fontFamily: "var(--font-book-cafe), var(--font-ui)",

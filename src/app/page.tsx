@@ -47,13 +47,13 @@ export default function HomePage() {
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-lg font-semibold text-[var(--foreground)]">영화 영수증</h2>
             <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-[var(--ui-muted)]">
-              준비 중
+              만들기
             </span>
           </div>
           <p className="mt-2 text-sm text-[var(--ui-muted)]">
-            극장/OTT 감상 기록도 같은 방식으로 확장할 예정이에요.
+            영수증/포토티켓/미니 영수증으로 티켓 기록을 남겨요.
           </p>
-          <p className="mt-6 text-sm font-semibold text-[var(--ui-accent)]">둘러보기 →</p>
+          <p className="mt-6 text-sm font-semibold text-[var(--ui-primary)]">시작하기 →</p>
         </Link>
       </div>
     </SiteChrome>
