@@ -66,6 +66,9 @@ export default function MovieReceiptClient() {
 
   const [receipt, setReceipt] = useState<ReceiptState>({
     mode: "receipt",
+    tmdbId: null,
+    posterUrl: null,
+    releaseDate: null,
     title: "Movie Receipt",
     watchedAt: "",
     watchedTime: "",
@@ -254,6 +257,9 @@ export default function MovieReceiptClient() {
   const applyMovie = (item: MovieSearchItem) => {
     setReceipt((prev) => ({
       ...prev,
+      tmdbId: item.id,
+      posterUrl: item.posterUrl,
+      releaseDate: item.releaseDate,
       title: item.titleKo || prev.title,
       subtitle: item.titleEn || prev.subtitle,
       ageRating: item.ageRating || prev.ageRating,
@@ -281,6 +287,9 @@ export default function MovieReceiptClient() {
     try {
       const receiptPayload: MovieReceipt = {
         mode: receipt.mode,
+        tmdbId: receipt.tmdbId,
+        posterUrl: receipt.posterUrl,
+        releaseDate: receipt.releaseDate,
         title: receipt.title,
         watchedAt: receipt.watchedAt,
         watchedTime: receipt.watchedTime,

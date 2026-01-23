@@ -4,6 +4,11 @@ export type MovieMode = "receipt" | "photo" | "mini";
 
 export type MovieReceipt = {
   mode: MovieMode;
+
+  // If selected from TMDB search
+  tmdbId: number | null;
+  posterUrl: string | null;
+  releaseDate: string | null;
   title: string;
   watchedAt: string;
   watchedTime: string;
