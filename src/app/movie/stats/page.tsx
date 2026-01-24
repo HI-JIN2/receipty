@@ -81,8 +81,8 @@ export default async function MovieStatsPage() {
   return (
     <SiteChrome activeHref="/movie/stats">
       <PageHeader
-        eyebrow="Movie Stats"
-        title="영화 통계"
+        eyebrow="Movie Report"
+        title="영화 리포트"
         description="영화 영수증 생성 현황과 인기 영화를 보여줘요."
       />
 
@@ -99,7 +99,7 @@ export default async function MovieStatsPage() {
 
         {topMovies.length === 0 ? (
           <p className="mt-4 text-sm text-[var(--ui-muted)]">
-            {rowsError ? "통계를 불러오지 못했습니다." : "아직 집계할 데이터가 없습니다."}
+            {rowsError ? "리포트를 불러오지 못했습니다." : "아직 집계할 데이터가 없습니다."}
           </p>
         ) : (
           <ol className="mt-6 grid gap-4 sm:grid-cols-2">

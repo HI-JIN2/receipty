@@ -42,7 +42,7 @@ export default async function BookStatsPage() {
         printsCount: 0,
         printBooksCount: 0,
         topBooks: [],
-        error: rpcError?.message ?? "통계 조회에 실패했습니다.",
+        error: rpcError?.message ?? "리포트 조회에 실패했습니다.",
       };
     } else {
       data = {
@@ -59,21 +59,21 @@ export default async function BookStatsPage() {
       printsCount: 0,
       printBooksCount: 0,
       topBooks: [],
-      error: "통계 조회 중 오류가 발생했습니다.",
+      error: "리포트 조회 중 오류가 발생했습니다.",
     };
   }
 
   return (
     <SiteChrome activeHref="/book/stats">
       <PageHeader
-        eyebrow="Book Stats"
-        title="도서 통계"
+        eyebrow="Book Report"
+        title="도서 리포트"
         description="지금까지 만들어진 도서 영수증과 인기 도서를 모아봤어요."
       />
 
       {!data.ok ? (
         <div className="mt-6 rounded-3xl border border-rose-200 bg-rose-50 p-6 text-rose-700">
-          통계를 불러오지 못했습니다. <span className="font-semibold">{data.error ?? ""}</span>
+          리포트를 불러오지 못했습니다. <span className="font-semibold">{data.error ?? ""}</span>
         </div>
       ) : (
         <>

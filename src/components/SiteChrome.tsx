@@ -168,7 +168,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
             <div aria-hidden className="h-5 w-px bg-black/10" />
 
             <NavLink href={makerHref} label="영수증 만들기" activeHref={activeHref} />
-            <NavLink href={statsHref} label="통계" activeHref={activeHref} />
+            <NavLink href={statsHref} label="리포트" activeHref={activeHref} />
           </nav>
 
           <nav className="flex items-center sm:hidden">
@@ -232,7 +232,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
 
           <div className="mt-4 grid gap-2">
             <NavLink href={makerHref} label="영수증 만들기" activeHref={activeHref} />
-            <NavLink href={statsHref} label="통계" activeHref={activeHref} />
+            <NavLink href={statsHref} label="리포트" activeHref={activeHref} />
           </div>
 
           <div className="mt-6 border-t border-[var(--ui-border)] pt-4">

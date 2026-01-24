@@ -866,14 +866,14 @@ export default function MovieReceiptClient() {
                     </div>
                   </div>
 
-                  <div className="mb-1">
+                  <div className="mb-0.5">
                     <div
-                      className="mb-1 border-b border-stone-900"
+                      className="mb-0.5 border-b border-stone-900"
                       style={{ borderWidth: "1px" }}
                     />
                     <div
                       className="font-semibold text-stone-900"
-                      style={{ fontSize: "15px", lineHeight: "1.2", marginBottom: "2px" }}
+                      style={{ fontSize: "15px", lineHeight: "1.2", marginBottom: "1px" }}
                     >
                       {receipt.title || "Movie Title"}
                     </div>
@@ -884,13 +884,13 @@ export default function MovieReceiptClient() {
                       {shouldShowSubtitle ? receipt.subtitle : ""}
                     </div>
                     <div
-                      className="mt-0.5 border-b border-stone-900"
+                      className="mt-0 border-b border-stone-900"
                       style={{ borderWidth: "1px" }}
                     />
                   </div>
 
                   {/* Middle Section: place/date, showtime, seat, people */}
-                  <div className="mt-1 text-stone-900" style={{ fontSize: "11px" }}>
+                  <div className="mt-0.5 text-stone-900" style={{ fontSize: "11px" }}>
                     {(() => {
                       const place = receipt.theater || "극장명";
                       let dateStr = "2023.05.03";
@@ -910,19 +910,19 @@ export default function MovieReceiptClient() {
                       return `${place} | ${dateStr} (${dayStr})`;
                     })()}
 
-                    <div className="h-3" />
+                    <div className="h-2" />
 
                     <div>
                       {(receipt.showtime || "20:30~23:07") +
                         (receipt.session ? ` (${receipt.session})` : "")}
                     </div>
 
-                    <div className="h-3" />
+                    <div className="h-2" />
 
                     <div>{(receipt.hall || "2관").trim()}</div>
                     <div>{(receipt.seat || "E열 07번").trim()}</div>
 
-                    <div className="h-3" />
+                    <div className="h-2" />
 
                     <div>
                       {receipt.ticketType || "일반 1명"}
@@ -1285,7 +1285,7 @@ export default function MovieReceiptClient() {
                       className="mt-2 text-stone-700"
                       style={{ fontSize: "var(--movie-receipt-size-sm)" }}
                     >
-                      일련번호 {getSerialNumber()}
+                      {receipt.mode === "photo" ? getSerialNumber() : `일련번호 ${getSerialNumber()}`}
                     </div>
                   </div>
                 )}

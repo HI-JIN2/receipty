@@ -21,7 +21,7 @@ export const GET = async () => {
       return NextResponse.json(
         {
           ok: false,
-          error: error?.message ?? "통계 조회에 실패했습니다.",
+          error: error?.message ?? "리포트 조회에 실패했습니다.",
         },
         { status: 500 },
       );
@@ -43,10 +43,9 @@ export const GET = async () => {
   } catch (err) {
     console.error(err);
     return NextResponse.json(
-      { ok: false, error: "통계 조회 중 오류가 발생했습니다." },
+      { ok: false, error: "리포트 조회 중 오류가 발생했습니다." },
       { status: 500 },
     );
   }
 };
-
 
