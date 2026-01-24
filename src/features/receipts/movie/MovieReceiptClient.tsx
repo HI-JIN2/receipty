@@ -49,6 +49,7 @@ const MOVIE_RECEIPT_DISCLAIMER_LINES = [
 
 export default function MovieReceiptClient() {
   const previewRef = useRef<HTMLDivElement>(null);
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
   const [receiptNumber, setReceiptNumber] = useState<number | null>(null);
   const [isExporting, setIsExporting] = useState(false);
@@ -86,6 +87,22 @@ export default function MovieReceiptClient() {
     backgroundColor: "#ffffff",
     includeBarcode: true,
   });
+
+  const switchToManualMovieInput = () => {
+    setMovieQuery("");
+    setMovieResults([]);
+    setMovieSearchError(null);
+    setReceipt((prev) => ({
+      ...prev,
+      tmdbId: null,
+      posterUrl: null,
+      releaseDate: null,
+    }));
+
+    window.setTimeout(() => {
+      titleInputRef.current?.focus();
+    }, 0);
+  };
 
   const normalizeTimeHHMM = (value: string) => {
     const v = value.trim();
@@ -459,6 +476,13 @@ export default function MovieReceiptClient() {
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 TMDB 검색 (자동 채우기)
               </label>
+              <button
+                type="button"
+                onClick={switchToManualMovieInput}
+                className="-mt-1 self-start text-xs font-semibold text-[var(--ui-primary)] hover:underline"
+              >
+                검색에 없나요? 직접 입력
+              </button>
               <form onSubmit={handleMovieSearch} className="flex items-stretch gap-2">
                 <input
                   value={movieQuery}
@@ -577,6 +601,7 @@ export default function MovieReceiptClient() {
                 영화 제목
               </label>
               <input
+                ref={titleInputRef}
                 name="title"
                 value={receipt.title}
                 onChange={handleChange}
@@ -833,17 +858,22 @@ export default function MovieReceiptClient() {
                 <>
                   {/* Top Section: Format, Age Rating, Title */}
                   <div className="mb-1 flex items-start justify-between">
-                    <div className="text-[11px] font-semibold text-stone-900">
+                    <div className="text-stone-900" style={{ fontSize: "11px" }}>
                       {receipt.photoFormat || "2D"}
                     </div>
-                    <div className="text-[11px] font-semibold text-stone-900">
+                    <div className="text-stone-900" style={{ fontSize: "11px" }}>
                       {receipt.ageRating || "12세관람가"}
                     </div>
                   </div>
+
                   <div className="mb-1">
                     <div
+                      className="mb-1 border-b border-stone-900"
+                      style={{ borderWidth: "1px" }}
+                    />
+                    <div
                       className="font-semibold text-stone-900"
-                      style={{ fontSize: "15px", lineHeight: "1.2", marginBottom: "1px" }}
+                      style={{ fontSize: "15px", lineHeight: "1.2", marginBottom: "2px" }}
                     >
                       {receipt.title || "Movie Title"}
                     </div>
@@ -851,51 +881,50 @@ export default function MovieReceiptClient() {
                       className="break-words text-stone-700"
                       style={{ fontSize: "11px", lineHeight: "1.2" }}
                     >
-                      {receipt.subtitle || receipt.title || "English Title"}
-                    </div>
-                  </div>
-                  <div
-                    className="mb-1 border-b border-stone-900"
-                    style={{ borderWidth: "1px" }}
-                  />
-
-                  {/* Middle Section: Cinema, Date, Showtime, Hall, Seat, Ticket Type */}
-                  <div className="space-y-0.5" style={{ fontSize: "11px" }}>
-                    <div className="text-stone-900">
-                      {(() => {
-                        const place = receipt.theater || "극장명";
-                        let dateStr = "2023.05.03";
-                        let dayStr = "수";
-                        if (receipt.watchedAt) {
-                          try {
-                            const date = new Date(receipt.watchedAt);
-                            const year = date.getFullYear();
-                            const month = String(date.getMonth() + 1).padStart(2, "0");
-                            const day = String(date.getDate()).padStart(2, "0");
-                            dateStr = `${year}.${month}.${day}`;
-                            dayStr = date.toLocaleDateString("ko-KR", { weekday: "short" });
-                          } catch {
-                            // Use default
-                          }
-                        }
-                        return `${place} | ${dateStr} (${dayStr})`;
-                      })()}
+                      {shouldShowSubtitle ? receipt.subtitle : ""}
                     </div>
                     <div
-                      className="border-b border-stone-900"
-                      style={{ borderWidth: "1px", margin: "3px 0" }}
+                      className="mt-0.5 border-b border-stone-900"
+                      style={{ borderWidth: "1px" }}
                     />
-                    <div className="text-stone-900">
+                  </div>
+
+                  {/* Middle Section: place/date, showtime, seat, people */}
+                  <div className="mt-1 text-stone-900" style={{ fontSize: "11px" }}>
+                    {(() => {
+                      const place = receipt.theater || "극장명";
+                      let dateStr = "2023.05.03";
+                      let dayStr = "수";
+                      if (receipt.watchedAt) {
+                        try {
+                          const date = new Date(receipt.watchedAt);
+                          const year = date.getFullYear();
+                          const month = String(date.getMonth() + 1).padStart(2, "0");
+                          const day = String(date.getDate()).padStart(2, "0");
+                          dateStr = `${year}.${month}.${day}`;
+                          dayStr = date.toLocaleDateString("ko-KR", { weekday: "short" });
+                        } catch {
+                          // Use default
+                        }
+                      }
+                      return `${place} | ${dateStr} (${dayStr})`;
+                    })()}
+
+                    <div className="h-3" />
+
+                    <div>
                       {(receipt.showtime || "20:30~23:07") +
-                        (receipt.session ? ` (${receipt.session})` : " (5회)")}
+                        (receipt.session ? ` (${receipt.session})` : "")}
                     </div>
-                    <div className="text-stone-900">
-                      {receipt.hall || "2관"}
-                    </div>
-                    <div className="text-stone-900">
-                      {receipt.seat || "E열 07번"}
-                    </div>
-                    <div className="text-stone-900">
+
+                    <div className="h-3" />
+
+                    <div>{(receipt.hall || "2관").trim()}</div>
+                    <div>{(receipt.seat || "E열 07번").trim()}</div>
+
+                    <div className="h-3" />
+
+                    <div>
                       {receipt.ticketType || "일반 1명"}
                     </div>
                   </div>

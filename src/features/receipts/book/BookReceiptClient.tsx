@@ -26,6 +26,10 @@ export default function BookReceiptClient() {
   const [displayCount, setDisplayCount] = useState(10);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [selected, setSelected] = useState<BookResult[]>([]);
+  const [manualTitle, setManualTitle] = useState("");
+  const [manualAuthor, setManualAuthor] = useState("");
+  const [manualPublisher, setManualPublisher] = useState("");
+  const [manualCoverUrl, setManualCoverUrl] = useState("");
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -103,6 +107,28 @@ export default function BookReceiptClient() {
       if (isSelected) return prev.filter((b) => getKey(b) !== key);
       return [...prev, book];
     });
+  };
+
+  const handleAddManual = () => {
+    const title = manualTitle.trim();
+    if (!title) return;
+
+    const book: BookResult = {
+      title,
+      author: manualAuthor.trim() || "-",
+      publisher: manualPublisher.trim() || "-",
+      published_at: null,
+      isbn: null,
+      cover_url: manualCoverUrl.trim(),
+      link: "",
+      source: "manual",
+    };
+
+    handleAdd(book);
+    setManualTitle("");
+    setManualAuthor("");
+    setManualPublisher("");
+    setManualCoverUrl("");
   };
 
   const handleRemove = (key: string) => {
@@ -375,6 +401,51 @@ export default function BookReceiptClient() {
                     {loading ? "검색 중..." : <SearchIcon className="h-4 w-4" />}
                   </PrimaryButton>
                 </form>
+
+                <div className="mt-4 rounded-2xl border border-dashed border-black/10 bg-white/60 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                    직접 추가
+                  </p>
+                  <p className="mt-1 text-xs text-black/45">
+                    검색에 없으면 제목/저자를 직접 입력해서 추가할 수 있어요.
+                  </p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    <input
+                      value={manualTitle}
+                      onChange={(e) => setManualTitle(e.target.value)}
+                      placeholder="제목 (필수)"
+                      className="ui-input text-sm text-[var(--foreground)]"
+                    />
+                    <input
+                      value={manualAuthor}
+                      onChange={(e) => setManualAuthor(e.target.value)}
+                      placeholder="저자"
+                      className="ui-input text-sm text-[var(--foreground)]"
+                    />
+                    <input
+                      value={manualPublisher}
+                      onChange={(e) => setManualPublisher(e.target.value)}
+                      placeholder="출판사"
+                      className="ui-input text-sm text-[var(--foreground)]"
+                    />
+                    <input
+                      value={manualCoverUrl}
+                      onChange={(e) => setManualCoverUrl(e.target.value)}
+                      placeholder="표지 이미지 URL (선택)"
+                      className="ui-input text-sm text-[var(--foreground)]"
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <PrimaryButton
+                      type="button"
+                      onClick={handleAddManual}
+                      disabled={!manualTitle.trim()}
+                      className="px-4 py-2 text-sm"
+                    >
+                      추가
+                    </PrimaryButton>
+                  </div>
+                </div>
                 {error && (
                   <div className="mt-3 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
                     {error}
@@ -552,6 +623,48 @@ export default function BookReceiptClient() {
                         {loading ? "검색 중..." : <SearchIcon className="h-4 w-4" />}
                       </PrimaryButton>
                     </form>
+
+                    <div className="mb-4 rounded-2xl border border-dashed border-black/10 bg-white/60 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                        직접 추가
+                      </p>
+                      <div className="mt-3 grid gap-2">
+                        <input
+                          value={manualTitle}
+                          onChange={(e) => setManualTitle(e.target.value)}
+                          placeholder="제목 (필수)"
+                          className="ui-input text-sm text-[var(--foreground)]"
+                        />
+                        <input
+                          value={manualAuthor}
+                          onChange={(e) => setManualAuthor(e.target.value)}
+                          placeholder="저자"
+                          className="ui-input text-sm text-[var(--foreground)]"
+                        />
+                        <input
+                          value={manualPublisher}
+                          onChange={(e) => setManualPublisher(e.target.value)}
+                          placeholder="출판사"
+                          className="ui-input text-sm text-[var(--foreground)]"
+                        />
+                        <input
+                          value={manualCoverUrl}
+                          onChange={(e) => setManualCoverUrl(e.target.value)}
+                          placeholder="표지 이미지 URL (선택)"
+                          className="ui-input text-sm text-[var(--foreground)]"
+                        />
+                      </div>
+                      <div className="mt-3 flex justify-end">
+                        <PrimaryButton
+                          type="button"
+                          onClick={handleAddManual}
+                          disabled={!manualTitle.trim()}
+                          className="px-4 py-2 text-sm"
+                        >
+                          추가
+                        </PrimaryButton>
+                      </div>
+                    </div>
 
                     {error && (
                       <div className="mb-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
