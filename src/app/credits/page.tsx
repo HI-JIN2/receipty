@@ -7,7 +7,7 @@ export default function CreditsPage() {
       <section className="flex flex-col gap-6 sm:gap-10">
         <PageHeader
           eyebrow="receipty studio"
-          title="크레딧"
+          title="라이선스"
           description="사용한 폰트/데이터 소스와 라이선스를 정리했어요."
         />
 
@@ -57,6 +57,26 @@ export default function CreditsPage() {
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">Naver Search API</div>
               <div className="mt-1">Attribution: Powered by NAVER Open API.</div>
+            </div>
+          </div>
+        </section>
+
+        <section className="ui-card p-6 sm:p-8">
+          <h2 className="text-lg font-semibold text-[var(--foreground)]">아이콘</h2>
+          <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
+            <div className="rounded-2xl bg-black/5 p-4">
+              <div className="font-semibold text-[var(--foreground)]">인쇄 아이콘</div>
+              <div className="mt-1">
+                <a
+                  href="https://www.flaticon.com/kr/free-icons/"
+                  title="인쇄 아이콘"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-[var(--ui-primary)] hover:underline"
+                >
+                  Those Icons - Flaticon
+                </a>
+              </div>
             </div>
           </div>
         </section>

@@ -259,18 +259,18 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
             receipty
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Link href="/about" className="rounded-full px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]">
+            <Link href="/about" className="rounded-md px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]">
               제작자의 말
             </Link>
             <Link
               href="/hall-of-fame"
-              className="rounded-full px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]"
+              className="rounded-md px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]"
             >
               명예의 전당
             </Link>
             <Link
               href="/credits"
-              className="rounded-full px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]"
+              className="rounded-md px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]"
             >
               라이선스
             </Link>
