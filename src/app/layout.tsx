@@ -58,46 +58,56 @@ const bookCafe = localFont({
 
 const metadataBase = process.env.NEXT_PUBLIC_SITE_URL
   ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-  : new URL("http://localhost:3000");
+  : process.env.VERCEL_URL
+      ? new URL(`https://${process.env.VERCEL_URL}`)
+      : new URL("http://localhost:3000");
+
+const ogImageUrl = new URL("/og-image-v2.png", metadataBase);
 
 export const metadata: Metadata = {
   metadataBase,
-  title: "Book Receipt Maker - 나만의 도서 영수증 만들기",
+  alternates: {
+    canonical: "/",
+  },
+  title: "Receipty Studio - 기록을 영수증처럼",
   description:
-    "나만의 도서 영수증을 자유롭게 만들고 프린트해보세요. 로그인은 필요하지 않아요.",
+    "도서/영화 같은 취향 기록을 작은 영수증으로 만들고 JPEG로 저장해요. 로그인 없이 바로 만들 수 있어요.",
   keywords: ["책 영수증", "도서 대출 영수증", "전자책", "도서관", "독서", "도서 대여", "북카페", "독립서점", "책 기록", "독서", "책 목록", "영수증 프린트",
     "책 영수증", "도서 영수증 만들기", "도서 대출 영수증",
     "책 대여증", "도서 대여", "대출 기록표",
     "독서 기록", "독서 로그", "독서 트래커", "책 기록",
     "전자책", "전자책 기록", "e북 대여 기록",
     "영수증 프린트", "라벨 프린트", "감성 영수증",
+    "영화 영수증", "영화 티켓", "영화 입장권", "입장권", "관람 기록", "포토티켓", "티켓북",
     "북카페", "독립서점", "책 목록", "책 관리",
-    "Book Receipt", "북 레시트"
+    "Book Receipt", "북 레시트",
+    "Movie Receipt", "Movie Ticket", "Photo Ticket",
+    "Receipty", "Receipty Studio"
   ],
   authors: [{ name: "HI-JIN2" }],
   creator: "HI-JIN2",
   openGraph: {
-    title: "Book Receipt Maker",
-    description: "나만의 도서 영수증 만들기",
+    title: "Receipty Studio",
+    description: "기록을 영수증처럼",
     type: "website",
     locale: "ko_KR",
-    siteName: "Book Receipt Maker",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    siteName: "Receipty Studio",
+    url: metadataBase,
     images: [
       {
-        url: "https://book-receipt.vercel.app/og-image-v2.png",
+        url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "Book Receipt Maker",
+        alt: "Receipty Studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Book Receipt Maker - 나만의 도서 영수증 만들기",
+    title: "Receipty Studio - 기록을 영수증처럼",
     description:
-      "나만의 도서 영수증을 자유롭게 만들고 프린트해보세요. 로그인은 필요하지 않아요.",
-    images: ["https://book-receipt.vercel.app/og-image-v2.png"],
+      "도서/영화 같은 취향 기록을 작은 영수증으로 만들고 JPEG로 저장해요. 로그인 없이 바로 시작.",
+    images: [ogImageUrl.toString()],
   },
   robots: {
     index: true,

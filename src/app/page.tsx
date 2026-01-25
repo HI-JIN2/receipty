@@ -8,8 +8,8 @@ export default function HomePage() {
     <SiteChrome activeHref="/">
       <section className="flex flex-col gap-6 sm:gap-10">
         <PageHeader
-          eyebrow="Receipt Marker"
-          title="기록을 영수증처럼."
+          eyebrow="Receipty Studio"
+          title="기록을 영수증처럼"
           description={[
             "도서, 영화 같은 취향 기록을 작은 영수증으로 만들고 저장해요.",
             "로그인 없이 바로 만들고, JPEG로 간직할 수 있어요.",

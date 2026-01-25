@@ -6,13 +6,13 @@ export default function CreditsPage() {
     <SiteChrome activeHref="/credits">
       <section className="flex flex-col gap-6 sm:gap-10">
         <PageHeader
-          eyebrow="Credits"
-          title="Licenses"
-          description="Required attributions and licenses."
+          eyebrow="Receipty Studio"
+          title="크레딧"
+          description="사용한 폰트/데이터 소스와 라이선스를 정리했어요."
         />
 
         <section className="ui-card p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-[var(--foreground)]">Fonts</h2>
+          <h2 className="text-lg font-semibold text-[var(--foreground)]">폰트</h2>
           <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">Galmuri</div>
@@ -45,7 +45,7 @@ export default function CreditsPage() {
         </section>
 
         <section className="ui-card p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-[var(--foreground)]">Data & APIs</h2>
+          <h2 className="text-lg font-semibold text-[var(--foreground)]">데이터 & API</h2>
           <div className="mt-4 space-y-4 text-sm text-[var(--ui-muted)]">
             <div className="rounded-2xl bg-black/5 p-4">
               <div className="font-semibold text-[var(--foreground)]">TMDB</div>

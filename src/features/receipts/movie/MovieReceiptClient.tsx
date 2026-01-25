@@ -425,9 +425,12 @@ export default function MovieReceiptClient() {
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
       <PageHeader
-        eyebrow="Movie Receipt Maker"
+        eyebrow="Receipty Studio"
         title="영화 영수증 만들기"
-        description={["관람 기록을 영수증처럼 뽑아, 다이어리나 티켓북에 붙여두세요.", "영수증/미니 영수증/포토티켓 모드를 지원해요."]}
+        description={[
+          "관람 기록을 영수증처럼 뽑아 다이어리나 티켓북에 붙여보세요.",
+          "영수증/미니 영수증/포토티켓 모드를 지원해요.",
+        ]}
         action={
           <>
             <SecondaryButton
@@ -1299,7 +1302,7 @@ export default function MovieReceiptClient() {
                     fontFamily: "var(--font-book-cafe), var(--font-ui)",
                   }}
                 >
-                  Receipt Marker
+                  Receipty
                 </div>
               </div>
             </div>

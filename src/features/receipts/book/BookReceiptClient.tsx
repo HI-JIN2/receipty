@@ -295,11 +295,11 @@ export default function BookReceiptClient() {
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
       <PageHeader
-        eyebrow="Book Receipt Maker"
-        title="나만의 도서영수증 만들기"
+        eyebrow="Receipty Studio"
+        title="나만의 도서 영수증 만들기"
         description={[
-          "전자책이나 친구에게 빌린 책 등 대출영수증이 없을 때 사용할 수 있어요.",
-          "프린트기나 라벨지로 뽑아서 스크랩, 다이어리 등에 활용해요.",
+          "전자책이나 친구에게 빌린 책처럼 대출 영수증이 없을 때 사용할 수 있어요.",
+          "프린트기나 라벨지로 뽑아서 스크랩북/다이어리에 붙여보세요.",
         ]}
         action={
           <>

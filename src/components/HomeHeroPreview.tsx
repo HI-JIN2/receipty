@@ -10,12 +10,12 @@ type Preview = {
 };
 
 const PREVIEWS: Preview[] = [
-  { src: "/examples/book-receipt-1.svg", alt: "Sample book receipt preview", label: "Book" },
-  { src: "/examples/movie-receipt-1.svg", alt: "Sample movie receipt preview", label: "Movie" },
-  { src: "/examples/book-receipt-2.svg", alt: "Sample book log preview", label: "Book" },
-  { src: "/examples/movie-receipt-2.svg", alt: "Sample photo ticket preview", label: "Movie" },
-  { src: "/examples/book-receipt-3.svg", alt: "Sample stamp-style preview", label: "Book" },
-  { src: "/examples/movie-receipt-3.svg", alt: "Sample mini receipt preview", label: "Movie" },
+  { src: "/examples/book-receipt-1.svg", alt: "도서 영수증 예시", label: "도서" },
+  { src: "/examples/movie-receipt-1.svg", alt: "영화 영수증 예시", label: "영화" },
+  { src: "/examples/book-receipt-2.svg", alt: "도서 기록 예시", label: "도서" },
+  { src: "/examples/movie-receipt-2.svg", alt: "포토티켓 예시", label: "영화" },
+  { src: "/examples/book-receipt-3.svg", alt: "스탬프 스타일 예시", label: "도서" },
+  { src: "/examples/movie-receipt-3.svg", alt: "미니 영수증 예시", label: "영화" },
 ];
 
 export default function HomeHeroPreview() {
@@ -46,7 +46,7 @@ export default function HomeHeroPreview() {
         type="button"
         onClick={next}
         className="group relative w-full text-left focus-visible:outline-none focus-visible:rounded-2xl focus-visible:shadow-[0_0_0_4px_var(--ui-ring)]"
-        aria-label="Shuffle previews"
+        aria-label="예시 바꾸기"
       >
         <div className="relative mt-3">
           <div className="absolute left-3 top-3 z-10 rounded-full bg-[color-mix(in_srgb,var(--ui-card-solid)_70%,transparent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--ui-muted)] backdrop-blur">

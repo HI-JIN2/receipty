@@ -81,15 +81,15 @@ export default async function MovieStatsPage() {
   return (
     <SiteChrome activeHref="/movie/stats">
       <PageHeader
-        eyebrow="Movie Report"
+        eyebrow="Receipty Studio"
         title="영화 리포트"
-        description="영화 영수증 생성 현황과 인기 영화를 보여줘요."
+        description="영화 영수증 생성 현황과 인기 영화를 모아봤어요."
       />
 
       <div className="ui-stats-grid">
         <StatMetricCard label="영화 영수증 수" value={printsCount ?? 0} />
         <StatMetricCard
-          label="영화의 수"
+          label="기록된 영화 수"
           value={movieIdSet.size}
         />
       </div>

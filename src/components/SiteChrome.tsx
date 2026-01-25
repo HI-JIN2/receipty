@@ -143,7 +143,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
               className="text-base font-semibold tracking-tight"
               style={{ fontFamily: "var(--font-book-cafe), var(--font-ui)" }}
             >
-              Receipt Marker
+              Receipty
             </span>
           </Link>
 
@@ -176,7 +176,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
               htmlFor="site-drawer"
               className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--ui-radius-pill)] border border-[var(--ui-border)] bg-[var(--ui-card-solid)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] shadow-sm transition-[transform,box-shadow,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--ui-shadow-hover)] active:translate-y-0"
             >
-              <span className="text-xs font-bold tracking-[0.16em] text-[var(--ui-muted)]">MENU</span>
+              <span className="text-xs font-bold tracking-[0.16em] text-[var(--ui-muted)]">메뉴</span>
               <span aria-hidden className="grid h-4 w-4 place-items-center">
                 <svg
                   viewBox="0 0 24 24"
@@ -236,7 +236,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
           </div>
 
           <div className="mt-6 border-t border-[var(--ui-border)] pt-4">
-            <div className="text-xs font-bold tracking-[0.16em] text-[var(--ui-muted)]">INFO</div>
+            <div className="text-xs font-bold tracking-[0.16em] text-[var(--ui-muted)]">정보</div>
             <div className="mt-2 grid gap-2">
               <NavLink href="/about" label="제작자의 말" activeHref={activeHref} />
               <NavLink href="/hall-of-fame" label="명예의 전당" activeHref={activeHref} />
@@ -252,7 +252,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
 
       <footer className="mx-auto max-w-5xl px-[var(--ui-page-pad-x)] pb-10 sm:px-[var(--ui-page-pad-x-sm)]">
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--ui-border)] pt-6 text-sm text-[var(--ui-muted)]">
-          <div className="font-semibold text-[var(--foreground)]">Receipt Marker</div>
+          <div className="font-semibold text-[var(--foreground)]">Receipty</div>
           <div className="flex flex-wrap items-center gap-2">
             <Link href="/about" className="rounded-full px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]">
               제작자의 말

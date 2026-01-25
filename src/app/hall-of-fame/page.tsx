@@ -5,11 +5,15 @@ export default function HallOfFamePage() {
   return (
     <SiteChrome activeHref="/hall-of-fame">
       <section className="flex flex-col gap-6 sm:gap-10">
-        <PageHeader eyebrow="Hall of Fame" title="명예의 전당" />
+        <PageHeader
+          eyebrow="Receipty Studio"
+          title="명예의 전당"
+          description="여러분이 만든 영수증 사진을 모아둘게요."
+        />
 
         <div className="ui-card flex flex-col items-center justify-center px-6 py-20 text-center sm:px-10">
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-[var(--foreground)] sm:text-4xl">Coming Soon!</h2>
+            <h2 className="text-3xl font-bold text-[var(--foreground)] sm:text-4xl">준비 중</h2>
             <p className="text-base text-[var(--ui-muted)] sm:text-lg">
               활용한 사진을 이메일로 보내주시면 사이트에 함께 공유할게요.
             </p>

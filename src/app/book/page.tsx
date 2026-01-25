@@ -10,9 +10,9 @@ export default function BookReceiptPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Receipt Marker",
+            name: "Receipty Studio",
             description:
-              "도서/영화 등 기록을 작은 영수증으로 만들어 저장하고 출력할 수 있어요.",
+              "기록을 영수증처럼. 도서/영화 같은 취향 기록을 작은 영수증으로 만들고 저장해요.",
             url: process.env.NEXT_PUBLIC_SITE_URL || "",
             applicationCategory: "UtilityApplication",
             operatingSystem: "Web",
