@@ -4,6 +4,7 @@
 html {
   overflow-y: scroll;
   scrollbar-gutter: stable;
+  overflow-x: hidden;
 }
 
 :root {
@@ -63,6 +64,7 @@ body {
     "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 @layer components {

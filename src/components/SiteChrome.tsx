@@ -275,6 +275,10 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
               라이선스
             </Link>
           </div>
+
+          <div className="w-full text-[11px] text-[var(--ui-muted)] sm:text-xs">
+            © 2026 receipty. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>

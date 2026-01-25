@@ -220,6 +220,7 @@ export default function MovieReceiptClient() {
     return `${hall} ${seat}`.trim();
   };
 
+
   useEffect(() => {
     setReceipt((prev) => {
       if (prev.watchedAt) return prev;
@@ -719,7 +720,7 @@ export default function MovieReceiptClient() {
                       onBlur={() => commitShowtime(showtimeStartInput, showtimeEndInput)}
                       inputMode="numeric"
                       placeholder="20:30"
-                      className="ui-input w-1/2 text-sm text-[var(--foreground)]"
+                      className="ui-input min-w-0 flex-1 text-sm text-[var(--foreground)]"
                       aria-label="상영 시작"
                     />
                     <span className="text-xs font-semibold text-black/40">~</span>
@@ -730,7 +731,7 @@ export default function MovieReceiptClient() {
                       onBlur={() => commitShowtime(showtimeStartInput, showtimeEndInput)}
                       inputMode="numeric"
                       placeholder="22:30"
-                      className="ui-input w-1/2 text-sm text-[var(--foreground)]"
+                      className="ui-input min-w-0 flex-1 text-sm text-[var(--foreground)]"
                       aria-label="상영 종료"
                     />
                   </div>
