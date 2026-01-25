@@ -143,7 +143,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
               className="text-base font-semibold tracking-tight"
               style={{ fontFamily: "var(--font-book-cafe), var(--font-ui)" }}
             >
-              Receipty
+              receipty
             </span>
           </Link>
 
@@ -256,7 +256,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
             className="font-semibold tracking-tight text-[var(--foreground)]"
             style={{ fontFamily: "var(--font-book-cafe), var(--font-ui)" }}
           >
-            Receipty
+            receipty
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Link href="/about" className="rounded-full px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]">

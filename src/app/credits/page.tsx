@@ -6,7 +6,7 @@ export default function CreditsPage() {
     <SiteChrome activeHref="/credits">
       <section className="flex flex-col gap-6 sm:gap-10">
         <PageHeader
-          eyebrow="Receipty Studio"
+          eyebrow="receipty studio"
           title="크레딧"
           description="사용한 폰트/데이터 소스와 라이선스를 정리했어요."
         />

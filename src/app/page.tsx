@@ -8,7 +8,7 @@ export default function HomePage() {
     <SiteChrome activeHref="/">
       <section className="flex flex-col gap-6 sm:gap-10">
         <PageHeader
-          eyebrow="Receipty Studio"
+          eyebrow="receipty studio"
           title="기록을 영수증처럼"
           description={[
             "도서, 영화 같은 취향 기록을 작은 영수증으로 만들고 저장해요.",

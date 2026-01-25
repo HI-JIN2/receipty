@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  title: "Receipty Studio - 기록을 영수증처럼",
+  title: "receipty studio - 기록을 영수증처럼",
   description:
     "도서/영화 같은 취향 기록을 작은 영수증으로 만들고 JPEG로 저장해요. 로그인 없이 바로 만들 수 있어요.",
   keywords: ["책 영수증", "도서 대출 영수증", "전자책", "도서관", "독서", "도서 대여", "북카페", "독립서점", "책 기록", "독서", "책 목록", "영수증 프린트",
@@ -82,29 +82,29 @@ export const metadata: Metadata = {
     "북카페", "독립서점", "책 목록", "책 관리",
     "Book Receipt", "북 레시트",
     "Movie Receipt", "Movie Ticket", "Photo Ticket",
-    "Receipty", "Receipty Studio"
+    "receipty", "receipty studio"
   ],
   authors: [{ name: "HI-JIN2" }],
   creator: "HI-JIN2",
   openGraph: {
-    title: "Receipty Studio",
+    title: "receipty studio",
     description: "기록을 영수증처럼",
     type: "website",
     locale: "ko_KR",
-    siteName: "Receipty Studio",
+    siteName: "receipty studio",
     url: metadataBase,
     images: [
       {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "Receipty Studio",
+        alt: "receipty studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Receipty Studio - 기록을 영수증처럼",
+    title: "receipty studio - 기록을 영수증처럼",
     description:
       "도서/영화 같은 취향 기록을 작은 영수증으로 만들고 JPEG로 저장해요. 로그인 없이 바로 시작.",
     images: [ogImageUrl.toString()],

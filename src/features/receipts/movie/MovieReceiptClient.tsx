@@ -426,7 +426,7 @@ export default function MovieReceiptClient() {
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
       <PageHeader
-        eyebrow="Receipty Studio"
+        eyebrow="receipty studio"
         title="영화 영수증 만들기"
         description={[
           "관람 기록을 영수증처럼 뽑아 다이어리나 티켓북에 붙여보세요.",
@@ -1285,7 +1285,7 @@ export default function MovieReceiptClient() {
                     fontFamily: "var(--font-book-cafe), var(--font-ui)",
                   }}
                 >
-                  Receipty
+                  receipty
                 </div>
               </div>
             </div>

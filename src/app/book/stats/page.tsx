@@ -66,7 +66,7 @@ export default async function BookStatsPage() {
   return (
     <SiteChrome activeHref="/book/stats">
       <PageHeader
-        eyebrow="Receipty Studio"
+        eyebrow="receipty studio"
         title="도서 리포트"
         description="지금까지 만든 도서 영수증과 인기 도서를 모아봤어요."
       />

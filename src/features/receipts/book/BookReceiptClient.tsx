@@ -295,7 +295,7 @@ export default function BookReceiptClient() {
   return (
     <section className="flex flex-col gap-6 sm:gap-10">
       <PageHeader
-        eyebrow="Receipty Studio"
+        eyebrow="receipty studio"
         title="나만의 도서 영수증 만들기"
         description={[
           "전자책이나 친구에게 빌린 책처럼 대출 영수증이 없을 때 사용할 수 있어요.",
@@ -1185,7 +1185,7 @@ export default function BookReceiptClient() {
                     fontFamily: "var(--font-book-cafe), var(--font-ui)",
                   }}
                 >
-                  Receipty
+                  receipty
                 </div>
               </div>
             </div>

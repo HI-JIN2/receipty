@@ -10,7 +10,7 @@ export default function BookReceiptPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Receipty Studio",
+            name: "receipty studio",
             description:
               "기록을 영수증처럼. 도서/영화 같은 취향 기록을 작은 영수증으로 만들고 저장해요.",
             url: process.env.NEXT_PUBLIC_SITE_URL || "",

@@ -6,7 +6,7 @@ export default function HallOfFamePage() {
     <SiteChrome activeHref="/hall-of-fame">
       <section className="flex flex-col gap-6 sm:gap-10">
         <PageHeader
-          eyebrow="Receipty Studio"
+          eyebrow="receipty studio"
           title="명예의 전당"
           description="여러분이 만든 영수증 사진을 모아둘게요."
         />

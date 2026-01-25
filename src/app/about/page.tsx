@@ -5,7 +5,7 @@ export default function AboutPage() {
   return (
     <SiteChrome activeHref="/about">
       <section className="flex flex-col gap-6 sm:gap-10">
-        <PageHeader eyebrow="Receipty Studio" title="제작자의 말" />
+        <PageHeader eyebrow="receipty studio" title="제작자의 말" />
 
         <div className="ui-card p-6 sm:p-8">
           <div className="space-y-6 text-base leading-relaxed text-[var(--ui-muted)] sm:text-lg">
@@ -18,7 +18,7 @@ export default function AboutPage() {
             </p>
 
             <p>
-              Receipty Studio는 로그인 없이 가볍게 사용할 수 있어요. 개인정보는 저장하지 않고, 영수증
+              receipty studio는 로그인 없이 가볍게 사용할 수 있어요. 개인정보는 저장하지 않고, 영수증
               이미지를 만들어 저장할 수 있게 하는 데 집중했어요.
             </p>
 

@@ -81,7 +81,7 @@ export default async function MovieStatsPage() {
   return (
     <SiteChrome activeHref="/movie/stats">
       <PageHeader
-        eyebrow="Receipty Studio"
+        eyebrow="receipty studio"
         title="영화 리포트"
         description="영화 영수증 생성 현황과 인기 영화를 모아봤어요."
       />
