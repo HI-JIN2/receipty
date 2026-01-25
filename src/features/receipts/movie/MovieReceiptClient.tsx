@@ -470,7 +470,7 @@ export default function MovieReceiptClient() {
 
       <ReceiptColumns
         left={
-          <ReceiptCard className="p-4 sm:p-6">
+          <ReceiptCard className="p-4 sm:p-6 overflow-visible">
             <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
             <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
               제목/관람일/극장명 같은 기본 정보를 채워보세요.
@@ -538,11 +538,11 @@ export default function MovieReceiptClient() {
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 모드
               </label>
-              <div className="flex w-full flex-wrap gap-2">
+              <div className="grid gap-2 sm:flex sm:w-full sm:flex-wrap">
                 <button
                   type="button"
                   onClick={() => setMode("receipt")}
-                  className={`flex-1 rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition ${
+                  className={`w-full rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition sm:flex-1 ${
                     receipt.mode === "receipt"
                       ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
                       : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
@@ -553,7 +553,7 @@ export default function MovieReceiptClient() {
                 <button
                   type="button"
                   onClick={() => setMode("mini")}
-                  className={`flex-1 rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition ${
+                  className={`w-full rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition sm:flex-1 ${
                     receipt.mode === "mini"
                       ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
                       : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
@@ -564,7 +564,7 @@ export default function MovieReceiptClient() {
                 <button
                   type="button"
                   onClick={() => setMode("photo")}
-                  className={`flex-1 rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition ${
+                  className={`w-full rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition sm:flex-1 ${
                     receipt.mode === "photo"
                       ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
                       : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
