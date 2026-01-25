@@ -12,19 +12,19 @@ const exampleSrc = (fileName: string) => `/examples/${fileName}`;
 
 const PREVIEWS: Preview[] = [
   {
-    src: exampleSrc("book-receipt-Book Receipt-1769317991157.jpg"),
+    src: exampleSrc("book-receipt.jpg"),
     alt: "도서 영수증 예시",
   },
   {
-    src: exampleSrc("movie-receipt-주토피아 2-1769317378392.jpg"),
+    src: exampleSrc("movie-receipt.jpg"),
     alt: "영화 영수증 예시",
   },
   {
-    src: exampleSrc("movie-mini-주토피아 2-1769317385094.jpg"),
+    src: exampleSrc("movie-mini.jpg"),
     alt: "미니 영수증 예시",
   },
   {
-    src: exampleSrc("movie-photo-주토피아 2-1769317391917.jpg"),
+    src: exampleSrc("movie-photo.jpg"),
     alt: "포토티켓 예시",
   },
 ];
