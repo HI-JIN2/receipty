@@ -61,17 +61,20 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
     backgroundColor: receipt.backgroundColor,
   };
 
-  // 1) Upsert movie metadata (if possible)
+  // 1) Resolve movie id (tmdb-linked preferred, fallback to title-based)
   let movieId: number | null = null;
+  const titleKo = receipt.title.trim();
+  const releaseDate = toDateOrNull(receipt.releaseDate);
+
   if (receipt.tmdbId) {
     const { data, error } = await supabase
       .from("movies")
       .upsert(
         {
           tmdb_id: receipt.tmdbId,
-          title_ko: receipt.title,
+          title_ko: titleKo,
           title_en: receipt.subtitle || null,
-          release_date: toDateOrNull(receipt.releaseDate),
+          release_date: releaseDate,
           age_rating: receipt.ageRating || null,
           poster_url: receipt.posterUrl || null,
         },
@@ -84,6 +87,43 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
       console.error("Movie upsert error:", error);
     } else {
       movieId = (data?.id as number | undefined) ?? null;
+    }
+  } else {
+    try {
+      const query = supabase.from("movies").select("id").eq("title_ko", titleKo).limit(1);
+
+      const { data: existing, error: existingError } = releaseDate
+        ? await query.eq("release_date", releaseDate).maybeSingle()
+        : await query.is("release_date", null).maybeSingle();
+
+      if (existingError) {
+        console.error("Movie lookup error:", existingError);
+      }
+
+      if (existing?.id) {
+        movieId = existing.id as number;
+      } else {
+        const { data: inserted, error: insertError } = await supabase
+          .from("movies")
+          .insert({
+            tmdb_id: null,
+            title_ko: titleKo,
+            title_en: receipt.subtitle || null,
+            release_date: releaseDate,
+            age_rating: receipt.ageRating || null,
+            poster_url: receipt.posterUrl || null,
+          })
+          .select("id")
+          .single();
+
+        if (insertError) {
+          console.error("Movie insert error:", insertError);
+        } else {
+          movieId = (inserted?.id as number | undefined) ?? null;
+        }
+      }
+    } catch (err) {
+      console.error("Movie resolve error:", err);
     }
   }
 
