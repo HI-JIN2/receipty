@@ -1177,6 +1177,16 @@ export default function BookReceiptClient() {
                     </div>
                   </div>
                 )}
+
+                <div
+                  className="mt-auto pt-6 text-center font-semibold tracking-tight text-stone-900"
+                  style={{
+                    fontSize: receipt.format === "3inch" ? "11px" : "10px",
+                    fontFamily: "var(--font-book-cafe), var(--font-ui)",
+                  }}
+                >
+                  Receipty
+                </div>
               </div>
             </div>
 

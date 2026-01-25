@@ -252,7 +252,12 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
 
       <footer className="mx-auto max-w-5xl px-[var(--ui-page-pad-x)] pb-10 sm:px-[var(--ui-page-pad-x-sm)]">
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--ui-border)] pt-6 text-sm text-[var(--ui-muted)]">
-          <div className="font-semibold text-[var(--foreground)]">Receipty</div>
+          <div
+            className="font-semibold tracking-tight text-[var(--foreground)]"
+            style={{ fontFamily: "var(--font-book-cafe), var(--font-ui)" }}
+          >
+            Receipty
+          </div>
           <div className="flex flex-wrap items-center gap-2">
             <Link href="/about" className="rounded-full px-3 py-1 transition hover:bg-black/5 hover:text-[var(--foreground)]">
               제작자의 말

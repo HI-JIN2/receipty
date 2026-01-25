@@ -1294,11 +1294,9 @@ export default function MovieReceiptClient() {
                 )}
 
                 <div
-                  className="mt-3 text-center text-stone-900"
+                  className="mt-3 text-center font-semibold tracking-tight text-stone-900"
                   style={{
                     fontSize: "var(--movie-receipt-size-sm)",
-                    fontWeight: 600,
-                    letterSpacing: "0.08em",
                     fontFamily: "var(--font-book-cafe), var(--font-ui)",
                   }}
                 >
