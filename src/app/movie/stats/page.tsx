@@ -19,53 +19,64 @@ export default async function MovieStatsPage() {
   const [{ count: printsCount }, { data: rows, error: rowsError }] = await Promise.all([
     supabase.from("movie_prints").select("id", { count: "exact", head: true }),
     supabase
-      .from("movie_print_movies")
-      .select("movie_id, movies(title_ko, title_en, poster_url)")
-      .order("created_at", { ascending: false })
+      .from("movie_prints")
+      .select("id, payload")
+      .order("printed_at", { ascending: false })
       .range(0, 4999),
   ]);
 
   if (rowsError) {
-    console.error("movie stats join error:", rowsError);
+    console.error("movie stats query error:", rowsError);
   }
 
-  const movieIdSet = new Set<number>();
-  const countsByMovieId = new Map<
-    number,
+  type TopMovieRow = {
+    id: number;
+    payload: unknown;
+  };
+
+  const countsByMovieKey = new Map<
+    string,
     { titleKo: string; titleEn: string | null; posterUrl: string | null; count: number }
   >();
 
-  for (const r of (rows ?? []) as unknown as Array<{ movie_id: unknown; movies: unknown }>) {
-    const movieId = typeof r.movie_id === "number" ? r.movie_id : Number(r.movie_id);
-    if (!Number.isFinite(movieId)) continue;
+  for (const r of (rows ?? []) as unknown as TopMovieRow[]) {
+    const payload = r?.payload;
+    if (!payload || typeof payload !== "object") continue;
 
-    movieIdSet.add(movieId);
+    const titleKo =
+      "title" in payload && typeof (payload as { title?: unknown }).title === "string"
+        ? (payload as { title: string }).title
+        : "(제목 없음)";
 
-    const existing = countsByMovieId.get(movieId);
+    const titleEn =
+      "subtitle" in payload && typeof (payload as { subtitle?: unknown }).subtitle === "string"
+        ? (payload as { subtitle: string }).subtitle
+        : null;
+
+    const posterUrl =
+      "posterUrl" in payload && typeof (payload as { posterUrl?: unknown }).posterUrl === "string"
+        ? (payload as { posterUrl: string }).posterUrl
+        : null;
+
+    const tmdbIdRaw = "tmdbId" in payload ? (payload as { tmdbId?: unknown }).tmdbId : null;
+    const tmdbId = typeof tmdbIdRaw === "number" ? tmdbIdRaw : typeof tmdbIdRaw === "string" ? Number(tmdbIdRaw) : NaN;
+
+    const releaseDate =
+      "releaseDate" in payload && typeof (payload as { releaseDate?: unknown }).releaseDate === "string"
+        ? (payload as { releaseDate: string }).releaseDate
+        : "";
+
+    const key = Number.isFinite(tmdbId)
+      ? `tmdb:${tmdbId}`
+      : `title:${titleKo.trim().toLowerCase()}|${releaseDate.trim()}`;
+
+    const existing = countsByMovieKey.get(key);
     if (existing) {
       existing.count += 1;
       continue;
     }
 
-    const rawMovie = r.movies;
-    const movie = Array.isArray(rawMovie) ? rawMovie[0] : rawMovie;
-
-    const titleKo =
-      movie && typeof movie === "object" && "title_ko" in movie && typeof (movie as { title_ko?: unknown }).title_ko === "string"
-        ? (movie as { title_ko: string }).title_ko
-        : "(제목 없음)";
-
-    const titleEn =
-      movie && typeof movie === "object" && "title_en" in movie && typeof (movie as { title_en?: unknown }).title_en === "string"
-        ? (movie as { title_en: string }).title_en
-        : null;
-
-    const posterUrl =
-      movie && typeof movie === "object" && "poster_url" in movie && typeof (movie as { poster_url?: unknown }).poster_url === "string"
-        ? (movie as { poster_url: string }).poster_url
-        : null;
-
-    countsByMovieId.set(movieId, {
+    countsByMovieKey.set(key, {
       titleKo,
       titleEn,
       posterUrl,
@@ -73,8 +84,8 @@ export default async function MovieStatsPage() {
     });
   }
 
-  const topMovies = Array.from(countsByMovieId.entries())
-    .map(([movieId, info]) => ({ movieId, ...info }))
+  const topMovies = Array.from(countsByMovieKey.entries())
+    .map(([movieKey, info]) => ({ movieKey, ...info }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
 
@@ -90,7 +101,7 @@ export default async function MovieStatsPage() {
         <StatMetricCard label="영화 영수증 수" value={printsCount ?? 0} />
         <StatMetricCard
           label="기록된 영화 수"
-          value={movieIdSet.size}
+          value={countsByMovieKey.size}
         />
       </div>
 
@@ -105,7 +116,7 @@ export default async function MovieStatsPage() {
           <ol className="mt-6 grid gap-4 sm:grid-cols-2">
             {topMovies.map((m, idx) => (
               <RankedMediaItem
-                key={m.movieId}
+                key={m.movieKey}
                 rank={idx + 1}
                 imageSrc={m.posterUrl}
                 imageAlt={m.titleKo}

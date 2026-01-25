@@ -85,8 +85,22 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
 
     if (error) {
       console.error("Movie upsert error:", error);
-    } else {
-      movieId = (data?.id as number | undefined) ?? null;
+    }
+
+    movieId = (data?.id as number | undefined) ?? null;
+
+    if (movieId === null) {
+      const { data: existing, error: existingError } = await supabase
+        .from("movies")
+        .select("id")
+        .eq("tmdb_id", receipt.tmdbId)
+        .maybeSingle();
+
+      if (existingError) {
+        console.error("Movie lookup by tmdb_id error:", existingError);
+      } else {
+        movieId = (existing?.id as number | undefined) ?? null;
+      }
     }
   } else {
     try {

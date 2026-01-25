@@ -54,9 +54,25 @@ export async function saveBookReceipt(input: SaveBookReceiptInput) {
 
       if (error) {
         console.error("Book upsert error:", error);
-        continue;
       }
+
       bookId = data?.id ?? null;
+
+      if (!bookId) {
+        const { data: existing, error: existingError } = await supabase
+          .from("books")
+          .select("id")
+          .eq("isbn", book.isbn)
+          .maybeSingle();
+
+        if (existingError) {
+          console.error("Book lookup by isbn error:", existingError);
+        } else {
+          bookId = existing?.id ?? null;
+        }
+      }
+
+      if (!bookId) continue;
     } else {
       const { data, error } = await supabase
         .from("books")
@@ -99,6 +115,14 @@ export async function saveBookReceipt(input: SaveBookReceiptInput) {
     format: receipt.format,
     backgroundColor: receipt.backgroundColor,
     totalCount: selected.length,
+    books: selected.map((b) => ({
+      isbn: b.isbn,
+      title: b.title,
+      author: b.author,
+      publisher: b.publisher,
+      cover_url: b.cover_url,
+      published_at: b.published_at,
+    })),
   };
 
   const { data: printData, error: printError } = await supabase
