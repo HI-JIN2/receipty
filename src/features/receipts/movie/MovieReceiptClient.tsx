@@ -470,13 +470,13 @@ export default function MovieReceiptClient() {
 
       <ReceiptColumns
         left={
-          <ReceiptCard className="p-4 sm:p-6 overflow-visible">
+          <ReceiptCard className="p-3 sm:p-6">
             <h2 className="text-lg font-semibold text-[var(--foreground)] sm:text-xl">영수증 에디터</h2>
             <p className="mt-2 text-xs text-[var(--ui-muted)] sm:text-sm">
               제목/관람일/극장명 같은 기본 정보를 채워보세요.
             </p>
 
-            <div className="mt-5 grid gap-4">
+            <div className="mt-5 grid w-full min-w-0 gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 TMDB 검색 (자동 채우기)
@@ -488,17 +488,17 @@ export default function MovieReceiptClient() {
               >
                 검색에 없나요? 직접 입력
               </button>
-              <form onSubmit={handleMovieSearch} className="flex items-stretch gap-2">
+              <form onSubmit={handleMovieSearch} className="flex w-full min-w-0 items-stretch gap-2">
                 <input
                   value={movieQuery}
                   onChange={(e) => setMovieQuery(e.target.value)}
                   placeholder="영화 제목 검색"
-                  className="ui-input w-auto min-w-0 flex-1 text-sm text-[var(--foreground)]"
+                  className="ui-input min-w-0 flex-1 text-sm text-[var(--foreground)]"
                 />
                 <PrimaryButton
                   type="submit"
                   aria-label="검색"
-                  className="shrink-0 px-4 py-2 text-sm"
+                  className="shrink-0 px-3 py-2 text-sm sm:px-4"
                   disabled={movieSearching}
                 >
                   {movieSearching ? "검색 중" : <SearchIcon className="h-4 w-4" />}
@@ -601,7 +601,7 @@ export default function MovieReceiptClient() {
                 </div>
               </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex w-full min-w-0 flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 영화 제목
               </label>
@@ -610,11 +610,11 @@ export default function MovieReceiptClient() {
                 name="title"
                 value={receipt.title}
                 onChange={handleChange}
-                className="ui-input text-sm text-[var(--foreground)]"
+                className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex w-full min-w-0 flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 부제목 (영어)
               </label>
@@ -623,11 +623,11 @@ export default function MovieReceiptClient() {
                 value={receipt.subtitle}
                 onChange={handleChange}
                 placeholder="English Title"
-                className="ui-input text-sm text-[var(--foreground)]"
+                className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex w-full min-w-0 flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                 관람일
               </label>
@@ -636,12 +636,12 @@ export default function MovieReceiptClient() {
                 name="watchedAt"
                 value={receipt.watchedAt}
                 onChange={handleChange}
-                className="ui-input text-sm text-[var(--foreground)]"
+                className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-2">
+            <div className="grid w-full min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="flex w-full min-w-0 flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                   인원
                 </label>
@@ -650,10 +650,10 @@ export default function MovieReceiptClient() {
                   value={receipt.ticketType}
                   onChange={handleChange}
                   placeholder="일반 1명"
-                  className="ui-input text-sm text-[var(--foreground)]"
+                  className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex w-full min-w-0 flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                   극장명
                 </label>
@@ -662,7 +662,7 @@ export default function MovieReceiptClient() {
                   value={receipt.theater}
                   onChange={handleChange}
                   placeholder="CGV 용산아이파크몰"
-                  className="ui-input text-sm text-[var(--foreground)]"
+                  className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                 />
               </div>
             </div>
@@ -670,16 +670,16 @@ export default function MovieReceiptClient() {
             <input type="hidden" name="medium" value={receipt.medium} />
 
             {(receipt.mode === "photo" || receipt.mode === "receipt" || receipt.mode === "mini") && (
-              <div className="flex flex-col gap-2">
+              <div className="flex w-full min-w-0 flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                   티켓 항목
                 </label>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
                   <select
                     name="photoFormat"
                     value={receipt.photoFormat}
                     onChange={handleChange}
-                    className="ui-input text-sm text-[var(--foreground)]"
+                    className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                   >
                     <option value="2D">2D</option>
                     <option value="3D">3D</option>
@@ -697,7 +697,7 @@ export default function MovieReceiptClient() {
                     name="ageRating"
                     value={receipt.ageRating}
                     onChange={handleChange}
-                    className="ui-input text-sm text-[var(--foreground)]"
+                    className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                   >
                     <option value="">등급 선택</option>
                     <option value="전체관람가">전체관람가</option>
@@ -710,9 +710,9 @@ export default function MovieReceiptClient() {
                     value={receipt.session}
                     onChange={handleChange}
                     placeholder="회차 (예: 5회)"
-                    className="ui-input text-sm text-[var(--foreground)]"
+                    className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                   />
-                  <div className="flex min-w-0 items-center gap-2">
+                  <div className="flex w-full min-w-0 items-center gap-2">
                     <input
                       type="text"
                       value={showtimeStartInput}
@@ -723,7 +723,7 @@ export default function MovieReceiptClient() {
                       className="ui-input min-w-0 flex-1 text-sm text-[var(--foreground)]"
                       aria-label="상영 시작"
                     />
-                    <span className="text-xs font-semibold text-black/40">~</span>
+                    <span className="shrink-0 text-xs font-semibold text-black/40">~</span>
                     <input
                       type="text"
                       value={showtimeEndInput}
@@ -740,14 +740,14 @@ export default function MovieReceiptClient() {
                     value={receipt.hall}
                     onChange={handleChange}
                     placeholder="상영관 (예: 1관)"
-                    className="ui-input text-sm text-[var(--foreground)]"
+                    className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                   />
                   <input
                     name="seat"
                     value={receipt.seat}
                     onChange={handleChange}
                     placeholder="좌석 (예: E열 07)"
-                    className="ui-input text-sm text-[var(--foreground)]"
+                    className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                   />
                 </div>
               </div>
@@ -756,7 +756,7 @@ export default function MovieReceiptClient() {
             <input type="hidden" name="format" value={receipt.format} />
 
             {receipt.mode !== "mini" && (
-              <div className="flex flex-col gap-2">
+              <div className="flex w-full min-w-0 flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
                   메모
                 </label>
@@ -766,7 +766,7 @@ export default function MovieReceiptClient() {
                   onChange={handleChange}
                   rows={3}
                   placeholder="별점, 함께 본 사람, 인상적인 대사 등을 남겨보세요."
-                  className="ui-input text-sm text-[var(--foreground)]"
+                  className="ui-input w-full min-w-0 text-sm text-[var(--foreground)]"
                 />
               </div>
             )}
