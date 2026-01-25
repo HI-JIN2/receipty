@@ -68,7 +68,6 @@ export default function MovieReceiptClient() {
     releaseDate: null,
     title: "Movie Title",
     watchedAt: "",
-    watchedTime: "",
     issuedAt: "",
     theater: "",
     medium: "theater",
@@ -81,7 +80,7 @@ export default function MovieReceiptClient() {
     session: "",
     hall: "",
     seat: "",
-    ticketType: "일반 1명",
+    ticketType: "",
 
     format: "60mm",
     backgroundColor: "#ffffff",
@@ -188,7 +187,10 @@ export default function MovieReceiptClient() {
   };
 
   const getTotalPeopleLine = () => {
-    const match = receipt.ticketType.match(/(\d+)\s*명/);
+    const raw = receipt.ticketType.trim();
+    if (!raw) return "";
+
+    const match = raw.match(/(\d+)\s*명/);
     const count = match ? match[1] : "1";
     return `총인원 ${count}명 (일반 ${count}명)`;
   };
@@ -212,14 +214,15 @@ export default function MovieReceiptClient() {
   };
 
   const getMiniSeatLine = () => {
-    const hall = receipt.hall?.trim() || "1관";
-    const seat = (receipt.seat?.trim() || "E열 07").replace(/번\s*$/u, "");
+    const hall = receipt.hall?.trim() ?? "";
+    const seat = (receipt.seat?.trim() ?? "").replace(/번\s*$/u, "");
+    if (!hall && !seat) return "";
     return `${hall} ${seat}`.trim();
   };
 
   useEffect(() => {
     setReceipt((prev) => {
-      if (prev.watchedAt && prev.watchedTime) return prev;
+      if (prev.watchedAt) return prev;
       const now = new Date();
       const yyyy = now.getFullYear();
       const mm = String(now.getMonth() + 1).padStart(2, "0");
@@ -228,7 +231,6 @@ export default function MovieReceiptClient() {
       return {
         ...prev,
         watchedAt: prev.watchedAt || `${yyyy}-${mm}-${dd}`,
-        watchedTime: prev.watchedTime || "09:00",
       };
     });
   }, []);
@@ -316,7 +318,6 @@ export default function MovieReceiptClient() {
         releaseDate: receipt.releaseDate,
         title: receipt.title,
         watchedAt: receipt.watchedAt,
-        watchedTime: receipt.watchedTime,
         issuedAt: issuedAtIso,
         theater: receipt.theater,
         medium: receipt.medium,
@@ -625,31 +626,17 @@ export default function MovieReceiptClient() {
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-                  관람일
-                </label>
-                <input
-                  type="date"
-                  name="watchedAt"
-                  value={receipt.watchedAt}
-                  onChange={handleChange}
-                  className="ui-input text-sm text-[var(--foreground)]"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-                  관람 시간
-                </label>
-                <input
-                  type="time"
-                  name="watchedTime"
-                  value={receipt.watchedTime}
-                  onChange={handleChange}
-                  className="ui-input text-sm text-[var(--foreground)]"
-                />
-              </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                관람일
+              </label>
+              <input
+                type="date"
+                name="watchedAt"
+                value={receipt.watchedAt}
+                onChange={handleChange}
+                className="ui-input text-sm text-[var(--foreground)]"
+              />
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -661,7 +648,7 @@ export default function MovieReceiptClient() {
                   name="ticketType"
                   value={receipt.ticketType}
                   onChange={handleChange}
-                  placeholder="1명"
+                  placeholder="일반 1명"
                   className="ui-input text-sm text-[var(--foreground)]"
                 />
               </div>
@@ -853,7 +840,7 @@ export default function MovieReceiptClient() {
                     receipt.mode === "photo"
                       ? "var(--font-ui), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif"
                       : "Galmuri11, var(--font-ui), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
-                  borderRadius: receipt.mode === "photo" ? "12px" : "0px",
+                  borderRadius: receipt.mode === "photo" ? "18px" : "0px",
                   boxShadow: "none",
                 }}
               >
@@ -895,7 +882,7 @@ export default function MovieReceiptClient() {
                   {/* Middle Section: place/date, showtime, seat, people */}
                   <div className="mt-0.5 text-stone-900" style={{ fontSize: "11px" }}>
                     {(() => {
-                      const place = receipt.theater || "극장명";
+                      const place = receipt.theater.trim();
                       let dateStr = "2023.05.03";
                       let dayStr = "수";
                       if (receipt.watchedAt) {
@@ -910,26 +897,40 @@ export default function MovieReceiptClient() {
                           // Use default
                         }
                       }
-                      return `${place} | ${dateStr} (${dayStr})`;
+                      const datePart = `${dateStr} (${dayStr})`;
+                      return place ? `${place} | ${datePart}` : datePart;
                     })()}
 
                     <div className="h-2" />
 
                     <div>
-                      {(receipt.showtime || "20:30~23:07") +
-                        (receipt.session ? ` (${receipt.session})` : "")}
+                      {(() => {
+                        const time = receipt.showtime.trim();
+                        const session = receipt.session.trim();
+                        if (!time) return "";
+                        return `${time}${session ? ` (${session})` : ""}`;
+                      })()}
                     </div>
 
                     <div className="h-2" />
 
-                    <div>{(receipt.hall || "2관").trim()}</div>
-                    <div>{(receipt.seat || "E열 07번").trim()}</div>
+                    {(receipt.hall.trim() || receipt.seat.trim() || receipt.ticketType.trim()) && (
+                      <>
+                        {(receipt.hall.trim() || receipt.seat.trim()) && (
+                          <>
+                            {receipt.hall.trim() && <div>{receipt.hall.trim()}</div>}
+                            {receipt.seat.trim() && <div>{receipt.seat.trim()}</div>}
+                          </>
+                        )}
 
-                    <div className="h-2" />
-
-                    <div>
-                      {receipt.ticketType || "일반 1명"}
-                    </div>
+                        {receipt.ticketType.trim() && (
+                          <>
+                            <div className="h-2" />
+                            <div>{receipt.ticketType.trim()}</div>
+                          </>
+                        )}
+                      </>
+                    )}
                   </div>
 
                   {receipt.note && (
@@ -953,7 +954,7 @@ export default function MovieReceiptClient() {
                       lineHeight: "1.1",
                     }}
                   >
-                    ★ 영화입장권 ★
+                    영화입장권
                   </div>
 
                   <div
@@ -1019,19 +1020,23 @@ export default function MovieReceiptClient() {
                     {getShowtimeLine()}
                   </div>
 
-                  <div
-                    className="mt-1 text-left text-stone-900"
-                    style={{ fontWeight: 400, fontSize: "var(--movie-receipt-size-md)", lineHeight: "1.1" }}
-                  >
-                    {getMiniSeatLine()}
-                  </div>
+                  {getMiniSeatLine() && (
+                    <div
+                      className="mt-1 text-left text-stone-900"
+                      style={{ fontWeight: 400, fontSize: "var(--movie-receipt-size-md)", lineHeight: "1.1" }}
+                    >
+                      {getMiniSeatLine()}
+                    </div>
+                  )}
 
-                  <div
-                    className="mt-0.5 text-left text-stone-900"
-                    style={{ fontWeight: 400, fontSize: "var(--movie-receipt-size-md)", lineHeight: "1.1" }}
-                  >
-                    {getTotalPeopleLine()}
-                  </div>
+                  {getTotalPeopleLine() && (
+                    <div
+                      className="mt-0.5 text-left text-stone-900"
+                      style={{ fontWeight: 400, fontSize: "var(--movie-receipt-size-md)", lineHeight: "1.1" }}
+                    >
+                      {getTotalPeopleLine()}
+                    </div>
+                  )}
 
                   <div
                     className="mt-0.5 text-left text-stone-900"
@@ -1129,45 +1134,25 @@ export default function MovieReceiptClient() {
                   </div>
 
                   {/* Showtime Info (Black Box) */}
-                  {receipt.showtime && (
-                    <div
-                      className="my-1.5 inline-block w-fit max-w-full self-start whitespace-nowrap bg-stone-900 px-0.5 py-[1px] text-left text-white"
-                      style={{
-                        fontWeight: 500,
-                        fontSize: "var(--movie-receipt-size-md)",
-                        lineHeight: "1.1",
-                        letterSpacing: "-0.07em",
-                        transform: "scaleX(0.98)",
-                        transformOrigin: "left",
-                      }}
-                    >
-                      {(() => {
-                        let dateStr = "";
-                        let dayStr = "";
-                        if (receipt.watchedAt) {
-                          try {
-                            const date = new Date(receipt.watchedAt);
-                            const year = date.getFullYear();
-                            const month = String(date.getMonth() + 1).padStart(2, "0");
-                            const day = String(date.getDate()).padStart(2, "0");
-                            dateStr = `${year}.${month}.${day}`;
-                            dayStr = date.toLocaleDateString("ko-KR", { weekday: "short" });
-                          } catch {
-                            // ignore
-                          }
-                        }
-                        const session = receipt.session || "";
-                        const showtime = receipt.showtime || "";
-                        if (dateStr && showtime) {
-                          return `${dateStr}(${dayStr}) ${session} ${showtime}`.trim();
-                        }
-                        if (showtime) {
-                          return `${session} ${showtime}`.trim();
-                        }
-                        return "";
-                      })()}
-                    </div>
-                  )}
+                  {(() => {
+                    const showtimeLine = getShowtimeLine();
+                    if (!showtimeLine) return null;
+                    return (
+                      <div
+                        className="my-1.5 inline-block w-fit max-w-full self-start whitespace-nowrap bg-stone-900 px-0.5 py-[1px] text-left text-white"
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "var(--movie-receipt-size-md)",
+                          lineHeight: "1.1",
+                          letterSpacing: "-0.07em",
+                          transform: "scaleX(0.98)",
+                          transformOrigin: "left",
+                        }}
+                      >
+                        {showtimeLine}
+                      </div>
+                    );
+                  })()}
 
                   {/* Hall and Seat */}
                   {(receipt.hall || receipt.seat) && (
@@ -1288,7 +1273,7 @@ export default function MovieReceiptClient() {
                       className="mt-2 text-stone-700"
                       style={{ fontSize: "var(--movie-receipt-size-sm)" }}
                     >
-                      {receipt.mode === "photo" ? getSerialNumber() : `일련번호 ${getSerialNumber()}`}
+                      {getSerialNumber()}
                     </div>
                   </div>
                 )}

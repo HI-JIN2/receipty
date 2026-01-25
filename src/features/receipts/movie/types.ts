@@ -11,7 +11,6 @@ export type MovieReceipt = {
   releaseDate: string | null;
   title: string;
   watchedAt: string;
-  watchedTime: string;
   issuedAt: string;
   theater: string;
   medium: MovieMedium;
