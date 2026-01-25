@@ -1,5 +1,13 @@
 # receipty
 
+![Next.js](https://img.shields.io/badge/Next.js-16.1.1-000000?style=flat&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=flat&logo=react&logoColor=000000)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-2.90.1-3ECF8E?style=flat&logo=supabase&logoColor=white)
+![Build](https://img.shields.io/badge/Build-npm-CB3837?style=flat&logo=npm&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue?style=flat)
+
 취향 기록을 작은 영수증으로 만들고 저장하는 Next.js 웹앱입니다. 로그인 없이 사용할 수 있고, 익명 집계(생성 횟수/인기 항목)만 Supabase에 저장합니다.
 
 ![receipty og](./public/og-image-v3.png)
