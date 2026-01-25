@@ -1,11 +1,6 @@
 {
- "name": "receipty studio",
- "short_name": "receipty",
- "start_url": "/",
- "display": "standalone",
- "background_color": "#f7f7f6",
- "theme_color": "#f7f7f6",
-  "icons": [
+ "name": "App",
+ "icons": [
   {
    "src": "\/android-icon-36x36.png",
    "sizes": "36x36",
@@ -42,5 +37,5 @@
    "type": "image\/png",
    "density": "4.0"
   }
-  ]
+ ]
 }

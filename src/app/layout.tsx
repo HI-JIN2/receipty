@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  title: "receipty studio - 기록을 영수증처럼",
+  title: "receipty - 기록을 영수증처럼",
   description:
     "도서/영화 같은 취향 기록을 작은 영수증으로 만들고 JPEG로 저장해요. 로그인 없이 바로 만들 수 있어요.",
   keywords: ["책 영수증", "도서 대출 영수증", "전자책", "도서관", "독서", "도서 대여", "북카페", "독립서점", "책 기록", "독서", "책 목록", "영수증 프린트",
@@ -87,29 +87,29 @@ export const metadata: Metadata = {
   authors: [{ name: "HI-JIN2" }],
   creator: "HI-JIN2",
   openGraph: {
-    title: "receipty studio",
+    title: "receipty",
     description: "기록을 영수증처럼",
     type: "website",
     locale: "ko_KR",
-    siteName: "receipty studio",
+    siteName: "receipty",
     url: metadataBase,
     images: [
       {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "receipty studio",
+        alt: "receipty",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "receipty studio - 기록을 영수증처럼",
+    title: "receipty - 기록을 영수증처럼",
     description:
       "도서/영화 같은 취향 기록을 작은 영수증으로 만들고 JPEG로 저장해요. 로그인 없이 바로 시작.",
     images: [ogImageUrl.toString()],
   },
-  manifest: "/manifest.json",
+  manifest: "/favicon/manifest.json",
   robots: {
     index: true,
     follow: true,
@@ -123,19 +123,20 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon/favicon.ico" },
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     apple: [
-      { url: "/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+      { url: "/favicon/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: ["/favicon.ico"],
+    shortcut: ["/favicon/favicon.ico"],
   },
   other: {
     "msapplication-TileColor": "#f7f7f6",
-    "msapplication-TileImage": "/ms-icon-144x144.png",
+    "msapplication-TileImage": "/favicon/ms-icon-144x144.png",
+    "msapplication-config": "/favicon/browserconfig.xml",
   },
 };
 
