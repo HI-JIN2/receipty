@@ -74,7 +74,6 @@ CREATE TABLE IF NOT EXISTS movies (
 CREATE TABLE IF NOT EXISTS movie_prints (
   id BIGSERIAL PRIMARY KEY,
   mode TEXT NOT NULL DEFAULT 'receipt',
-  format TEXT NOT NULL DEFAULT '60mm',
   printed_at TIMESTAMPTZ DEFAULT NOW(),
   payload JSONB DEFAULT '{}'::jsonb
 );
@@ -109,3 +108,10 @@ CREATE POLICY "Public insert access" ON movie_print_movies FOR INSERT WITH CHECK
 
 -- upsert 지원을 위해 UPDATE도 허용
 CREATE POLICY "Public update access" ON movies FOR UPDATE USING (true) WITH CHECK (true);
+
+-- =========================================================
+-- Migration Notes
+-- =========================================================
+-- format 컬럼은 mode로 충분하여 제거했습니다.
+-- 기존 DB에 남아있다면 아래를 1회 실행하세요.
+-- ALTER TABLE movie_prints DROP COLUMN IF EXISTS format;

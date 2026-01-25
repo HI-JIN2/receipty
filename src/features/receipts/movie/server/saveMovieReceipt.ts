@@ -132,7 +132,6 @@ export async function saveMovieReceipt(input: SaveMovieReceiptInput) {
     .from("movie_prints")
     .insert({
       mode: receipt.mode,
-      format: receipt.format,
       payload,
     })
     .select("id")
