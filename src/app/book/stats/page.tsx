@@ -27,8 +27,18 @@ export default async function BookStatsPage() {
   };
 
   const [{ count: printsCount }, { data: printRows, error: printsError }] = await Promise.all([
-    supabase.from("prints").select("id", { count: "exact", head: true }),
-    supabase.from("prints").select("id, payload").order("printed_at", { ascending: false }).range(0, 4999),
+    // Older rows may not have `payload.kind` (before movie mode existed).
+    // In this app, the `prints` table represents book receipts, so we treat missing kind as book.
+    supabase
+      .from("prints")
+      .select("id", { count: "exact", head: true })
+      .or("payload->>kind.eq.book,payload->>kind.is.null"),
+    supabase
+      .from("prints")
+      .select("id, payload")
+      .or("payload->>kind.eq.book,payload->>kind.is.null")
+      .order("printed_at", { ascending: false })
+      .range(0, 4999),
   ]);
 
   if (printsError) {
@@ -80,7 +90,7 @@ export default async function BookStatsPage() {
     if (!payload || typeof payload !== "object") continue;
 
     const kind = "kind" in payload ? (payload as { kind?: unknown }).kind : null;
-    if (kind !== "book") continue;
+    if (kind !== null && kind !== undefined && kind !== "book") continue;
 
     const totalCountRaw = "totalCount" in payload ? (payload as { totalCount?: unknown }).totalCount : null;
     if (typeof totalCountRaw === "number" && Number.isFinite(totalCountRaw)) {
