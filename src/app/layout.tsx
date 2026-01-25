@@ -62,7 +62,7 @@ const metadataBase = process.env.NEXT_PUBLIC_SITE_URL
       ? new URL(`https://${process.env.VERCEL_URL}`)
       : new URL("http://localhost:3000");
 
-const ogImageUrl = new URL("/og-image-v2.png", metadataBase);
+const ogImageUrl = new URL("/og-image-v3.png", metadataBase);
 
 export const metadata: Metadata = {
   metadataBase,

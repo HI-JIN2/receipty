@@ -9,13 +9,29 @@ type Preview = {
   label: string;
 };
 
+const exampleSrc = (fileName: string) => encodeURI(`/examples/${fileName}`);
+
 const PREVIEWS: Preview[] = [
-  { src: "/examples/book-receipt-1.svg", alt: "도서 영수증 예시", label: "도서" },
-  { src: "/examples/movie-receipt-1.svg", alt: "영화 영수증 예시", label: "영화" },
-  { src: "/examples/book-receipt-2.svg", alt: "도서 기록 예시", label: "도서" },
-  { src: "/examples/movie-receipt-2.svg", alt: "포토티켓 예시", label: "영화" },
-  { src: "/examples/book-receipt-3.svg", alt: "스탬프 스타일 예시", label: "도서" },
-  { src: "/examples/movie-receipt-3.svg", alt: "미니 영수증 예시", label: "영화" },
+  {
+    src: exampleSrc("book-receipt-Book Receipt-1769317991157.jpg"),
+    alt: "도서 영수증 예시",
+    label: "도서",
+  },
+  {
+    src: exampleSrc("movie-receipt-주토피아 2-1769317378392.jpg"),
+    alt: "영화 영수증 예시",
+    label: "영화",
+  },
+  {
+    src: exampleSrc("movie-mini-주토피아 2-1769317385094.jpg"),
+    alt: "미니 영수증 예시",
+    label: "영화",
+  },
+  {
+    src: exampleSrc("movie-photo-주토피아 2-1769317391917.jpg"),
+    alt: "포토티켓 예시",
+    label: "영화",
+  },
 ];
 
 export default function HomeHeroPreview() {
