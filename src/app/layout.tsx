@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import localFont from "next/font/local";
+
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 
@@ -149,6 +152,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${uiFont.variable} ${ticketFont.variable} ${bookCafe.variable} antialiased`}>
         <GoogleAnalytics />
+        <SpeedInsights />
         {children}
       </body>
     </html>
