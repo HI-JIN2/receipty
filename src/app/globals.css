@@ -8,8 +8,8 @@ html {
 }
 
 :root {
-  --background: #ced0cf; /* Classic gray */
-  --foreground: #000000;
+  --background: #f7f7f6; /* Warm paper-like brown */
+  --foreground: #1d1b19;
 
   --ui-page-pad-x: 16px;
   --ui-page-pad-x-sm: 24px;
@@ -17,13 +17,13 @@ html {
   --ui-page-pad-y-sm: 48px;
   --ui-header-pad-y: 8px;
 
-  --ui-card: #ced0cf;
-  --ui-card-solid: #ced0cf;
-  --ui-border: #808080;
-  --ui-muted: #424242;
-  --ui-primary: #000080; /* Navy */
+  --ui-card: #f7f7f6;
+  --ui-card-solid: #f7f7f6;
+  --ui-border: #a8a29e;
+  --ui-muted: #57534e;
+  --ui-primary: #443c34; /* Darker brown/coffee */
   --ui-primary-ink: #ffffff;
-  --ui-accent: #ffff00;
+  --ui-accent: #b45309;
 
   --ui-radius-card: 0px;
   --ui-radius-control: 0px;
@@ -32,14 +32,14 @@ html {
   --ui-space-input-y: 8px;
   --ui-space-input-x: 10px;
 
-  --ui-secondary-bg: #ced0cf;
-  --ui-secondary-hover-bg: #ced0cf;
+  --ui-secondary-bg: #eceae4;
+  --ui-secondary-hover-bg: #fcfaf5;
   --ui-secondary-border: var(--ui-border);
   --ui-secondary-text: var(--foreground);
   
-  /* Retro 3D borders */
-  --retro-outset-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #0a0a0a, inset 2px 2px #fff, inset -2px -2px #808080;
-  --retro-inset-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #0a0a0a, inset -2px -2px #fff, inset 2px 2px #808080;
+  /* Retro 3D borders adjusted for brown theme */
+  --retro-outset-shadow: inset 1px 1px #fff, inset -1px -1px #443c34, inset 2px 2px #ffffff99, inset -2px -2px #a8a29e;
+  --retro-inset-shadow: inset -1px -1px #fff, inset 1px 1px #443c34, inset -2px -2px #ffffff99, inset 2px 2px #a8a29e;
   --ui-shadow: none;
   --ui-shadow-hover: none;
 

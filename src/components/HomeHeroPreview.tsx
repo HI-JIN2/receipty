@@ -59,7 +59,7 @@ export default function HomeHeroPreview() {
         aria-label="예시 바꾸기"
       >
         <div className="relative mt-3 shadow-[var(--retro-outset-shadow)] bg-[var(--background)]">
-          <div className="flex h-5 items-center justify-between bg-gradient-to-r from-[var(--ui-primary)] to-[#1084d0] px-2 text-[10px] font-bold text-white">
+          <div className="flex h-5 items-center justify-between bg-gradient-to-r from-[var(--ui-primary)] to-[#6d6156] px-2 text-[10px] font-bold text-white">
             <span className="flex items-center gap-1 uppercase tracking-tight">preview.exe</span>
             <div className="flex gap-0.5">
               <div className="h-3.5 w-3.5 bg-[var(--background)] shadow-[var(--retro-outset-shadow)]" />
