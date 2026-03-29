@@ -478,8 +478,8 @@ export default function MovieReceiptClient() {
 
             <div className="mt-5 grid w-full min-w-0 gap-4">
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
-                TMDB 검색 (자동 채우기)
+              <label className="text-[10px] font-bold uppercase tracking-tight text-[var(--ui-muted)]">
+                영화 검색 (TMDB 자동 채우기)
               </label>
               <button
                 type="button"
@@ -510,24 +510,24 @@ export default function MovieReceiptClient() {
                 </div>
               )}
               {movieResults.length > 0 && (
-                <div className="space-y-2 rounded-2xl border border-dashed border-black/10 bg-white/60 p-3">
+                <div className="space-y-1 bg-[var(--ui-secondary-bg)] p-1 shadow-[var(--retro-inset-shadow)]">
                   {movieResults.map((item) => (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => applyMovie(item)}
-                      className="flex w-full items-center gap-3 rounded-2xl border border-transparent px-2 py-2 text-left transition hover:border-black/10"
+                      className="flex w-full items-center gap-3 border-none px-2 py-1.5 text-left transition-colors hover:bg-[var(--ui-secondary-hover-bg)]"
                     >
                       <div className="min-w-0 flex-1">
-                        <div className="truncate text-sm font-semibold text-[var(--foreground)]">
+                        <div className="truncate text-xs font-bold text-[var(--foreground)]">
                           {item.titleKo}
                         </div>
-                        <div className="truncate text-xs text-[var(--ui-muted)]">
+                        <div className="truncate text-[10px] text-[var(--ui-muted)]">
                           {item.titleEn}
                           {item.ageRating ? ` · ${item.ageRating}` : ""}
                         </div>
                       </div>
-                      <div className="text-xs font-semibold text-[var(--ui-primary)]">적용</div>
+                      <div className="text-[10px] font-bold text-[var(--ui-primary)]">적용</div>
                     </button>
                   ))}
                 </div>
@@ -542,10 +542,10 @@ export default function MovieReceiptClient() {
                 <button
                   type="button"
                   onClick={() => setMode("receipt")}
-                  className={`w-full rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition sm:flex-1 ${
+                  className={`w-full px-3 py-1.5 text-xs font-bold uppercase tracking-tight transition sm:flex-1 ${
                     receipt.mode === "receipt"
-                      ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
-                      : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
+                      ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-[var(--retro-inset-shadow)]"
+                      : "bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] shadow-[var(--retro-outset-shadow)] hover:bg-[var(--ui-secondary-hover-bg)]"
                   }`}
                 >
                   영수증
@@ -553,21 +553,21 @@ export default function MovieReceiptClient() {
                 <button
                   type="button"
                   onClick={() => setMode("mini")}
-                  className={`w-full rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition sm:flex-1 ${
+                  className={`w-full px-3 py-1.5 text-xs font-bold uppercase tracking-tight transition sm:flex-1 ${
                     receipt.mode === "mini"
-                      ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
-                      : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
+                      ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-[var(--retro-inset-shadow)]"
+                      : "bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] shadow-[var(--retro-outset-shadow)] hover:bg-[var(--ui-secondary-hover-bg)]"
                   }`}
                 >
-                  미니 영수증
+                  미니
                 </button>
                 <button
                   type="button"
                   onClick={() => setMode("photo")}
-                  className={`w-full rounded-[var(--ui-radius-control)] border px-3 py-2 text-sm font-semibold transition sm:flex-1 ${
+                  className={`w-full px-3 py-1.5 text-xs font-bold uppercase tracking-tight transition sm:flex-1 ${
                     receipt.mode === "photo"
-                      ? "border-[color-mix(in_srgb,var(--ui-primary)_55%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] text-[var(--foreground)]"
-                      : "border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] hover:bg-[var(--ui-secondary-hover-bg)]"
+                      ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-[var(--retro-inset-shadow)]"
+                      : "bg-[var(--ui-secondary-bg)] text-[var(--ui-muted)] shadow-[var(--retro-outset-shadow)] hover:bg-[var(--ui-secondary-hover-bg)]"
                   }`}
                 >
                   포토티켓 (55×85mm)
@@ -589,10 +589,10 @@ export default function MovieReceiptClient() {
                         backgroundColor: color.value,
                       }))
                     }
-                    className={`h-8 w-8 rounded-2xl border-2 transition hover:scale-110 ${
+                    className={`h-8 w-8 transition hover:scale-110 ${
                       receipt.backgroundColor === color.value
-                        ? "border-[var(--foreground)] shadow-md"
-                        : "border-black/10"
+                        ? "shadow-[var(--retro-inset-shadow)] border-2 border-[var(--ui-primary)]"
+                        : "shadow-[var(--retro-outset-shadow)] border-none"
                     }`}
                     style={{ backgroundColor: color.value }}
                     title={color.name}

@@ -77,10 +77,10 @@ function NavLink({
     <Link
       href={href}
       aria-current={isActive ? "page" : undefined}
-      className={`rounded-[var(--ui-radius-pill)] px-3 py-2 text-sm font-semibold transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 ${
+      className={`px-3 py-1.5 text-xs font-bold uppercase tracking-tight transition-transform duration-75 active:translate-x-[1px] active:translate-y-[1px] ${
         isActive
-          ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-sm"
-          : "text-[var(--ui-muted)] hover:bg-[var(--ui-card-solid)] hover:text-[var(--foreground)] hover:shadow-[var(--ui-shadow-hover)]"
+          ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-[var(--retro-inset-shadow)]"
+          : "text-[var(--ui-muted)] shadow-[var(--retro-outset-shadow)] hover:bg-[var(--ui-secondary-hover-bg)]"
       }`}
     >
       {label}
@@ -106,13 +106,13 @@ function ModePill({
       href={href}
       aria-current={active ? "page" : undefined}
       data-mode={mode}
-      className={`group inline-flex items-center gap-2 rounded-[var(--ui-radius-pill)] px-3 py-2 text-sm font-semibold transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 ${
+      className={`group inline-flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-tight transition-transform duration-75 active:translate-x-[1px] active:translate-y-[1px] ${
         active
-          ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-sm"
-          : "text-[var(--ui-muted)] hover:bg-[var(--ui-card-solid)] hover:text-[var(--foreground)] hover:shadow-[var(--ui-shadow-hover)]"
+          ? "bg-[var(--ui-card-solid)] text-[var(--foreground)] shadow-[var(--retro-inset-shadow)]"
+          : "text-[var(--ui-muted)] shadow-[var(--retro-outset-shadow)] hover:bg-[var(--ui-secondary-hover-bg)]"
       }`}
     >
-      <span className="h-4 w-4 opacity-80 transition group-hover:opacity-100">{icon}</span>
+      <span className="h-3 w-3 opacity-80 group-hover:opacity-100">{icon}</span>
       <span>{label}</span>
     </Link>
   );
@@ -134,7 +134,7 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
       >
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-[var(--ui-border)] bg-[color-mix(in_srgb,var(--ui-card-solid)_65%,transparent)] backdrop-blur">
+      <header className="sticky top-0 z-50 bg-[var(--background)] shadow-[var(--retro-outset-shadow)]">
         <input id="site-drawer" type="checkbox" className="peer sr-only" />
 
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-[var(--ui-page-pad-x)] py-[var(--ui-header-pad-y)] sm:px-[var(--ui-page-pad-x-sm)]">
@@ -148,20 +148,20 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
           </Link>
 
           <nav className="hidden items-center gap-2 sm:flex">
-            <div className="inline-flex items-center gap-1 rounded-[var(--ui-radius-pill)] border border-[var(--ui-border)] bg-[var(--ui-secondary-bg)] p-1">
+            <div className="inline-flex items-center gap-1 bg-[var(--ui-secondary-bg)] p-1 shadow-[var(--retro-inset-shadow)]">
               <ModePill
                 mode="book"
                 href={bookModeHref}
                 label="도서"
                 active={mode === "book"}
-                icon={<BookIcon className="h-4 w-4" />}
+                icon={<BookIcon className="h-3 w-3" />}
               />
               <ModePill
                 mode="movie"
                 href={movieModeHref}
                 label="영화"
                 active={mode === "movie"}
-                icon={<FilmIcon className="h-4 w-4" />}
+                icon={<FilmIcon className="h-3 w-3" />}
               />
             </div>
 
@@ -174,16 +174,16 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
           <nav className="flex items-center sm:hidden">
             <label
               htmlFor="site-drawer"
-              className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--ui-radius-pill)] border border-[var(--ui-border)] bg-[var(--ui-card-solid)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] shadow-sm transition-[transform,box-shadow,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--ui-shadow-hover)] active:translate-y-0"
+              className="inline-flex cursor-pointer items-center gap-2 bg-[var(--ui-card-solid)] px-3 py-1.5 text-xs font-bold uppercase tracking-tight shadow-[var(--retro-outset-shadow)] active:shadow-[var(--retro-inset-shadow)] active:translate-x-[1px] active:translate-y-[1px]"
             >
-              <span className="text-xs font-bold tracking-[0.16em] text-[var(--ui-muted)]">메뉴</span>
-              <span aria-hidden className="grid h-4 w-4 place-items-center">
+              <span className="text-[10px] text-[var(--ui-muted)]">MENU</span>
+              <span aria-hidden className="grid h-3 w-3 place-items-center">
                 <svg
                   viewBox="0 0 24 24"
-                  className="h-4 w-4"
+                  className="h-3 w-3"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeLinecap="round"
                 >
                   <path d="M5 7h14" />
@@ -205,9 +205,9 @@ export default function SiteChrome({ children, activeHref }: SiteChromeProps) {
             <div className="text-sm font-semibold text-[var(--foreground)]">메뉴</div>
             <label
               htmlFor="site-drawer"
-              className="inline-flex cursor-pointer items-center justify-center rounded-[var(--ui-radius-pill)] border border-[var(--ui-border)] bg-white/60 px-3 py-2 text-sm font-semibold text-[var(--foreground)] transition-[transform,box-shadow,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--ui-shadow-hover)] active:translate-y-0"
+              className="inline-flex cursor-pointer items-center justify-center bg-[var(--ui-secondary-bg)] px-3 py-1.5 text-xs font-bold uppercase tracking-tight shadow-[var(--retro-outset-shadow)] active:shadow-[var(--retro-inset-shadow)] active:translate-x-[1px] active:translate-y-[1px]"
             >
-              닫기
+              CLOSE
             </label>
           </div>
 

@@ -131,3 +131,7 @@ Prefer `import type { ... }` for type-only imports (see `src/app/layout.tsx`).
 - Preserve existing UI look (warm paper-like palette, Tailwind utilities).
 - Do not commit generated artifacts (`.next/`, `out/`, `build/`) or `.env*`.
 - Before PR: `npm run lint` + `npm run build` (and `npx tsc --noEmit` for type-heavy changes).
+
+## Commit Message Convention
+- Format: `type: Korean description` (Commit type in English, description in Korean)
+- Example: `fix: 00수정`, `feat: 새로운 기능 추가`

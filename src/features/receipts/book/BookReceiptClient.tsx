@@ -396,14 +396,14 @@ export default function BookReceiptClient() {
                     type="submit"
                     aria-label="검색"
                     disabled={loading}
-                    className="shrink-0 px-4 py-2 text-sm"
+                    className="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-tight"
                   >
                     {loading ? "검색 중..." : <SearchIcon className="h-4 w-4" />}
                   </PrimaryButton>
                 </form>
 
-                <div className="mt-4 rounded-2xl border border-dashed border-black/10 bg-white/60 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[var(--ui-muted)]">
+                <div className="mt-4 bg-[var(--ui-secondary-bg)] p-4 shadow-[var(--retro-inset-shadow)]">
+                  <p className="text-[10px] font-bold uppercase tracking-tight text-[var(--ui-muted)]">
                     직접 추가
                   </p>
                   <p className="mt-1 text-xs text-black/45">
@@ -440,9 +440,9 @@ export default function BookReceiptClient() {
                       type="button"
                       onClick={handleAddManual}
                       disabled={!manualTitle.trim()}
-                      className="px-4 py-2 text-sm"
+                      className="px-4 py-2 text-xs font-bold uppercase tracking-tight"
                     >
-                      추가
+                      추가하기
                     </PrimaryButton>
                   </div>
                 </div>
@@ -465,11 +465,11 @@ export default function BookReceiptClient() {
                               <img
                                 src={item.cover_url}
                                 alt={item.title}
-                                className="h-20 w-14 flex-shrink-0 rounded-xl border border-black/10 bg-white object-cover shadow-sm sm:h-24 sm:w-16"
+                                className="h-20 w-14 flex-shrink-0 bg-white object-cover shadow-[var(--retro-inset-shadow)] sm:h-24 sm:w-16"
                               />
                             ) : (
-                              <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-dashed border-black/10 bg-white text-xs text-black/40 sm:h-24 sm:w-16">
-                                no cover
+                              <div className="flex h-20 w-14 flex-shrink-0 items-center justify-center bg-white text-[10px] text-black/40 shadow-[var(--retro-inset-shadow)] sm:h-24 sm:w-16">
+                                NO COVER
                               </div>
                             )}
                             <div className="flex flex-1 flex-col gap-1 text-xs text-[var(--ui-muted)] sm:text-sm">
@@ -487,9 +487,9 @@ export default function BookReceiptClient() {
                                     href={item.link}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--ui-muted)] transition hover:bg-black/10"
+                                    className="bg-[var(--ui-secondary-bg)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-tight text-[var(--ui-muted)] shadow-[var(--retro-outset-shadow)] transition hover:bg-[var(--ui-secondary-hover-bg)]"
                                   >
-                                    naver↗
+                                    NAVER ↗
                                   </a>
                                 )}
                               </div>
@@ -499,10 +499,10 @@ export default function BookReceiptClient() {
                             <button
                               type="button"
                               onClick={() => handleAdd(item)}
-                              className={`flex h-9 w-9 items-center justify-center rounded-2xl border-2 transition-all duration-200 sm:h-10 sm:w-10 ${
+                              className={`flex h-9 w-9 items-center justify-center transition-all duration-100 sm:h-10 sm:w-10 ${
                                 selected.some((b) => getKey(b) === getKey(item))
-                                  ? "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
-                                  : "border-[color-mix(in_srgb,var(--ui-primary)_65%,transparent)] bg-[color-mix(in_srgb,var(--ui-primary)_14%,transparent)] text-[var(--ui-primary)]"
+                                  ? "bg-rose-100 text-rose-600 shadow-[var(--retro-inset-shadow)]"
+                                  : "bg-[var(--ui-secondary-bg)] text-[var(--ui-primary)] shadow-[var(--retro-outset-shadow)]"
                               }`}
                               aria-label={
                                 selected.some((b) => getKey(b) === getKey(item)) ? "제거" : "추가"

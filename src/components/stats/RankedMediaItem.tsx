@@ -27,7 +27,7 @@ export default function RankedMediaItem({
         <span className="text-lg font-extrabold leading-none text-[var(--ui-primary)]">{rank}</span>
       </div>
 
-      <div className="flex h-16 w-12 flex-none items-center justify-center overflow-hidden rounded-xl border border-black/10 bg-white">
+      <div className="flex h-16 w-12 flex-none items-center justify-center overflow-hidden bg-white shadow-[var(--retro-inset-shadow)]">
         {imageSrc ? (
           <Image
             src={imageSrc}
