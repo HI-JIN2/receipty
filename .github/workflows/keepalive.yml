@@ -1,0 +1,33 @@
+name: keepalive
+
+on:
+  schedule:
+    # Run daily and only ping on every 5th day (UTC)
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Decide whether to ping today
+        id: gate
+        run: |
+          day_of_year=$(date -u +%j)
+          if [ $((10#$day_of_year % 5)) -ne 0 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Ping keepalive endpoint
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          KEEPALIVE_URL: ${{ secrets.KEEPALIVE_URL }}
+        run: |
+          if [ -z "$KEEPALIVE_URL" ]; then
+            echo "Missing secrets.KEEPALIVE_URL" >&2
+            exit 1
+          fi
+
+          curl -fsS --retry 3 --retry-delay 5 "$KEEPALIVE_URL"

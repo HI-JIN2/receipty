@@ -9,13 +9,13 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const baseClasses =
-  "inline-flex items-center justify-center rounded-[var(--ui-radius-control)] text-sm font-semibold transition-[transform,box-shadow,background-color,border-color,filter] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-[var(--ui-ring)] focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-60 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[var(--ui-ring)] focus:ring-offset-1 disabled:opacity-60 disabled:cursor-not-allowed uppercase tracking-wider";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-[var(--ui-primary)] text-[var(--ui-primary-ink)] shadow-[0_10px_24px_rgba(25,36,31,0.16)] hover:brightness-95 active:brightness-90",
+    "bg-[var(--ui-primary)] text-[var(--ui-primary-ink)] shadow-[var(--retro-outset-shadow)] active:shadow-[var(--retro-inset-shadow)] active:translate-x-[1px] active:translate-y-[1px] px-4 py-2",
   secondary:
-    "border border-[var(--ui-secondary-border)] bg-[var(--ui-secondary-bg)] text-[var(--ui-secondary-text)] shadow-none hover:bg-[var(--ui-secondary-hover-bg)] active:bg-[var(--ui-secondary-hover-bg)]",
+    "bg-[var(--ui-secondary-bg)] text-[var(--ui-secondary-text)] shadow-[var(--retro-outset-shadow)] active:shadow-[var(--retro-inset-shadow)] active:translate-x-[1px] active:translate-y-[1px] px-4 py-2",
 };
 
 export function Button({ variant = "primary", className = "", ...props }: ButtonProps) {

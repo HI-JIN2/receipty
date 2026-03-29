@@ -25,3 +25,13 @@ Typical DNS records:
 - Build fails: verify env vars and run `npm run build` locally.
 - API errors: check Vercel **Functions** logs.
 
+## Keep Supabase Awake (GitHub Actions)
+
+Supabase free projects can pause after inactivity. This repo includes a tiny keepalive endpoint and a scheduled GitHub Action that pings it about once every 5 days.
+
+1. Vercel Project → **Settings → Environment Variables**
+   - Add `KEEPALIVE_TOKEN` (random string)
+2. GitHub repo → **Settings → Secrets and variables → Actions**
+   - Add `KEEPALIVE_URL` (example: `https://YOUR_DOMAIN/api/keepalive?token=YOUR_TOKEN`)
+3. GitHub repo → **Actions**
+   - Ensure workflows are enabled (you can also run it manually via `workflow_dispatch`)

@@ -49,17 +49,24 @@ export default function HomeHeroPreview() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="pointer-events-none absolute -right-6 -top-8 h-36 w-36 rounded-full bg-[color-mix(in_srgb,var(--ui-primary)_10%,transparent)] blur-2xl sm:-right-10 sm:-top-10" />
-      <div className="pointer-events-none absolute -bottom-10 -left-8 h-40 w-40 rounded-full bg-[color-mix(in_srgb,var(--ui-accent)_10%,transparent)] blur-2xl" />
+      <div className="pointer-events-none absolute -right-4 -top-4 h-24 w-24 bg-[var(--ui-primary)]/10" />
+      <div className="pointer-events-none absolute -bottom-6 -left-6 h-28 w-28 bg-[var(--ui-accent)]/10" />
 
       <button
         type="button"
         onClick={next}
-        className="group relative w-full text-left focus-visible:outline-none focus-visible:rounded-2xl focus-visible:shadow-[0_0_0_4px_var(--ui-ring)]"
+        className="group relative w-full text-left focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_var(--ui-ring)]"
         aria-label="예시 바꾸기"
       >
-        <div className="relative mt-3">
-          <div className="relative h-[320px] overflow-hidden rounded-2xl bg-[color-mix(in_srgb,var(--ui-card-solid)_55%,transparent)] transition-transform duration-200 ease-out group-hover:scale-[1.01] sm:h-[380px] lg:h-[420px]">
+        <div className="relative mt-3 shadow-[var(--retro-outset-shadow)] bg-[var(--background)]">
+          <div className="flex h-5 items-center justify-between bg-gradient-to-r from-[var(--ui-primary)] to-[#1084d0] px-2 text-[10px] font-bold text-white">
+            <span className="flex items-center gap-1 uppercase tracking-tight">preview.exe</span>
+            <div className="flex gap-0.5">
+              <div className="h-3.5 w-3.5 bg-[var(--background)] shadow-[var(--retro-outset-shadow)]" />
+              <div className="h-3.5 w-3.5 bg-[var(--background)] shadow-[var(--retro-outset-shadow)]" />
+            </div>
+          </div>
+          <div className="relative h-[320px] overflow-hidden bg-white sm:h-[380px] lg:h-[420px]">
             {PREVIEWS.map((p, i) => {
               const active = i === idx;
               return (
@@ -96,10 +103,10 @@ export default function HomeHeroPreview() {
               <span
                 key={p.src}
                 aria-hidden
-                className={`h-1.5 w-1.5 rounded-full transition ${
+                className={`h-2 w-2 transition ${
                   active
-                    ? "bg-[var(--ui-primary)]"
-                    : "bg-black/15 group-hover:bg-black/25"
+                    ? "bg-[var(--ui-primary)] shadow-[var(--retro-inset-shadow)]"
+                    : "bg-[var(--background)] shadow-[var(--retro-outset-shadow)] group-hover:bg-white"
                 }`}
               />
             );
