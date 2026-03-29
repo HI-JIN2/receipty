@@ -96,7 +96,14 @@ export const GET = async (req: Request) => {
     const sliced = (searchData.results ?? []).slice(0, 8);
 
     const ratings = await Promise.all(
-      sliced.map((r) => getKoreanCertification(apiKey, r.id)),
+      sliced.map(async (r) => {
+        try {
+          return await getKoreanCertification(apiKey, r.id);
+        } catch (err) {
+          console.error(`Certification fetch failed for ${r.id}:`, err);
+          return "";
+        }
+      }),
     );
 
     const items = sliced.map((r, idx) => ({

@@ -16,13 +16,15 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 function isAuthorized(req: Request) {
   if (!keepaliveToken) return true;
 
-  const url = new URL(req.url);
-  const tokenFromQuery = url.searchParams.get("token");
-
   const authorization = req.headers.get("authorization");
   const tokenFromHeader = authorization?.match(/^Bearer\s+(.+)$/i)?.[1] ?? null;
 
-  return tokenFromQuery === keepaliveToken || tokenFromHeader === keepaliveToken;
+  if (tokenFromHeader === keepaliveToken) return true;
+
+  const url = new URL(req.url);
+  const tokenFromQuery = url.searchParams.get("token");
+
+  return tokenFromQuery === keepaliveToken;
 }
 
 export const GET = async (req: Request) => {

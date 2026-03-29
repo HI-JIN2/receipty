@@ -122,6 +122,14 @@ body {
     transform: translate(1px, 1px);
   }
 
+  a.ui-card:focus-visible,
+  button.ui-card:focus-visible,
+  a.ui-card-solid:focus-visible,
+  button.ui-card-solid:focus-visible {
+    outline: 2px solid var(--ui-primary);
+    outline-offset: 2px;
+  }
+
   .ui-card-solid {
     background: var(--ui-card-solid);
     box-shadow: var(--retro-outset-shadow);
